@@ -1,6 +1,7 @@
-const express = require("express");
-const dotenv = require("dotenv")
-const OpenAI = require("openai");
+import OpenAI from "openai";
+import express from "express";
+import dotenv from "dotenv";
+import { processDocuments } from "file:///D:/Keystone/server/vectorstore.js";
 
 dotenv.config()
 
@@ -10,9 +11,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+
 router.post("/chat", async(req,res) => {
 try {
     const {prompt} = req.body;
+    const result = await processDocuments("D:/Keystone/sample_sql.txt", prompt, 3); 
+    console.log(result)
+    // Call the processDocuments function with appropriate parameters
+
     openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: prompt,
@@ -34,5 +40,5 @@ try {
     }
 })
 
-module.exports = router
+export default router
 
