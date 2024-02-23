@@ -1,8 +1,8 @@
-import express from "express";
-import cors from "cors";
-import bodyParser from "body-parser";
-import dotenv from "dotenv";
-import chatRoutes from "./routes/chatRoutes.js";
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const chatRoutes = require("./routes/chatRoutes.js");
 
 const app = express();
 app.use(cors());
