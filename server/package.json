@@ -11,9 +11,10 @@
   "keywords": [],
   "author": "",
   "type": "commonjs",
-
   "license": "ISC",
   "dependencies": {
+    "@huggingface/inference": "^2.6.4",
+    "@langchain/community": "^0.0.34",
     "@langchain/openai": "^0.0.14",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -21,6 +22,7 @@
     "express": "^4.18.2",
     "hnswlib-node": "^1.4.2",
     "langchain": "^0.1.20",
+    "mysql": "^2.18.1",
     "nodemon": "^3.0.3",
     "openai": "^4.28.0"
   }
