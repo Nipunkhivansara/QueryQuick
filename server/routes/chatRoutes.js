@@ -15,28 +15,40 @@ const openai = new OpenAI({
 router.post("/chat", async(req,res) => {
 try {
   const {prompt} = req.body;
-  const result = await processDocuments(`../sample_sql.txt`, prompt, 2); 
-  // openai.completions.create({
-  //     model: "gpt-3.5-turbo-instruct",
-  //     prompt: prompt,
-  //     temperature: 1,
-  //     max_tokens: 10,
-  //     top_p: 1,
-  //       frequency_penalty: 0,
-  //       presence_penalty: 0,
-  //     }).then(response => {
-  //       const responseData = response.choices[0].text;
-  //       console.log(response);
-  //       res.send(response);
-  //     }).catch(error => {
-  //       console.error("Error:", error);
-  //     });
-    return res.status(200).send(result);
-    }
-    catch(err) {
-      res.status(500).send(err)
-    }
-  })
+  const result = await processDocuments(`../sample_sql.txt`, prompt, 4); 
+  const combinedPageContent = result.map(doc => doc.pageContent).join('');
+  console.log(combinedPageContent)
+  const x = '...' + 'This is the schema of the tables' +
+           combinedPageContent +
+          '...' + 'give me the sql query for:' +
+          prompt +
+          '... give strictly only the sql query';
+  console.log(x);
+  openai.completions.create({
+      model: "gpt-3.5-turbo-instruct",
+      prompt: x, // Replace "Your prompt text goes here" with your actual prompt text
+      temperature: 1,
+      max_tokens: 10,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    }).then(response => {
+      const responseData = response.choices[0].text;
+      console.log(response);
+      res.send(responseData); // Send the response back to the client
+    }).catch(error => {
+      console.error("Error:", error);
+      res.status(500).send(error); // Send an error response back to the client
+    });
+  }
+   catch (err) {
+    console.error("Error:", err);
+    res.status(500).send(err); // Send an error response back to the client
+  }
+});
+
+
+
 
 module.exports = router;
 

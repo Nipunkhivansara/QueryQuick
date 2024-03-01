@@ -7,6 +7,8 @@ const fs = require("fs");
 
 dotenv.config();
 
+let vectorStore = null; // Initialize processedData as null
+
 const getTableSchemas = async (filePath) => {
   // Parse the file , separate content by ";" and add it to the list
   const fileContent = await fs.readFileSync(filePath, "utf8");
@@ -36,10 +38,17 @@ async function similaritySearch(vectorStore, query, k) {
 }
 const processDocuments = async (filePath, query, k) => {
   try {
-    const docOutput = await loadDocuments(filePath);
-    const vectorStore = await createVectorStore(docOutput);
-    const result = await similaritySearch(vectorStore, query, k);
-    return result;
+    // Process documents only if processedData is null (first time)
+    if (!vectorStore) {
+      console.log("processing the data for 1st time");
+      const docOutput = await loadDocuments(filePath);
+      vectorStore = await createVectorStore(docOutput);
+    }
+    
+    processedData = await similaritySearch(vectorStore, query, k);
+    console.log("returing", processedData);
+    
+    return processedData; // Return processedData
   } catch (error) {
     console.error("Error processing documents:", error);
     return null;
