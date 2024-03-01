@@ -11,11 +11,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+router.get("/", (req, res) => {
+  res.send("Welcome to the Airbook");
+});
 
 router.post("/chat", async(req,res) => {
 try {
   const {prompt} = req.body;
-  const result = await processDocuments(`../sample_sql.txt`, prompt, 2); 
+  let result = await processDocuments(`../sample_sql.txt`, prompt, 2); 
   // openai.completions.create({
   //     model: "gpt-3.5-turbo-instruct",
   //     prompt: prompt,
