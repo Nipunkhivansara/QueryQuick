@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
   res.send("Welcome to the Airbook");
 });
 
-router.post("/chat", async(req,res) => {
+router.post("/chat", async (req,res) => {
 try {
   console.log("Post request received");
   const {prompt} = req.body;
@@ -39,7 +39,7 @@ try {
     }).then(response => {
       const responseData = response.choices[0].text;
       console.log(response);
-      res.send(responseData); // Send the response back to the client
+      res.status(200).json({"msg" : responseData}); // Send the response back to the client
     }).catch(error => {
       console.error("Error:", error);
       res.status(500).send(error); // Send an error response back to the client
