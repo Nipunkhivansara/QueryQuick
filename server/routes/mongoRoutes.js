@@ -1,27 +1,44 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const Transaction = require('../models/Transaction');
+const OpenAI = require("openai");
+const processDocuments = require('../vectoreStoreMongo.js');
 
 const mongoRouter = express.Router();
 
-mongoRouter.get('/', async (req, res) => {
-    const databaseName = req.query.database;
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
+mongoRouter.post('/chat', async (req, res) => {
 
     try {
-        // Connect to MongoDB
-        await mongoose.connect(`mongodb://localhost:27017/${databaseName}`);
-        console.log(`Connected successfully to MongoDB server ${databaseName}`);
-        // Get a reference to the MongoDB database
-        const db = mongoose.connection.db;
+        const {prompt} = req.body;
 
-        // List all collections in the database
-        const collections = await db.listCollections().toArray();
-        const collectionNames = collections.map(collection => collection.name);
-        console.log('Collections:', collectionNames);
+        const result = await processDocuments(`mongodbschema.json`, prompt, 4); 
+        const combinedPageContent = result.map(doc => doc.pageContent).join('');
+        const x = `These are the mongodb collections and documents: ${combinedPageContent} ... give me the mongodb query for: ${prompt} ... give strictly only the mongodb query. follow the naming conventions of all fields.`;
+        console.log(x);
+        openai.completions.create({
+            model: "gpt-3.5-turbo-instruct",
+            prompt: x, // Replace "Your prompt text goes here" with your actual prompt text
+            temperature: 1,
+            max_tokens: 50,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+            }).then(response => {
+            const responseData = response.choices[0].text.trim();
+            console.log(response);
+            res.status(200).json({"msg" : responseData}); // Send the response back to the client
+            }).catch(error => {
+            console.error("Error:", error);
+            res.status(500).send(error); // Send an error response back to the client
+            });
+
         // Find all documents in the "transaction_data" collection using the Mongoose Model
-        const documents = await Transaction.find();
-        // console.log('Transactions:', transactions);
-        res.json(documents); // Send the results as JSON
+        // const documents = await Transaction.find();
+        // // console.log('Transactions:', transactions);
+        // res.json(documents); // Send the results as JSON
+
     } catch (error) {
         console.error('Error fetching data from MongoDB:', error);
         res.status(500).send('Internal Server Error');
