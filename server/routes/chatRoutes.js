@@ -18,6 +18,7 @@ router.get("/", (req, res) => {
 router.post("/chat", async (req,res) => {
 try {
   console.log("Post request received");
+  //res.status(200).json({msg: " This msg is to be updated"});
   const {prompt} = req.body;
   const result = await processDocuments(`../server/schema.sql`, prompt, 4); 
   const combinedPageContent = result.map(doc => doc.pageContent).join('');
