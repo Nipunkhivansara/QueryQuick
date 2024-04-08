@@ -9,9 +9,9 @@ const Prompt = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [response, setResponse] = useState(null);
-    const [database, setDatabase] = useState('sql_db');
+    const [database, setDatabase] = useState('cs220p');
     const [query, setQuery] = useState('');
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
     const handleInputChange = (event) => {
         setPrompt(event.target.value);
@@ -19,6 +19,7 @@ const Prompt = () => {
 
     const handleSubmit = async () => {
         try {
+            console.log(`Query from handleSubmit : ${query}`);
             const data = await getDataFromSql({ query, database });
             setData(data);
         } catch (error) {
@@ -42,7 +43,9 @@ const Prompt = () => {
             });
             const data = await response.json();
             setResponse(data);
-            setQuery(data.msg);
+            const receivedMsg = data.msg;
+            let modifiedText = receivedMsg.replace(/\\/g, "\\\\");
+            setQuery(modifiedText);
             setPrompt('');
         } catch (error) {
             setError(error.message);
@@ -57,6 +60,7 @@ const Prompt = () => {
         <div>
             <input className='input-field' value={prompt} onChange={handleInputChange} type='text' placeholder='Enter your prompt' />
             <select onChange={(e) => setDatabase(e.target.value)}>
+                <option value='cs220p'>cs220p</option>
                 <option value='sql_db'>SQL_DB</option>
                 <option value='airbnb'>AIRBNB</option>
             </select>
@@ -74,13 +78,13 @@ const Prompt = () => {
                         {data && (
                             <div>
                                 <h1>Response from Database</h1>
-                                <div>
+                                {/* <div>
                                     {data.map((row, index) => (
                                         <div key={index}>
                                             {JSON.stringify(row)}
                                         </div>
                                     ))}
-                                </div>
+                                </div> */}
                             </div>
                         )}
                     </div>
