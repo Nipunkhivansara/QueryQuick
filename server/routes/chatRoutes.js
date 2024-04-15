@@ -1,7 +1,7 @@
 const OpenAI = require("openai");
 const express = require("express");
 const dotenv = require("dotenv");
-const processDocuments = require('../vectorstore.js');
+const {processQuery, createAndStoreVectorEmbeddings} = require('../vectorstore.js');
 
 dotenv.config()
 
@@ -20,11 +20,9 @@ try {
   console.log("Post request received");
   //res.status(200).json({msg: " This msg is to be updated"});
   const {prompt} = req.body;
-  const result = await processDocuments(`../server/schema.sql`, prompt, 4); 
-  const combinedPageContent = result.map(doc => doc.pageContent).join('');
-  console.log(combinedPageContent)
+  const result = await processQuery(`../server/schema.sql`, prompt, 5); 
   const x = '...' + 'This is the schema of the tables' +
-           combinedPageContent +
+  result +
           '...' + 'give me the sql query for:' +
           prompt +
           '... give strictly only the sql query';
@@ -51,6 +49,18 @@ try {
     res.status(500).send(err); // Send an error response back to the client
   }
 });
+
+router.post("/", async (req,res) => {
+  try {
+    console.log("Post request received for intialization");
+    const result = await createAndStoreVectorEmbeddings(`../server/schema.sql`); 
+    res.sendStatus(200);
+  }
+     catch (err) {
+      console.error("Error:", err);
+      res.status(500).send(err); // Send an error response back to the client
+    }
+  });
 
 
 

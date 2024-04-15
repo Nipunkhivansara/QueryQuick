@@ -67,6 +67,7 @@ CREATE TABLE `book_copies` (
   CONSTRAINT `book_copies_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+`book_genres`;
 CREATE TABLE `book_genres` (
   `book_id` int NOT NULL,
   `genre_id` int NOT NULL,

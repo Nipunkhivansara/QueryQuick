@@ -4,7 +4,7 @@ import { TextLoader } from "langchain/document_loaders/fs/text";
 import dotenv from "dotenv";
 import { Document } from "langchain/document";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-
+const storeEmbeddings = require('../server/pinecone/pineconeconn');
 dotenv.config();
 
 let globalVectorStore = null;
@@ -50,6 +50,7 @@ export async function processDocuments(filePath, query, k) {
     const docs = await loadDocuments(filePath);
     const docOutput = await splitDocuments(docs);
     const vectorStore = await getOrCreateVectorStore(docOutput);
+    const abc = await storeEmbeddings(vectorStore);
     const result = await similaritySearch(vectorStore, query, k);
     return result;
   } catch (error) {
