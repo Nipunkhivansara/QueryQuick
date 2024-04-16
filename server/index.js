@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const chatRoutes = require("./routes/chatRoutes.js");
-const sqlRoutes = require("./routes/sqlRoutes.js");
+const sqlRoutes = require("./routes/sqlRoutes.js").sqlRouter;
 const mongoRoutes = require("./routes/mongoRoutes.js");
 
 const app = express();
