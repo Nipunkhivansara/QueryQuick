@@ -14,9 +14,9 @@ dotenv.config();
 
 let vectorStore = null;
 
-const getTableSchemas =  (filePath) => {
+const getTableSchemas =  async (filePath) => {
   // Parse the file , separate content by ";" and add it to the list
-  const fileContent =  fs.readFileSync(filePath, "utf8");
+  const fileContent =  await fs.readFileSync(filePath, "utf8");
   const tableSchemas = fileContent.split(";");
   return tableSchemas;
 };
