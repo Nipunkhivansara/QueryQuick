@@ -17,14 +17,13 @@ let vectorStore = null;
 const getTableSchemas =  (filePath) => {
   // Parse the file , separate content by ";" and add it to the list
   const fileContent =  fs.readFileSync(filePath, "utf8");
-            const tableSchemas = fileContent.split(";");
+  const tableSchemas = fileContent.split(";");
   return tableSchemas;
 };
 
 async function loadDocuments(filePath) {
 
 const tableSchemas =  getTableSchemas(filePath);
-
   return tableSchemas;
 }
 
@@ -83,9 +82,7 @@ const processQuery = async (query, k) => {
     //console.log(topKEmbeddings);
     const ids = topKEmbeddings.matches.map(el => el.id);
     console.log("ids is", ids);
-
     const topKTablesContent = await getTopKEmbeddingsContent(ids);
-    
     return topKTablesContent; // Return processedData
   } catch (error) {
     console.error("Error processing documents:", error);
