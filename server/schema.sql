@@ -63,6 +63,23 @@ CREATE TABLE `exit_log` (
   PRIMARY KEY (`person_id`,`timestamp`),
   CONSTRAINT `exit_log_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `employee` (`card_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `book_copies` (
+  `copy_id` int NOT NULL,
+  `book_id` int DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`copy_id`),
+  KEY `book_id` (`book_id`),
+  CONSTRAINT `book_copies_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `book_genres` (
+  `book_id` int NOT NULL,
+  `genre_id` int NOT NULL,
+  PRIMARY KEY (`book_id`,`genre_id`),
+  KEY `genre_id` (`genre_id`),
+  CONSTRAINT `book_genres_ibfk_1` FOREIGN KEY (`book_id`) REFERENCES `books` (`book_id`),
+  CONSTRAINT `book_genres_ibfk_2` FOREIGN KEY (`genre_id`) REFERENCES `genres` (`genre_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `family` (
   `card_id` int NOT NULL,
