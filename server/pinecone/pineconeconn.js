@@ -35,10 +35,10 @@ async function storeEmbeddings(records) {
     try {
     console.log("queyr is ", query);
     const stats = await index.describeIndexStats();
-    console.log(stats);
+    //console.log(stats);
      const queryResponse = await index.namespace('').query({
       vector: query,
-      topK: 8,    
+      topK: 5,    
     });
     console.log(queryResponse);
     return queryResponse;

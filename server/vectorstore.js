@@ -48,7 +48,6 @@ async function similaritySearch(vectorStore, query, k) {
 
 const createAndStoreVectorEmbeddings = async(filePath) => {
   try {
-    // Process documents only if processedData is null (first time)
     if (!vectorStore) {
       console.log("processing the data for 1st time");
       const docOutput = await loadDocuments(filePath);
@@ -80,14 +79,6 @@ const processQuery = async (query, k) => {
     // Process documents only if processedData is null (first time)
     const queryvectorStore = await createVectorStore([query]);
     console.log("queryvectorStore", queryvectorStore);
-    // const rec = queryvectorStore.memoryVectors.map((vector) => {
-    //   return {
-    //       "id": "40", // Assuming 'content' property is unique and suitable as ID
-    //       "values": vector.embedding,
-    //   };
-    // });
-    // await storeEmbeddings(rec);
-``
     const topKEmbeddings =  await getTopKEmbeddings(queryvectorStore.memoryVectors[0].embedding, k);
     //console.log(topKEmbeddings);
     const ids = topKEmbeddings.matches.map(el => el.id);
