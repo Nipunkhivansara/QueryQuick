@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './prompt.css';
 import getDataFromSql from '../../services/sqlservice';
 
@@ -8,31 +7,21 @@ const Prompt = () => {
     const [prompt, setPrompt] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [response, setResponse] = useState(null);
     const [database, setDatabase] = useState('cs220p');
     const [query, setQuery] = useState('');
-    const [data, setData] = useState([]);
+    const [databaseRecords, setDatabaseRecords] = useState({});
 
     const handleInputChange = (event) => {
         setPrompt(event.target.value);
     }
 
-    const handleSubmit = async () => {
-        try {
-            console.log(`Query from handleSubmit : ${query}`);
-            const data = await getDataFromSql({ query, database });
-            setData(data);
-        } catch (error) {
-            console.error('Error fetching data from SQL:', error.message);
-        }
+    const handleQueryChange = (event) => {
+        setQuery(event.target.value);
     }
 
     const getQuery = async () => {
-
-        // alert(prompt);
         setLoading(true);
         setError(null);
-        setResponse(null);
         try {
             const response = await fetch('http://localhost:5000/chat', {
                 method: 'POST',
@@ -42,19 +31,25 @@ const Prompt = () => {
                 body: JSON.stringify({ prompt }),
             });
             const data = await response.json();
-            setResponse(data);
-            const receivedMsg = data.msg;
-            let modifiedText = receivedMsg.replace(/\\/g, "\\\\");
-            setQuery(modifiedText);
-            setPrompt('');
+            setQuery(data.msg);
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
         }
-
     }
 
+    const fetchRecordsFromDatabase = async () => {
+        try {
+            console.log(`Query from handleSubmit : ${query}`);
+            const data = await getDataFromSql({ query, database });
+            setDatabaseRecords(data);
+            console.log(databaseRecords);
+        } catch (error) {
+            console.error('Error fetching data from SQL:', error.message);
+        }
+    }
+    
 
     return (
         <div>
@@ -64,32 +59,14 @@ const Prompt = () => {
                 <option value='sql_db'>SQL_DB</option>
                 <option value='airbnb'>AIRBNB</option>
             </select>
-            <button onClick={getQuery}>Submit</button>
+            <button onClick={getQuery}>Get Query</button>
+            <input className='input-field' value={query} onChange={handleQueryChange} type='text' placeholder='Query will be displayed here' />
+            <button onClick={fetchRecordsFromDatabase}>Submit</button>
             {error && <div>Error: {error}</div>}
             {loading && <div>Loading...</div>}
-            {response && (
-                <div>
-                    <textarea className='textarea' defaultValue={query} onChange={(e) => setQuery(e.target.value)}>
-                    </textarea>
-                    <button onClick={handleSubmit}>
-                        Submit to Database
-                    </button>
-                    <div>
-                        {data && (
-                            <div>
-                                <h1>Response from Database</h1>
-                                {/* <div>
-                                    {data.map((row, index) => (
-                                        <div key={index}>
-                                            {JSON.stringify(row)}
-                                        </div>
-                                    ))}
-                                </div> */}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
+            {databaseRecords &&
+            <div>{JSON.stringify(databaseRecords)}</div>
+            }
         </div>
     )
 }
