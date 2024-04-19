@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import './prompt.css';
 import getDataFromSql from '../../services/sqlservice';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-sql';
+import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism-dark.css';
+import 'prismjs/themes/prism-dark.min.css';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const Prompt = () => {
 
@@ -9,14 +19,12 @@ const Prompt = () => {
     const [error, setError] = useState(null);
     const [database, setDatabase] = useState('cs220p');
     const [query, setQuery] = useState('');
-    const [databaseRecords, setDatabaseRecords] = useState({});
+    const [databaseRecords, setDatabaseRecords] = useState([]);
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
 
     const handleInputChange = (event) => {
         setPrompt(event.target.value);
-    }
-
-    const handleQueryChange = (event) => {
-        setQuery(event.target.value);
     }
 
     const getQuery = async () => {
@@ -39,17 +47,40 @@ const Prompt = () => {
         }
     }
 
+    const onGridReady = (params) => {
+        setGridApi(params.api);
+        setGridColumnApi(params.columnApi);
+    };
+
     const fetchRecordsFromDatabase = async () => {
         try {
             console.log(`Query from handleSubmit : ${query}`);
             const data = await getDataFromSql({ query, database });
-            setDatabaseRecords(data);
+            setDatabaseRecords(data); // Wrap data in an array
+            if (gridApi) {
+                gridApi.setRowData(data); // Wrap data in an array
+            }
             console.log(databaseRecords);
         } catch (error) {
             console.error('Error fetching data from SQL:', error.message);
         }
     }
-    
+
+    const columnDefs = databaseRecords.length > 0 ? Object.keys(databaseRecords[0]).map(key => ({
+        headerName: key,
+        field: key,
+        sortable: true,
+        filter: true,
+        resizable: true,
+    })) : [];
+
+    const rowData = databaseRecords.map(record => {
+        const rowDataEntry = {};
+        Object.keys(record).forEach(key => {
+            rowDataEntry[key] = record[key];
+        });
+        return rowDataEntry;
+    });
 
     return (
         <div>
@@ -60,15 +91,38 @@ const Prompt = () => {
                 <option value='airbnb'>AIRBNB</option>
             </select>
             <button onClick={getQuery}>Get Query</button>
-            <input className='input-field' value={query} onChange={handleQueryChange} type='text' placeholder='Query will be displayed here' />
+            <Editor
+                value={query}
+                onValueChange={code => setQuery(code)}
+                highlight={code => highlight(code, languages.sql)}
+                padding={10}
+                style={{
+                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                    fontSize: 12,
+                    width: '50%', // set the width to 50%
+                    height: 'auto', // set the height to auto
+                }}
+            />
             <button onClick={fetchRecordsFromDatabase}>Submit</button>
             {error && <div>Error: {error}</div>}
             {loading && <div>Loading...</div>}
-            {databaseRecords &&
-            <div>{JSON.stringify(databaseRecords)}</div>
+           {/*  {databaseRecords &&
+                <div>{JSON.stringify(databaseRecords)}</div>
+            } */}
+            { databaseRecords.length > 0 ? <div style={{ height: '200px', overflow: 'auto' }}>
+                <div className="ag-theme-alpine" style={{ height: '100%', width: '50%' }}>
+                    <AgGridReact
+                        onGridReady={onGridReady}
+                        columnDefs={columnDefs}
+                        rowData={databaseRecords}
+                        rowSelection="multiple"
+                    />
+                </div>
+            </div> :
+            <div>Fetch Some records</div>
             }
         </div>
     )
 }
 
-export default Prompt
+export default Prompt;
