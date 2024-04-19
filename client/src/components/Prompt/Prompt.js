@@ -1,37 +1,35 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './prompt.css';
 import getDataFromSql from '../../services/sqlservice';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-sql';
+import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism-dark.css';
+import 'prismjs/themes/prism-dark.min.css';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const Prompt = () => {
 
     const [prompt, setPrompt] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [response, setResponse] = useState(null);
-    const [database, setDatabase] = useState('sql_db');
+    const [database, setDatabase] = useState('cs220p');
     const [query, setQuery] = useState('');
-    const [data, setData] = useState(null);
+    const [databaseRecords, setDatabaseRecords] = useState([]);
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
 
     const handleInputChange = (event) => {
         setPrompt(event.target.value);
     }
 
-    const handleSubmit = async () => {
-        try {
-            const data = await getDataFromSql({ query, database });
-            setData(data);
-        } catch (error) {
-            console.error('Error fetching data from SQL:', error.message);
-        }
-    }
-
     const getQuery = async () => {
-
-        // alert(prompt);
         setLoading(true);
         setError(null);
-        setResponse(null);
         try {
             const response = await fetch('http://localhost:5000/chat', {
                 method: 'POST',
@@ -41,53 +39,90 @@ const Prompt = () => {
                 body: JSON.stringify({ prompt }),
             });
             const data = await response.json();
-            setResponse(data);
             setQuery(data.msg);
-            setPrompt('');
         } catch (error) {
             setError(error.message);
         } finally {
             setLoading(false);
         }
-
     }
 
+    const onGridReady = (params) => {
+        setGridApi(params.api);
+        setGridColumnApi(params.columnApi);
+    };
+
+    const fetchRecordsFromDatabase = async () => {
+        try {
+            console.log(`Query from handleSubmit : ${query}`);
+            const data = await getDataFromSql({ query, database });
+            setDatabaseRecords(data); // Wrap data in an array
+            if (gridApi) {
+                gridApi.setRowData(data); // Wrap data in an array
+            }
+            console.log(databaseRecords);
+        } catch (error) {
+            console.error('Error fetching data from SQL:', error.message);
+        }
+    }
+
+    const columnDefs = databaseRecords.length > 0 ? Object.keys(databaseRecords[0]).map(key => ({
+        headerName: key,
+        field: key,
+        sortable: true,
+        filter: true,
+        resizable: true,
+    })) : [];
+
+    const rowData = databaseRecords.map(record => {
+        const rowDataEntry = {};
+        Object.keys(record).forEach(key => {
+            rowDataEntry[key] = record[key];
+        });
+        return rowDataEntry;
+    });
 
     return (
         <div>
             <input className='input-field' value={prompt} onChange={handleInputChange} type='text' placeholder='Enter your prompt' />
             <select onChange={(e) => setDatabase(e.target.value)}>
+                <option value='cs220p'>cs220p</option>
                 <option value='sql_db'>SQL_DB</option>
                 <option value='airbnb'>AIRBNB</option>
             </select>
-            <button onClick={getQuery}>Submit</button>
+            <button onClick={getQuery}>Get Query</button>
+            <Editor
+                value={query}
+                onValueChange={code => setQuery(code)}
+                highlight={code => highlight(code, languages.sql)}
+                padding={10}
+                style={{
+                    fontFamily: '"Fira code", "Fira Mono", monospace',
+                    fontSize: 12,
+                    width: '50%', // set the width to 50%
+                    height: 'auto', // set the height to auto
+                }}
+            />
+            <button onClick={fetchRecordsFromDatabase}>Submit</button>
             {error && <div>Error: {error}</div>}
             {loading && <div>Loading...</div>}
-            {response && (
-                <div>
-                    <textarea className='textarea' defaultValue={query} onChange={(e) => setQuery(e.target.value)}>
-                    </textarea>
-                    <button onClick={handleSubmit}>
-                        Submit to Database
-                    </button>
-                    <div>
-                        {data && (
-                            <div>
-                                <h1>Response from Database</h1>
-                                <div>
-                                    {data.map((row, index) => (
-                                        <div key={index}>
-                                            {JSON.stringify(row)}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
+           {/*  {databaseRecords &&
+                <div>{JSON.stringify(databaseRecords)}</div>
+            } */}
+            { databaseRecords.length > 0 ? <div style={{ height: '200px', overflow: 'auto' }}>
+                <div className="ag-theme-alpine" style={{ height: '100%', width: '50%' }}>
+                    <AgGridReact
+                        onGridReady={onGridReady}
+                        columnDefs={columnDefs}
+                        rowData={databaseRecords}
+                        rowSelection="multiple"
+                    />
                 </div>
-            )}
+            </div> :
+            <div>Fetch Some records</div>
+            }
         </div>
     )
 }
 
-export default Prompt
+export default Prompt;

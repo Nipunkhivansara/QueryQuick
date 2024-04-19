@@ -1,5 +1,6 @@
 const { MemoryVectorStore } = require("langchain/vectorstores/memory");
 const { HuggingFaceInferenceEmbeddings } = require("@langchain/community/embeddings/hf");
+
 const { OpenAIEmbeddings } = require("@langchain/openai");
 const dotenv = require("dotenv");
 const {Document} = require("langchain/document");
