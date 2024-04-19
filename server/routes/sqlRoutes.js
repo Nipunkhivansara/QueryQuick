@@ -10,7 +10,6 @@ const pool =  mysql.createPool({
     database: 'capstone' // Replace 'your_database_name' with your database name
 });
 
-
 sqlRouter.get('/', (req, res) => {
     const connection = mysql.createConnection({
         host: 'localhost',
@@ -37,7 +36,8 @@ async function insertRecordsInDb(records) {
         // Insert each record into the SQL table
         await deleteVectorStore();
         for (const record of records) {
-            const sql = `INSERT INTO VectorStore (id, value) VALUES ('${record.id}', '${JSON.stringify(record.content)}')`;
+            const sql = `INSERT INTO VectorStore (id, value) VALUES ('${record.id}',
+             '${JSON.stringify(record.content)}')`;
             await executeQuery(connection, sql); // Execute the query using the connection
         }
     } catch (error) {
@@ -134,12 +134,9 @@ function getConnectionFromPool(pool) {
     });
 }
 
-
 // Function to release a connection back to the pool
 function releaseConnectionToPool(connection) {
     connection.release();
 }
-
-
 
 module.exports = {sqlRouter, insertRecordsInDb, getTopKEmbeddingsFromDb};
