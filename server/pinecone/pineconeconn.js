@@ -5,7 +5,7 @@ dotenv.config();
 const pc = new Pinecone({
   apiKey: process.env.PINECODE_API_KEY 
 });
-const index = pc.index("capstone1")
+const index = pc.index(process.env.PINECODE_API_INDEX)
 
 
 async function storeEmbeddings(records) {
@@ -13,9 +13,9 @@ async function storeEmbeddings(records) {
       // Generate embeddings using Hugging Face model
       // Store embeddings into Pinecone
     const stats = await index.describeIndexStats();
-  //  console.log(embeddingsData);
+    console.log(stats);
     
-    console.log(records);
+   // console.log(records);
 
   //  console.log(records)
     await index.upsert(records);
@@ -31,14 +31,14 @@ async function storeEmbeddings(records) {
   }
 
 
-  async function  getTopKEmbeddings(query, k) {
+  async function  getTopKEmbeddings(query) {
     try {
-    console.log("queyr is ", query);
+    //console.log("queyr is ", query);
     const stats = await index.describeIndexStats();
     //console.log(stats);
      const queryResponse = await index.namespace('').query({
       vector: query,
-      topK: 5,    
+      topK: parseInt(process.env.K_SIMILAR),    
     });
     console.log(queryResponse);
     return queryResponse;
