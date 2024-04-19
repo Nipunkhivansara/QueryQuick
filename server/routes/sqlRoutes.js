@@ -37,7 +37,8 @@ async function insertRecordsInDb(records) {
         // Insert each record into the SQL table
         await deleteVectorStore();
         for (const record of records) {
-            const sql = `INSERT INTO VectorStore (id, value) VALUES ('${record.id}', '${JSON.stringify(record.content)}')`;
+            const sql = `INSERT INTO VectorStore (id, value) VALUES ('${record.id}',
+             '${JSON.stringify(record.content)}')`;
             await executeQuery(connection, sql); // Execute the query using the connection
         }
     } catch (error) {

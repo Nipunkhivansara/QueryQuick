@@ -14,6 +14,13 @@ dotenv.config();
 
 let vectorStore = null;
 
+const embeddings = new OpenAIEmbeddings({
+  apiKey: process.env.OPENAI_API_KEY,
+  // Default value if omitted is 512. Max is 2048
+  modelName: "text-embedding-3-large",
+  dimensions: parseInt(process.env.DIMENSIONS),
+});
+
 const getTableSchemas =  async (filePath) => {
   // Parse the file , separate content by ";" and add it to the list
   const fileContent =  await fs.readFileSync(filePath, "utf8");
@@ -22,46 +29,49 @@ const getTableSchemas =  async (filePath) => {
 };
 
 async function loadDocuments(filePath) {
-
+console.log("Loading schema");
 const tableSchemas =  getTableSchemas(filePath);
   return tableSchemas;
 }
 
-const createVectorStore = async (docOutput) => {
-  let ids = docOutput.map((_, index) => ({ id : index + 1 }));
-
-  return  await MemoryVectorStore.fromTexts(
-    docOutput,
-    ids,
-    new HuggingFaceInferenceEmbeddings({
-      apiKey: "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", 
-      model: "intfloat/e5-large"
-    })
-  );
+const createOpenAiEmbeddings = async(documents) => {
+  const documentRes = await embeddings.embedDocuments(documents);
+  console.log("created open ai embedding");
+  return documentRes;
 }
 
+// const createVectorStore = async (docOutput) => {
+//   let ids = docOutput.map((_, index) => ({ id : index + 1 }));
 
-async function similaritySearch(vectorStore, query, k) {
-  return await vectorStore.similaritySearch(query, k);
-}
+//   return  await MemoryVectorStore.fromTexts(
+//     docOutput,
+//     ids,
+//     new HuggingFaceInferenceEmbeddings({
+//       apiKey: process.env.HUGGING_FACE_KEY, 
+//       model: "intfloat/e5-large"
+//     })
+//   );
+// }
+
+// async function similaritySearch(vectorStore, query, k) {
+//   return await vectorStore.similaritySearch(query, k);
+// }
 
 const createAndStoreVectorEmbeddings = async(filePath) => {
   try {
     if (!vectorStore) {
-      console.log("processing the data for 1st time");
       const docOutput = await loadDocuments(filePath);
-      const vectorStore = await createVectorStore(docOutput);
-      const records = vectorStore.memoryVectors.map((vector) => {
+      const openAi = await createOpenAiEmbeddings(docOutput);
+      const records = docOutput.map((doc, index) => {
       return {
-          "id": vector.metadata.id.toString(), // Assuming 'content' property is unique and suitable as ID
-          "values": vector.embedding,
-          "content": vector.content // Assuming 'embedding' property contains the vector values
+          "id": index, // Assuming 'content' property is unique and suitable as ID
+          "content": doc,
       };
     });
-      const rec = vectorStore.memoryVectors.map((vector) => {
+    const rec = openAi.map((vector, index) => {
         return {
-            "id": vector.metadata.id.toString(), // Assuming 'content' property is unique and suitable as ID
-            "values": vector.embedding,
+            "id": index.toString() ,// Assuming 'content' property is unique and suitable as ID
+            "values": vector,
         };
       });
     await insertRecordsInDb(records);
@@ -73,15 +83,12 @@ const createAndStoreVectorEmbeddings = async(filePath) => {
   }
 }
 
-const processQuery = async (query, k) => {
+const processQuery = async (query) => {
   try {
-    // Process documents only if processedData is null (first time)
-    const queryvectorStore = await createVectorStore([query]);
-    console.log("queryvectorStore", queryvectorStore);
-    const topKEmbeddings =  await getTopKEmbeddings(queryvectorStore.memoryVectors[0].embedding, k);
-    //console.log(topKEmbeddings);
+    const queryvectorStore = await createOpenAiEmbeddings([query]);
+    const topKEmbeddings =  await getTopKEmbeddings(queryvectorStore[0]);
     const ids = topKEmbeddings.matches.map(el => el.id);
-    console.log("ids is", ids);
+    console.log("Topk ids is", ids);
     const topKTablesContent = await getTopKEmbeddingsContent(ids);
     return topKTablesContent; // Return processedData
   } catch (error) {
