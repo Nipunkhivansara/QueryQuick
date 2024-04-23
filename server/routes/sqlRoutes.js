@@ -10,6 +10,7 @@ const pool =  mysql.createPool({
     database: 'capstone' // Replace 'your_database_name' with your database name
 });
 
+
 sqlRouter.get('/', (req, res) => {
     const connection = mysql.createConnection({
         host: 'localhost',
@@ -137,9 +138,12 @@ function getConnectionFromPool(pool) {
     });
 }
 
+
 // Function to release a connection back to the pool
 function releaseConnectionToPool(connection) {
     connection.release();
 }
+
+
 
 module.exports = {sqlRouter, insertRecordsInDb, getTopKEmbeddingsFromDb};
