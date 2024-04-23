@@ -20,12 +20,12 @@ try {
   console.log("Post request received");
   const {prompt} = req.body;
   const result = await processQuery(prompt); 
-  const x = '...' + 'This is the schema of the tables' +
+  const x = '...' + 'This is the schema of the tables of my sql database' +
   result +
-          '...' + 'give me the sql query for:' +
-          prompt +
+          '...' + 'give me the sql query for finding the:' +
+          prompt + 'Using strictly the schema details I provided.'
           '... give strictly only the sql query';
-  //console.log(x);
+  console.log(x);
   openai.completions.create({
       model: "gpt-3.5-turbo-instruct",
       prompt: x, // Replace "Your prompt text goes here" with your actual prompt text
