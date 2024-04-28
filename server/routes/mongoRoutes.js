@@ -15,13 +15,13 @@ mongoRouter.post('/chat', async (req, res) => {
 
         const result = await processDocuments(`mongodbschema.json`, prompt, 4); 
         const combinedPageContent = result.map(doc => doc.pageContent).join('');
-        const x = `These are the mongodb collections and documents: ${combinedPageContent} ... give me the mongodb query for: ${prompt} ... give strictly only the mongodb query. follow the naming conventions of all fields.`;
+        const x = `These are the mongodb collections and documents: ${combinedPageContent} ... give me the mongodb query for: ${prompt} ... follow the naming conventions of all fields. aggregate and give pipeline stages, if you must. give it in a single line without newline characters. .... give strictly only the mongodb query. NO Explanation.`;
         console.log(x);
         openai.completions.create({
             model: "gpt-3.5-turbo-instruct",
             prompt: x, // Replace "Your prompt text goes here" with your actual prompt text
             temperature: 1,
-            max_tokens: 50,
+            max_tokens: 100,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
