@@ -26,22 +26,22 @@ try {
           prompt +
           '... give strictly only the sql query';
   console.log(x);
-  // openai.completions.create({
-  //     model: "gpt-3.5-turbo-instruct",
-  //     prompt: x, // Replace "Your prompt text goes here" with your actual prompt text
-  //     temperature: 1,
-  //     max_tokens: 10,
-  //     top_p: 1,
-  //     frequency_penalty: 0,
-  //     presence_penalty: 0,
-  //   }).then(response => {
-  //     const responseData = response.choices[0].text;
-  //     console.log(response);
-  //     res.status(200).json({"msg" : responseData}); // Send the response back to the client
-  //   }).catch(error => {
-  //     console.error("Error:", error);
-  //     res.status(500).send(error); // Send an error response back to the client
-  //   });
+  openai.completions.create({
+      model: "gpt-3.5-turbo-instruct",
+      prompt: x, // Replace "Your prompt text goes here" with your actual prompt text
+      temperature: 1,
+      max_tokens: 10,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+    }).then(response => {
+      const responseData = response.choices[0].text;
+      console.log(response);
+      res.status(200).json({"msg" : responseData}); // Send the response back to the client
+    }).catch(error => {
+      console.error("Error:", error);
+      res.status(500).send(error); // Send an error response back to the client
+    });
   }
    catch (err) {
     console.error("Error:", err);
@@ -52,7 +52,7 @@ try {
 router.post("/", async (req,res) => {
   try {
     console.log("Post request received for intialization");
-    const result = await createAndStoreVectorEmbeddings(`../server/schema.sql`); 
+    const result = await createAndStoreVectorEmbeddings(`../server/schema.sql`, 'sql'); 
     res.sendStatus(200);
   }
      catch (err) {
