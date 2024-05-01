@@ -105,7 +105,10 @@ async function getTopKEmbeddingsFromDb(ids) {
             }
         });
     });
-    return content;
+
+    const topKEmbeddingsData = content.map(item => item.value);
+
+    return topKEmbeddingsData;
 
     } catch (error) {
         console.error("Error inserting records:", error);
