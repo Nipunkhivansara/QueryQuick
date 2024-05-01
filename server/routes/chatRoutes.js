@@ -1,5 +1,4 @@
 const OpenAI = require("openai");
-// sdjfsfnskdfnksnfskdns
 const express = require("express");
 const dotenv = require("dotenv");
 const {processQuery, createAndStoreVectorEmbeddings} = require('../vectorstore.js');
