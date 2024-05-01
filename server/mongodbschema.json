@@ -1,1 +1,102 @@
-{"authors_history":{"_id":"65e927548966055b7bd455f0","author_id":1,"author_name":"John Doe","nationality":"American","birth_date":"1980-01-01","death_date":null},"books":{"_id":"65e927958966055b7bd455fe","book_id":1,"title":"Introduction to MongoDB","author":"Jane Doe","isbn":"1234567890","publication_date":"2023-01-01","genre":"Technology","available":true},"courses":{"_id":"65e927a98966055b7bd45604","course_id":201,"course_name":"Database Systems","department_id":1,"credits":3,"instructor_id":1},"attendance":{"_id":"65e9272b8966055b7bd455ea","attendance_id":1,"class_id":101,"student_id":1,"date":"2023-10-10","status":"Present"},"students":{"_id":"65e916f68966055b7bd455e4","student_id":1,"first_name":"John","last_name":"Doe","date_of_birth":"1990-01-01","address":"123 Main St","email":"[email protected]","phone_number":"123-456-7890"},"enrollments":{"_id":"65e927c18966055b7bd4560a","enrollment_id":1,"student_id":1,"course_id":201,"enrollment_date":"2023-09-01"},"authors":{"_id":"65e927498966055b7bd455ed","author_id":1,"author_name":"John Doe","nationality":"American","birth_date":"1980-01-01","death_date":null},"bookmarks":{"_id":"65e9278b8966055b7bd455fb","bookmark_id":1,"member_id":1,"book_id":1,"page_number":25,"bookmark_date":"2023-10-10"},"classes":{"_id":"65e9279f8966055b7bd45601","class_id":101,"course_id":201,"instructor_id":1,"room_number":"101A","schedule":"MWF 10-11 AM"},"departments":{"_id":"65e927b38966055b7bd45607","department_id":1,"department_name":"Computer Science","head_instructor_id":1},"book_authors":{"_id":"65e927618966055b7bd455f3","book_id":1,"author_id":1},"book_copies":{"_id":"65e927728966055b7bd455f8","copy_id":1,"book_id":1,"location":"Library Shelf A1","status":"Available"},"assignments":{"_id":"65e927258966055b7bd455e7","assignment_id":1,"class_id":101,"assignment_name":"Homework 1","due_date":"2023-10-10"}}
+{
+    "authors_history": {
+        "_id": "object",
+        "author_id": "number",
+        "author_name": "string",
+        "nationality": "string",
+        "birth_date": "string",
+        "death_date": "object"
+    },
+    "books": {
+        "_id": "object",
+        "book_id": "number",
+        "title": "string",
+        "author": "string",
+        "isbn": "string",
+        "publication_date": "string",
+        "genre": "string",
+        "available": "boolean"
+    },
+    "courses": {
+        "_id": "object",
+        "course_id": "number",
+        "course_name": "string",
+        "department_id": "number",
+        "credits": "number",
+        "instructor_id": "number"
+    },
+    "attendance": {
+        "_id": "object",
+        "attendance_id": "number",
+        "class_id": "number",
+        "student_id": "number",
+        "date": "string",
+        "status": "string"
+    },
+    "students": {
+        "_id": "object",
+        "student_id": "number",
+        "first_name": "string",
+        "last_name": "string",
+        "date_of_birth": "string",
+        "address": "string",
+        "email": "string",
+        "phone_number": "string"
+    },
+    "enrollments": {
+        "_id": "object",
+        "enrollment_id": "number",
+        "student_id": "number",
+        "course_id": "number",
+        "enrollment_date": "string"
+    },
+    "authors": {
+        "_id": "object",
+        "author_id": "number",
+        "author_name": "string",
+        "nationality": "string",
+        "birth_date": "string",
+        "death_date": "object"
+    },
+    "bookmarks": {
+        "_id": "object",
+        "bookmark_id": "number",
+        "member_id": "number",
+        "book_id": "number",
+        "page_number": "number",
+        "bookmark_date": "string"
+    },
+    "classes": {
+        "_id": "object",
+        "class_id": "number",
+        "course_id": "number",
+        "instructor_id": "number",
+        "room_number": "string",
+        "schedule": "string"
+    },
+    "departments": {
+        "_id": "object",
+        "department_id": "number",
+        "department_name": "string",
+        "head_instructor_id": "number"
+    },
+    "book_authors": {
+        "_id": "object",
+        "book_id": "number",
+        "author_id": "number"
+    },
+    "book_copies": {
+        "_id": "object",
+        "copy_id": "number",
+        "book_id": "number",
+        "location": "string",
+        "status": "string"
+    },
+    "assignments": {
+        "_id": "object",
+        "assignment_id": "number",
+        "class_id": "number",
+        "assignment_name": "string",
+        "due_date": "string"
+    }
+}

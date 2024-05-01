@@ -21,17 +21,22 @@ const embeddings = new OpenAIEmbeddings({
   dimensions: parseInt(process.env.DIMENSIONS),
 });
 
-const getTableSchemas =  async (filePath) => {
+const getTableSchemas =  async (filePath, database) => {
   // Parse the file , separate content by ";" and add it to the list
   const fileContent =  await fs.readFileSync(filePath, "utf8");
-  const tableSchemas = fileContent.split(";");
+  let tableSchemas;
+  if (database == 'sql') {
+    tableSchemas = fileContent.split(";");
+  } else if (database == 'mongo') {
+    tableSchemas = fileContent.split("}").map(doc => doc.trim() + '}');
+  }
   return tableSchemas;
 };
 
-async function loadDocuments(filePath) {
+async function loadDocuments(filePath, database) {
 console.log("Loading schema");
-const tableSchemas =  getTableSchemas(filePath);
-  return tableSchemas;
+const tableSchemas =  getTableSchemas(filePath, database);
+return tableSchemas;
 }
 
 const createOpenAiEmbeddings = async(documents) => {
@@ -57,10 +62,10 @@ const createOpenAiEmbeddings = async(documents) => {
 //   return await vectorStore.similaritySearch(query, k);
 // }
 
-const createAndStoreVectorEmbeddings = async(filePath) => {
+const createAndStoreVectorEmbeddings = async(filePath, database) => {
   try {
     if (!vectorStore) {
-      const docOutput = await loadDocuments(filePath);
+      const docOutput = await loadDocuments(filePath, database);
       const openAi = await createOpenAiEmbeddings(docOutput);
       const records = docOutput.map((doc, index) => {
       return {
@@ -74,7 +79,7 @@ const createAndStoreVectorEmbeddings = async(filePath) => {
             "values": vector,
         };
       });
-    await insertRecordsInDb(records);
+    await insertRecordsInDb(records, database);
     await deleteAndStore(rec);
     } 
   } catch (error) {

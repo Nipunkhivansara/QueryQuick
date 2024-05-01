@@ -53,7 +53,7 @@ try {
 router.post("/", async (req,res) => {
   try {
     console.log("Post request received for intialization");
-    const result = await createAndStoreVectorEmbeddings(`../server/schema.sql`); 
+    const result = await createAndStoreVectorEmbeddings(`../server/schema.sql`, 'sql'); 
     res.sendStatus(200);
   }
      catch (err) {

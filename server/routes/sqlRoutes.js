@@ -6,7 +6,8 @@ const pool =  mysql.createPool({
     connectionLimit: 10, // Adjust the limit as per your requirements
     host: 'localhost',
     user: 'root',
-    password: 'Nipunsql@123',
+    // password: 'Nipunsql@123',
+    password: 'Meet@123',
     database: 'capstone' // Replace 'your_database_name' with your database name
 });
 
@@ -31,13 +32,37 @@ sqlRouter.get('/', (req, res) => {
 });
 
 // Function to insert records
-async function insertRecordsInDb(records) {
+async function insertRecordsInDb(records, database) {
     const connection = await getConnectionFromPool(pool); // Get a connection from the pool
     try {
         // Insert each record into the SQL table
         await deleteVectorStore();
         for (const record of records) {
-            const sql = `INSERT INTO VectorStore (id, value) VALUES ('${record.id}',
+            if ( database == 'sql') {
+                const sql = `INSERT INTO VectorStore (id, value) VALUES ('${record.id}',
+                '${JSON.stringify(record.content)}')`;
+                await executeQuery(connection, sql); // Execute the query using the connection
+            } else if ( database == 'mongo') {
+                const sql = `INSERT INTO VectorStoreMongo (id, value) VALUES ('${record.id}',
+                '${JSON.stringify(record.content)}')`;
+                await executeQuery(connection, sql); // Execute the query using the connection
+            }
+        }
+    } catch (error) {
+        console.error("Error inserting records:", error);
+    } finally {
+        releaseConnectionToPool(connection); // Release the connection back to the pool
+    }
+}
+
+// Function to insert records
+async function insertRecordsInMongoDb(records) {
+    const connection = await getConnectionFromPool(pool); // Get a connection from the pool
+    try {
+        // Insert each record into the SQL table
+        await deleteVectorStore();
+        for (const record of records) {
+            const sql = `INSERT INTO VectorStoreMongo (id, value) VALUES ('${record.id}',
              '${JSON.stringify(record.content)}')`;
             await executeQuery(connection, sql); // Execute the query using the connection
         }
