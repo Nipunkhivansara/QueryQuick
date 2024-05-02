@@ -42,6 +42,9 @@ const Result = ({ onGridReady, columnDefs, databaseRecords }) => {
                             columnDefs={columnDefs}
                             rowData={databaseRecords}
                             rowSelection="multiple"
+                            pagination={true}
+                            paginationPageSize={15}
+                            domLayout='autoHeight'
                         />
                     </div>
                 </TabPanel>
