@@ -18,14 +18,15 @@ router.get("/", (req, res) => {
 router.post("/chat", async (req,res) => {
 try {
   console.log("Post request received");
-  const {prompt} = req.body;
+  res.status(200).json({"msg": "select * from Car;"});
+ /*  const {prompt} = req.body;
   const result = await processQuery(prompt); 
   const x = '...' + 'This is the schema of the tables' +
   result +
           '...' + 'give me the sql query for:' +
           prompt +
           '... give strictly only the sql query';
-  console.log(x);
+  console.log(x); */
   // openai.completions.create({
   //     model: "gpt-3.5-turbo-instruct",
   //     prompt: x, // Replace "Your prompt text goes here" with your actual prompt text
