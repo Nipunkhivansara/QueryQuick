@@ -83,7 +83,8 @@ const Prompt = () => {
     });
 
     return (
-        <div>
+        <div className='main'>
+            <h2>Query Engine</h2>
             <input className='input-field' value={prompt} onChange={handleInputChange} type='text' placeholder='Enter your prompt' />
             <select onChange={(e) => setDatabase(e.target.value)}>
                 <option value='cs220p'>cs220p</option>
@@ -133,7 +134,6 @@ const Prompt = () => {
                     <div></div>
                 }
             </div>
-
         </div>
     )
 }
