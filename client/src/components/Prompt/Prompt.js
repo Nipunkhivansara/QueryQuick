@@ -8,9 +8,9 @@ import 'prismjs/components/prism-sql';
 import 'prismjs/themes/prism.css';
 import 'prismjs/themes/prism-dark.css';
 import 'prismjs/themes/prism-dark.min.css';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import Result from '../Result/Result';
 
 const Prompt = () => {
 
@@ -87,41 +87,51 @@ const Prompt = () => {
             <h2>Query Engine</h2>
             <input className='input-field' value={prompt} onChange={handleInputChange} type='text' placeholder='Enter your prompt' />
             <select onChange={(e) => setDatabase(e.target.value)}>
+                <option value='car'>car</option>
                 <option value='cs220p'>cs220p</option>
                 <option value='sql_db'>SQL_DB</option>
                 <option value='airbnb'>AIRBNB</option>
             </select>
-            <button onClick={getQuery}>Get Query</button>
-            <Editor
-                value={query}
-                onValueChange={code => setQuery(code)}
-                highlight={code => highlight(code, languages.sql)}
-                padding={10}
-                style={{
-                    fontFamily: '"Fira code", "Fira Mono", monospace',
-                    fontSize: 12,
-                    width: '50%', // set the width to 50%
-                    height: 'auto', // set the height to auto
-                }}
-            />
-            <button onClick={fetchRecordsFromDatabase}>Submit</button>
-            {error && <div>Error: {error}</div>}
-            {loading && <div>Loading...</div>}
-           {/*  {databaseRecords &&
-                <div>{JSON.stringify(databaseRecords)}</div>
-            } */}
-            { databaseRecords.length > 0 ? <div style={{ height: '200px', overflow: 'auto' }}>
-                <div className="ag-theme-alpine" style={{ height: '100%', width: '50%' }}>
-                    <AgGridReact
+            <button className='queryButton' onClick={getQuery}>Get Query</button>
+            <div>
+                {query ? (
+                    <div style={{ margin: '20px' }}>
+                        <Editor
+                            value={query}
+                            onValueChange={code => setQuery(code)}
+                            highlight={code => highlight(code, languages.sql)}
+                            padding={10}
+                            style={{
+                                fontFamily: '"Fira code", "Fira Mono", monospace',
+                                fontSize: 12,
+                                width: '50%', // set the width to 50%
+                                height: 'auto', // set the height to auto
+                            }}
+                        />
+                        <button style={{ margin: '20px' }} onClick={fetchRecordsFromDatabase}>Submit</button>
+                    </div>
+                ) : (
+                    <div></div>
+                )}
+                {error && <div>Error: {error}</div>}
+                {loading && <div>Loading...</div>}
+            </div>
+            <div>
+                {/*  {databaseRecords &&
+                    <div>{JSON.stringify(databaseRecords)}</div>
+                } */}
+                {databaseRecords.length > 0 ? (
+                    <div>
+                        <Result
                         onGridReady={onGridReady}
                         columnDefs={columnDefs}
-                        rowData={databaseRecords}
-                        rowSelection="multiple"
-                    />
-                </div>
-            </div> :
-            <div></div>
-            }
+                        databaseRecords={databaseRecords}
+                        />
+                    </div>
+                ) :
+                    <div></div>
+                }
+            </div>
         </div>
     )
 }
