@@ -18,8 +18,8 @@ router.get("/", (req, res) => {
 router.post("/chat", async (req,res) => {
 try {
   console.log("Post request received");
-  res.status(200).json({"msg": "select * from Car;"});
- /*  const {prompt} = req.body;
+  // res.status(200).json({"msg": "select * from Car;"});
+  const {prompt} = req.body;
   const result = await processQuery(prompt); 
   const x = '...' + 'This is the schema of the tables of my sql database' +
   result +
@@ -43,7 +43,7 @@ try {
     }).catch(error => {
       console.error("Error:", error);
       res.status(500).send(error); // Send an error response back to the client
-    }); */
+    });
   }
    catch (err) {
     console.error("Error:", err);

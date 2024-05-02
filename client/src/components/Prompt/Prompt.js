@@ -17,7 +17,7 @@ const Prompt = () => {
     const [prompt, setPrompt] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [database, setDatabase] = useState('car');
+    const [database, setDatabase] = useState('cs220p');
     const [query, setQuery] = useState('');
     const [databaseRecords, setDatabaseRecords] = useState([]);
     const [gridApi, setGridApi] = useState(null);
@@ -74,13 +74,13 @@ const Prompt = () => {
         resizable: true,
     })) : [];
 
-    /* const rowData = databaseRecords.map(record => {
+    const rowData = databaseRecords.map(record => {
         const rowDataEntry = {};
         Object.keys(record).forEach(key => {
             rowDataEntry[key] = record[key];
         });
         return rowDataEntry;
-    }); */
+    });
 
     return (
         <div className='main'>

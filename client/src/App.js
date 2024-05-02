@@ -11,7 +11,7 @@ function App() {
     <Router>
      <Navbar/>
      <Prompt/>
-     {/* <Home /> */}
+     <Home />
      </Router>
    </div>
   );
