@@ -9,13 +9,18 @@
     "@testing-library/user-event": "^13.5.0",
     "ag-grid-community": "^31.2.1",
     "ag-grid-react": "^31.2.1",
+    "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.2",
     "prism-react-renderer": "^2.3.1",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.10.2",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
     "react-scripts": "5.0.1",
     "react-simple-code-editor": "^0.13.1",
+    "react-tabs": "^6.0.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
