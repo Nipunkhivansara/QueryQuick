@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Home from './components/Home/Home';
@@ -18,7 +17,8 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <Login />} />
+        <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />        
         </Routes>
       </Router>
     </div>
