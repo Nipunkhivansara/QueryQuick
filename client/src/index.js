@@ -14,7 +14,9 @@ root.render(
     clientId="QeyBhLYbIzREtuPrSlt79BqlGjU1d7J5"
     authorizationParams={{
       redirect_uri: window.location.origin
-    }}>
+    }}
+    // cacheLocation="localstorage"
+    >
     <App />
     </Auth0Provider>
   </React.StrictMode>

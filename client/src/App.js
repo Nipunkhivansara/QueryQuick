@@ -9,16 +9,25 @@ import Login from './components/Login';
 import { useAuth0 } from '@auth0/auth0-react';
 import Logout from './components/Logout';
 import UserProfile from './components/userprofile';
+import { useEffect } from 'react';
 
-function App() {
-  const { isAuthenticated } = useAuth0();
+const App = () => {
+  const { isAuthenticated, isLoading, user, logout } = useAuth0();
+  console.log( localStorage.getItem('authToken'));
+
+
+  // useEffect(() => {
+  //   logout({ logoutParams: { returnTo: window.location.origin } });
+  // }, []);  
+
+  if (isLoading) return <h1>Loading....</h1 >;
 
   return (
     <div>
       <Router>
         <Routes>
-        <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />        
+          <Route path="/" element={isAuthenticated ? <AuthenticatedHome /> : <Navigate to="login" />} />
+          <Route path="/login" element={isAuthenticated ? <AuthenticatedHome /> : <Login />}/>        
         </Routes>
       </Router>
     </div>
