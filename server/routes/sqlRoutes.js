@@ -6,8 +6,8 @@ const pool = mysql.createPool({
   connectionLimit: 10, // Adjust the limit as per your requirements
   host: "localhost",
   user: "root",
-  password: "Nipunsql@123",
-  //password: 'Meet@123',
+//   password: "Nipunsql@123",
+  password: 'Meet@123',
   database: "capstone", // Replace 'your_database_name' with your database name
 });
 
@@ -16,7 +16,8 @@ sqlRouter.get("/", (req, res) => {
     host: "localhost",
     user: "root",
     //password: "aswin",
-    password: "Nipunsql@123",
+    // password: "Nipunsql@123",
+    password: 'Meet@123',
     database: req.query.database,
   });
 
@@ -34,17 +35,17 @@ sqlRouter.get("/", (req, res) => {
 });
 
 // Function to insert records
-async function insertRecordsInDb(records, database) {
+async function insertRecordsInDb(records, dbType) {
   const connection = await getConnectionFromPool(pool); // Get a connection from the pool
   try {
     // Insert each record into the SQL table
-    await deleteVectorStore();
+    await deleteVectorStore(dbType);
     for (const record of records) {
-      if (database == "sql") {
+      if (dbType == "sql") {
         const sql = `INSERT INTO VectorStore (id, value) VALUES ('${record.id}',
                 '${JSON.stringify(record.content)}')`;
         await executeQuery(connection, sql); // Execute the query using the connection
-      } else if (database == "mongo") {
+      } else if (dbType == "mongo") {
         const sql = `INSERT INTO VectorStoreMongo (id, value) VALUES ('${
           record.id
         }',
@@ -59,50 +60,18 @@ async function insertRecordsInDb(records, database) {
   }
 }
 
-// Function to insert records
-async function insertRecordsInMongoDb(records) {
-  const connection = await getConnectionFromPool(pool); // Get a connection from the pool
-  try {
-    // Insert each record into the SQL table
-    await deleteVectorStore();
-    for (const record of records) {
-      const sql = `INSERT INTO VectorStoreMongo (id, value) VALUES ('${
-        record.id
-      }',
-             '${JSON.stringify(record.content)}')`;
-      await executeQuery(connection, sql); // Execute the query using the connection
-    }
-  } catch (error) {
-    console.error("Error inserting records:", error);
-  } finally {
-    releaseConnectionToPool(connection); // Release the connection back to the pool
-  }
-}
-
-async function getTopKTablesContent(records) {
-  const connection = await getConnectionFromPool(pool); // Get a connection from the pool
-  try {
-    // Insert each record into the SQL table
-    await deleteVectorStore();
-    for (const record of records) {
-      const sql = `INSERT INTO VectorStore (id, value) VALUES ('${
-        record.id
-      }', '${JSON.stringify(record.content)}')`;
-      await executeQuery(connection, sql); // Execute the query using the connection
-    }
-  } catch (error) {
-    console.error("Error inserting records:", error);
-  } finally {
-    releaseConnectionToPool(connection); // Release the connection back to the pool
-  }
-}
-
-async function getTopKEmbeddingsFromDb(ids) {
+async function getTopKEmbeddingsFromDb(ids, dbType) {
   const connection = await getConnectionFromPool(pool); // Get a connection from the pool
   try {
     // Insert each record into the SQL table
     var placeholders = ids.map(() => "?").join(",");
-    var SQL = `SELECT value FROM VectorStore WHERE id IN (?)`;
+    let SQL;
+    if (dbType == 'sql') {
+        SQL = `SELECT value FROM VectorStore WHERE id IN (?)`;
+    } else if(dbType == 'mongo') {
+        SQL = `SELECT value FROM VectorStoreMongo WHERE id IN (?)`;
+    }
+    
     const queryData = [ids];
 
     const content = await new Promise((resolve, reject) => {
@@ -125,12 +94,16 @@ async function getTopKEmbeddingsFromDb(ids) {
   }
 }
 
-async function deleteVectorStore() {
+async function deleteVectorStore(dbType) {
   const connection = await getConnectionFromPool(pool); // Get a connection from the pool
   try {
-    // Insert each record into the SQL table
-    const sql = `DELETE FROM VectorStore`;
-    await executeQuery(connection, sql); // Execute the query using the connection
+    let SQL;
+    if (dbType == 'sql') {
+        SQL = `DELETE FROM VectorStore`;
+    } else if(dbType == 'mongo') {
+        SQL = `DELETE FROM VectorStoreMongo`;
+    }
+    await executeQuery(connection, SQL); // Execute the query using the connection
     console.log("Records deleted successfully");
   } catch (error) {
     console.error("Error deleting records:", error);

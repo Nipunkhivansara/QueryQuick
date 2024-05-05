@@ -7,7 +7,7 @@ const {Document} = require("langchain/document");
 const RecursiveCharacterTextSplitter = require("langchain/text_splitter");
 const fs = require("fs");
 const {TextLoader} = require("langchain/document_loaders/fs/text");
-const {storeEmbeddings, getTopKEmbeddings, deleteAndStore} = require('../server/pinecone/pineconeconn');
+const {getTopKEmbeddings, deleteAndStore} = require('../server/pinecone/pineconeconn');
 const {insertRecordsInDb, getTopKEmbeddingsFromDb} = require("../server/routes/sqlRoutes");
 
 dotenv.config();
@@ -21,21 +21,21 @@ const embeddings = new OpenAIEmbeddings({
   dimensions: parseInt(process.env.DIMENSIONS),
 });
 
-const getTableSchemas =  async (filePath, database) => {
+const getTableSchemas =  async (filePath, dbType) => {
   // Parse the file , separate content by ";" and add it to the list
   const fileContent =  await fs.readFileSync(filePath, "utf8");
   let tableSchemas;
-  if (database == 'sql') {
+  if (dbType == 'sql') {
     tableSchemas = fileContent.split(";");
-  } else if (database == 'mongo') {
+  } else if (dbType == 'mongo') {
     tableSchemas = fileContent.split("}").map(doc => doc.trim() + '}');
   }
   return tableSchemas;
 };
 
-async function loadDocuments(filePath, database) {
+async function loadDocuments(filePath, dbType) {
 console.log("Loading schema");
-const tableSchemas =  getTableSchemas(filePath, database);
+const tableSchemas =  getTableSchemas(filePath, dbType);
 return tableSchemas;
 }
 
@@ -62,10 +62,10 @@ const createOpenAiEmbeddings = async(documents) => {
 //   return await vectorStore.similaritySearch(query, k);
 // }
 
-const createAndStoreVectorEmbeddings = async(filePath, database) => {
+const createAndStoreVectorEmbeddings = async(filePath, dbType) => {
   try {
     if (!vectorStore) {
-      const docOutput = await loadDocuments(filePath, database);
+      const docOutput = await loadDocuments(filePath, dbType);
       const openAi = await createOpenAiEmbeddings(docOutput);
       const records = docOutput.map((doc, index) => {
       return {
@@ -79,8 +79,8 @@ const createAndStoreVectorEmbeddings = async(filePath, database) => {
             "values": vector,
         };
       });
-    await insertRecordsInDb(records, database);
-    await deleteAndStore(rec);
+    await insertRecordsInDb(records, dbType);
+    await deleteAndStore(rec, dbType);
     } 
   } catch (error) {
     console.error("Error processing documents:", error);
@@ -88,13 +88,13 @@ const createAndStoreVectorEmbeddings = async(filePath, database) => {
   }
 }
 
-const processQuery = async (query) => {
+const processQuery = async (query, dbType) => {
   try {
     const queryvectorStore = await createOpenAiEmbeddings([query]);
-    const topKEmbeddings =  await getTopKEmbeddings(queryvectorStore[0]);
+    const topKEmbeddings =  await getTopKEmbeddings(queryvectorStore[0], dbType);
     const ids = topKEmbeddings.matches.map(el => el.id);
     console.log("Topk ids is", ids);
-    const topKTablesContent = await getTopKEmbeddingsContent(ids);
+    const topKTablesContent = await getTopKEmbeddingsContent(ids, dbType);
     return topKTablesContent; // Return processedData
   } catch (error) {
     console.error("Error processing documents:", error);
@@ -102,8 +102,8 @@ const processQuery = async (query) => {
   }
 }
 
-async function getTopKEmbeddingsContent(topKEmbeddingsId) {
-  const topKTablesContent = await getTopKEmbeddingsFromDb(topKEmbeddingsId);
+async function getTopKEmbeddingsContent(topKEmbeddingsId, dbType) {
+  const topKTablesContent = await getTopKEmbeddingsFromDb(topKEmbeddingsId, dbType);
   return topKTablesContent
 }
 

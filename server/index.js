@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const chatRoutes = require("./routes/chatRoutes.js");
 const sqlRoutes = require("./routes/sqlRoutes.js").sqlRouter;
-// const mongoRoutes = require("./routes/mongoRoutes.js");
+const mongoRoutes = require("./routes/mongoRoutes.js");
 
 const app = express();
 app.use(cors());
@@ -13,7 +13,7 @@ dotenv.config();
 
 app.use("/", chatRoutes);
 app.use("/sql",sqlRoutes);
-// app.use("/mongo",mongoRoutes);
+app.use("/mongo",mongoRoutes);
 
 const port = process.env.PORT || 5000;
 
