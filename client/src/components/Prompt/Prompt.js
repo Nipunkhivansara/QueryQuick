@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './prompt.css';
 import getDataFromSql from '../../services/sqlservice';
+import getDataFromMongoDB from '../../services/mongodbservice';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
@@ -17,21 +18,38 @@ const Prompt = () => {
     const [prompt, setPrompt] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [database, setDatabase] = useState('car');
+    const [databaseType, setDatabaseType] = useState('MySQL');
+    const [database, setDatabase] = useState('');
     const [query, setQuery] = useState('');
     const [databaseRecords, setDatabaseRecords] = useState([]);
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
+
+    const databaseOptions = {
+        MySQL: ['car', 'cs220p'],
+        MongoDB: ['SampleUCI']
+      };
+
+    const handleTypeChange = (event) => {
+        setDatabaseType(event.target.value);
+        setDatabase(''); // Reset the selected database when type changes
+    };
 
     const handleInputChange = (event) => {
         setPrompt(event.target.value);
     }
 
     const getQuery = async () => {
+        let api = ''
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch('http://localhost:5000/chat', {
+            if(databaseType == 'MySQL') {
+                api = 'http://localhost:5000/chat'
+            } else if (databaseType == 'MongoDB') {
+                api = 'http://localhost:5000/mongo/chat'
+            }
+            const response = await fetch(api, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -55,7 +73,12 @@ const Prompt = () => {
     const fetchRecordsFromDatabase = async () => {
         try {
             console.log(`Query from handleSubmit : ${query}`);
-            const data = await getDataFromSql({ query, database });
+            let data;
+            if(databaseType == 'MySQL') {
+                data = await getDataFromSql({ query, database });
+            } else if (databaseType == 'MongoDB') {
+                data = await getDataFromMongoDB({ query, database });
+            } 
             setDatabaseRecords(data); // Wrap data in an array
             if (gridApi) {
                 gridApi.setRowData(data); // Wrap data in an array
@@ -77,13 +100,29 @@ const Prompt = () => {
     return (
         <div className='main'>
             <h2>Query Engine</h2>
+
+            <label>
+                Database Type:
+                <select value={databaseType} onChange={handleTypeChange}>
+                <option value="">Select a type</option>
+                {Object.keys(databaseOptions).map(type => (
+                    <option key={type} value={type}>{type}</option>
+                ))}
+                </select>
+            </label>
+            <label>
+                Database:
+                <select value={database} onChange={(e) => setDatabase(e.target.value)} disabled={!databaseType}>
+                <option value="">Select a database</option>
+                {databaseType && databaseOptions[databaseType].map(db => (
+                    <option key={db} value={db}>{db}</option>
+                ))}
+                </select>
+            </label>
+
+
             <input className='input-field' value={prompt} onChange={handleInputChange} type='text' placeholder='Enter your prompt' />
-            <select onChange={(e) => setDatabase(e.target.value)}>
-                <option value='car'>car</option>
-                <option value='cs220p'>cs220p</option>
-                <option value='sql_db'>SQL_DB</option>
-                <option value='airbnb'>AIRBNB</option>
-            </select>
+            
             <button className='queryButton' onClick={getQuery}>Get Query</button>
             <div>
                 {query ? (

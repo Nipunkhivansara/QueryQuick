@@ -5,13 +5,17 @@ dotenv.config();
 const pc = new Pinecone({
   apiKey: process.env.PINECODE_API_KEY 
 });
-const index = pc.index(process.env.PINECODE_API_INDEX)
+// const index = pc.index(process.env.PINECODE_API_INDEX)
+let index;
 
 
-async function storeEmbeddings(records) {
+async function storeEmbeddings(records, dbType) {
     try {
-      // Generate embeddings using Hugging Face model
-      // Store embeddings into Pinecone
+      if(dbType == 'sql') {
+        index = pc.index(process.env.PINECODE_API_MYSQL_INDEX);
+      } else if (dbType == 'mongo') {
+        index = pc.index(process.env.PINECODE_API_MONGODB_INDEX);
+      }
     const stats = await index.describeIndexStats();
     console.log(stats);
     
@@ -31,11 +35,13 @@ async function storeEmbeddings(records) {
   }
 
 
-  async function  getTopKEmbeddings(query) {
+  async function  getTopKEmbeddings(query, dbType) {
     try {
-    //console.log("queyr is ", query);
-    const stats = await index.describeIndexStats();
-    //console.log(stats);
+    if(dbType == 'sql') {
+      index = pc.index(process.env.PINECODE_API_MYSQL_INDEX);
+    } else if (dbType == 'mongo') {
+      index = pc.index(process.env.PINECODE_API_MONGODB_INDEX);
+    }
      const queryResponse = await index.namespace('').query({
       vector: query,
       topK: parseInt(process.env.K_SIMILAR),    
@@ -48,8 +54,14 @@ async function storeEmbeddings(records) {
     }
   }
 
-  async function deleteVectorStoreFromPineCone() {
+  async function deleteVectorStoreFromPineCone(dbType) {
     try {
+      let index;
+      if(dbType == 'sql') {
+        index = pc.index(process.env.PINECODE_API_MYSQL_INDEX);
+      } else if (dbType == 'mongo') {
+        index = pc.index(process.env.PINECODE_API_MONGODB_INDEX);
+      }
     const queryResponse = await index.deleteAll();
     console.log("Embeddings deleted successfully!");
   }
@@ -58,9 +70,9 @@ async function storeEmbeddings(records) {
   }
 }
 
-  async function deleteAndStore(records) {
-    await deleteVectorStoreFromPineCone();
-    await storeEmbeddings(records)
+  async function deleteAndStore(records, dbType) {
+    await deleteVectorStoreFromPineCone(dbType);
+    await storeEmbeddings(records, dbType)
   }
 
  
