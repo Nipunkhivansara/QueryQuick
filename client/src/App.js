@@ -14,7 +14,7 @@ import Login from "./components/Authentication/Login";
 import { useAuth0 } from "@auth0/auth0-react";
 import Logout from "./components/Authentication/Logout";
 import UserProfile from "./components/Authentication/userprofile";
-import { useEffect } from "react";
+import { useState } from "react";
 
 const App = () => {
   const { isAuthenticated, isLoading, user, logout } = useAuth0();
@@ -41,12 +41,26 @@ const App = () => {
   );
 };
 
-function AuthenticatedHome() {
+const AuthenticatedHome =()=> {
+  const [prompt, setPrompt] = useState([<Prompt />])
+
+  const addPrompt = () => {
+    setPrompt([...prompt, <Prompt />]);
+  }
+
+  console.log(prompt); 
+
   return (
     <>
       <Navbar />
       <UserProfile />
-      <Prompt />
+
+      {prompt.map(el => (
+        el
+      ))}
+
+      <button onClick={addPrompt}>Add</button>
+
       <Home />
     </>
   );
