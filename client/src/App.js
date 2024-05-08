@@ -48,7 +48,6 @@ function AuthenticatedHome() {
       <UserProfile />
       <Prompt />
       <Home />
-      <Logout />
     </>
   );
 }
