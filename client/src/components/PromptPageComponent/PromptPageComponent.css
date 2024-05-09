@@ -1,0 +1,46 @@
+.button {
+    margin-right: 5px;
+    padding: 8px 15px;
+    font-size: 16px;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button-remove {
+    background-color: #dc3545;
+  }
+
+  .prompt-container {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .prompt-item {
+    margin-left: 70px;
+    margin-right: 70px;
+    margin-bottom: 30px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+  }
+
+  .prompt-number {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    display: inline-block;  /* Ensure the number is properly aligned with the prompt */
+  }
+  

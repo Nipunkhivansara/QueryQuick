@@ -23,11 +23,13 @@
 /* General body styling */
 .main {
   font-family: Arial, sans-serif;
-  background-color: #f4f7fa;
+  background-color: #dbdcdd;
   color: #333;
-  margin: 0;
-  margin-bottom: 20px;
+  margin: 10px;
+  margin-bottom: 10px;
   padding: 20px;
+  border-radius: 30px;
+  
 }
 
 

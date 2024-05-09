@@ -6,6 +6,7 @@ import { AgGridReact } from 'ag-grid-react';
 import { Button } from 'react-bootstrap';
 import ChartModal from '../ChartModal/ChartModal';
 import ChartComponent from '../ChartComponent/ChartComponent';
+import './Result.css'
 
 const Result = ({ onGridReady, columnDefs, databaseRecords }) => {
 
@@ -27,16 +28,16 @@ const Result = ({ onGridReady, columnDefs, databaseRecords }) => {
 
 
     return (
-        <div style={{ margin: '20px' }}>
-            <Tabs>
+        <div className="result-container">
+            <Tabs className="tabs-container">
                 <TabList >
-                    <Tab >Grid</Tab>
-                    <Tab >Other Tab</Tab>
+                    <Tab className="tab">Tables</Tab>
+                    <Tab className="tab">Charts</Tab>
                 </TabList>
 
-                <TabPanel>
+                <TabPanel className="tab-panel">
                     <h2>Grid</h2>
-                    <div className="ag-theme-alpine" style={{ height: '500px', width: '70%', marginTop: '10px' }}>
+                    <div className="ag-theme-alpine" >
                         <AgGridReact
                             onGridReady={onGridReady}
                             columnDefs={columnDefs}
@@ -49,13 +50,13 @@ const Result = ({ onGridReady, columnDefs, databaseRecords }) => {
                     </div>
                 </TabPanel>
 
-                <TabPanel>
+                <TabPanel className="tab-panel">
                     <div>
                         <h2>Chart</h2>
                         {/* {JSON.stringify(databaseRecords)} */}
                         <div>
 
-                            <Button variant="primary" onClick={handleShow}>
+                            <Button className="chart-button" variant="primary" onClick={handleShow}>
                                 Open Modal
                             </Button>
                             <ChartModal data = {databaseRecords} show={showModal} handleClose={handleClose} handleSubmit={handleSubmit} />

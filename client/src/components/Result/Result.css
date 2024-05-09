@@ -1,0 +1,38 @@
+/* result.css */
+
+.result-container {
+    margin: 20px;
+  }
+  
+  .tabs-container {
+    margin-top: 20px;
+  }
+  
+  .tab {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    margin-right: 10px;
+  }
+  
+  .tab.active {
+    border-color: #007bff; /* Blue border color for active tab */
+  }
+  
+  .tab-panel {
+    padding: 20px;
+  }
+  
+  .ag-theme-alpine {
+    height: 500px;
+    overflow-y: auto; /* Enable vertical scrollbar if content overflows */
+    width: 70%;
+    margin-top: 10px;
+}
+  .chart-button {
+    margin-top: 20px;
+  }
+  
