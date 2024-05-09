@@ -23,7 +23,7 @@ router.post("/chat", async (req, res) => {
     console.log("Post request received");
     // res.status(200).json({"msg": "select * from Car;"});
     const { prompt } = req.body;
-    const result = await processQuery(prompt, 'sql');
+    const result = await processQuery(prompt, "sql");
     const x =
       "..." +
       "This is the schema of the tables of my sql database" +
