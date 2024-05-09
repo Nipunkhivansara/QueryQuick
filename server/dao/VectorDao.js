@@ -1,42 +1,13 @@
 const sqlRouter = require("express").Router();
 const mysql = require("mysql");
-
-// Create connection pool
-const pool = mysql.createPool({
-  connectionLimit: 10, // Adjust the limit as per your requirements
-  host: "localhost",
-  user: "root",
-//   password: "Nipunsql@123",
-  password: 'Meet@123',
-  database: "capstone", // Replace 'your_database_name' with your database name
-});
-
-sqlRouter.get("/", (req, res) => {
-  const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    //password: "aswin",
-    // password: "Nipunsql@123",
-    password: 'Meet@123',
-    database: req.query.database,
-  });
-
-  connection.connect();
-  console.log(
-    `Backend : Querying database: ${req.query.database} with query: ${req.query.query}`
-  );
-  connection.query(req.query.query, (error, results, fields) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.status(200).json(results);
-    }
-  });
-});
+const {
+  getConnectionFromPool,
+  releaseConnectionToPool,
+} = require("../sqldbconn.js");
 
 // Function to insert records
 async function insertRecordsInDb(records, dbType) {
-  const connection = await getConnectionFromPool(pool); // Get a connection from the pool
+  const connection = await getConnectionFromPool(); // Get a connection from the pool
   try {
     // Insert each record into the SQL table
     await deleteVectorStore(dbType);
@@ -61,17 +32,17 @@ async function insertRecordsInDb(records, dbType) {
 }
 
 async function getTopKEmbeddingsFromDb(ids, dbType) {
-  const connection = await getConnectionFromPool(pool); // Get a connection from the pool
+  const connection = await getConnectionFromPool(); // Get a connection from the pool
   try {
     // Insert each record into the SQL table
     var placeholders = ids.map(() => "?").join(",");
     let SQL;
-    if (dbType == 'sql') {
-        SQL = `SELECT value FROM VectorStore WHERE id IN (?)`;
-    } else if(dbType == 'mongo') {
-        SQL = `SELECT value FROM VectorStoreMongo WHERE id IN (?)`;
+    if (dbType == "sql") {
+      SQL = `SELECT value FROM VectorStore WHERE id IN (?)`;
+    } else if (dbType == "mongo") {
+      SQL = `SELECT value FROM VectorStoreMongo WHERE id IN (?)`;
     }
-    
+
     const queryData = [ids];
 
     const content = await new Promise((resolve, reject) => {
@@ -95,13 +66,13 @@ async function getTopKEmbeddingsFromDb(ids, dbType) {
 }
 
 async function deleteVectorStore(dbType) {
-  const connection = await getConnectionFromPool(pool); // Get a connection from the pool
+  const connection = await getConnectionFromPool(); // Get a connection from the pool
   try {
     let SQL;
-    if (dbType == 'sql') {
-        SQL = `DELETE FROM VectorStore`;
-    } else if(dbType == 'mongo') {
-        SQL = `DELETE FROM VectorStoreMongo`;
+    if (dbType == "sql") {
+      SQL = `DELETE FROM VectorStore`;
+    } else if (dbType == "mongo") {
+      SQL = `DELETE FROM VectorStoreMongo`;
     }
     await executeQuery(connection, SQL); // Execute the query using the connection
     console.log("Records deleted successfully");
@@ -123,28 +94,6 @@ function executeQuery(connection, sql) {
       }
     });
   });
-}
-
-// Function to get a connection from the pool
-function getConnectionFromPool(pool) {
-  return new Promise((resolve, reject) => {
-    if (!pool) {
-      reject(new Error("Connection pool is not initialized"));
-      return;
-    }
-    pool.getConnection((error, connection) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(connection);
-      }
-    });
-  });
-}
-
-// Function to release a connection back to the pool
-function releaseConnectionToPool(connection) {
-  connection.release();
 }
 
 module.exports = { sqlRouter, insertRecordsInDb, getTopKEmbeddingsFromDb };
