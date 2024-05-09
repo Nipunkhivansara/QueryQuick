@@ -15,6 +15,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import Logout from "./components/Authentication/Logout";
 import UserProfile from "./components/Authentication/userprofile";
 import { useState } from "react";
+import PromptPageComponent from "./components/PromptPageComponent/PromptPageComponent";
 
 const App = () => {
   const { isAuthenticated, isLoading, user, logout } = useAuth0();
@@ -42,11 +43,7 @@ const App = () => {
 };
 
 const AuthenticatedHome =()=> {
-  const [prompt, setPrompt] = useState([<Prompt />])
 
-  const addPrompt = () => {
-    setPrompt([...prompt, <Prompt />]);
-  }
 
   console.log(prompt); 
 
@@ -54,12 +51,8 @@ const AuthenticatedHome =()=> {
     <>
       <Navbar />
       <UserProfile />
-
-      {prompt.map(el => (
-        el
-      ))}
-
-      <button onClick={addPrompt}>Add</button>
+      <PromptPageComponent />
+    
 
       <Home />
     </>
