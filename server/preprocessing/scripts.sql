@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS vectorstore(
     value varchar(1000)
 );
 
-CREATE TABLEIF NOT EXISTS vectorstoremongo(
+CREATE TABLE IF NOT EXISTS vectorstoremongo(
     id varchar(200) , 
     value varchar(9999)
 );
