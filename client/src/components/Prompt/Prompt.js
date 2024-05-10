@@ -137,6 +137,7 @@ const Prompt = () => {
                                 fontSize: 12,
                                 width: '50%', // set the width to 50%
                                 height: 'auto', // set the height to auto
+                                backgroundColor: "white"
                             }}
                         />
                         <button style={{ margin: '20px' }} onClick={fetchRecordsFromDatabase}>Submit</button>
