@@ -9,14 +9,30 @@ sqlExecutionRouter.get("/", async (req, res) => {
   console.log(
     `Backend : Querying database: ${req.query.database} with query: ${req.query.query}`
   );
-  connection.query(req.query.query, (error, results, fields) => {
-    if (error) {
-      res.status(500).send(error);
-    } else {
-      res.status(200).json(results);
-    }
-  });
-  releaseClientConnectionToPool(connection);
+  try {
+    const results = await new Promise((resolve, reject) => {
+      connection.query(req.query.query, (error, results, fields) => {
+        if (error) {
+          console.error(error);
+          reject(error); //
+        } else {
+          // Results contain the rows returned by the query
+          resolve(results);
+        }
+      });
+    });
+    console.log(results);
+    releaseClientConnectionToPool(connection);
+    res.status(200).json(results);
+  } catch (error) {
+    // Catch any errors that occurred during query execution
+    console.error(error);
+    // Send an error response with a 500 status code
+    res.status(500).send(error.message);
+  } finally {
+    // Always release the connection back to the pool
+    releaseClientConnectionToPool(connection);
+  }
 });
 
 module.exports = { sqlExecutionRouter };
