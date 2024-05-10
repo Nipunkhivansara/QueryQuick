@@ -3,7 +3,7 @@ const mysql = require("mysql");
 const {
   getConnectionFromPool,
   releaseConnectionToPool,
-} = require("../sqldbconn.js");
+} = require("../dbconnection/sqldbconn.js");
 
 // Function to insert records
 async function insertRecordsInDb(records, dbType) {

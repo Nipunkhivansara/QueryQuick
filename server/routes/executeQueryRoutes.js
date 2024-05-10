@@ -2,10 +2,10 @@ const sqlExecutionRouter = require("express").Router();
 const {
   getclientConnectionpool,
   releaseClientConnectionToPool,
-} = require("../sqldbconn.js");
+} = require("../dbconnection/sqldbconn.js");
 
 sqlExecutionRouter.get("/", async (req, res) => {
-  const connection = await getclientConnectionpool(req);
+  const connection = await getclientConnectionpool(req.query.database);
   console.log(
     `Backend : Querying database: ${req.query.database} with query: ${req.query.query}`
   );

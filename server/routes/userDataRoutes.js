@@ -4,7 +4,7 @@ const express = require("express");
 const {
   getConnectionFromPool,
   releaseConnectionToPool,
-} = require("../sqldbconn");
+} = require("../dbconnection/sqldbconn");
 
 const router = express.Router();
 

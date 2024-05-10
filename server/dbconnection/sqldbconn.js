@@ -1,5 +1,4 @@
 const mysql = require("mysql");
-const fs = require("fs");
 
 const pool = mysql.createPool({
   connectionLimit: 10, // Adjust the limit as per your requirements
@@ -12,7 +11,7 @@ const pool = mysql.createPool({
 
 let clientConnectionpool = null;
 
-async function getclientConnectionpool(req) {
+async function getclientConnectionpool(database) {
   if (clientConnectionpool == null) {
     clientConnectionpool = mysql.createPool({
       connectionLimit: 10, // Adjust the limit as per your requirements
@@ -21,7 +20,7 @@ async function getclientConnectionpool(req) {
       //password: "aswin",
       password: "Nipunsql@123",
       //password: "Meet@123",
-      database: req.query.database,
+      database: database,
     });
   }
   return getClientConnectionFromPool();
@@ -67,58 +66,6 @@ async function releaseConnectionToPool(connection) {
 
 async function releaseClientConnectionToPool(clientconnection) {
   clientconnection.release();
-}
-
-async function getSchemaInfo() {
-  const connection = await getConnectionFromPool(); // Get a connection from the pool
-
-  connection.query("SHOW TABLES", (err, tables) => {
-    if (err) {
-      console.error("Error retrieving table information:", err);
-      connection.end(); // Close the connection in case of error
-      return;
-    }
-
-    let schema = "";
-    let remainingQueries = tables.length;
-
-    // Iterate through tables and get schema
-    tables.forEach((table) => {
-      const tableName = table[`Tables_in_${connection.config.database}`];
-      // schema += `-- Table: ${tableName}\n`;
-
-      connection.query(`SHOW CREATE TABLE \`${tableName}\``, (err, results) => {
-        remainingQueries--; // Decrement count regardless of success or error
-
-        if (err) {
-          console.error("Error retrieving create table statement:", err);
-          checkCompletion();
-          return;
-        }
-
-        schema += results[0]["Create Table"] + ";\n\n";
-
-        console.log(`Retrieved schema information for table: ${tableName}`);
-        console.log("Schema so far:", schema);
-
-        checkCompletion();
-      });
-    });
-
-    function checkCompletion() {
-      if (remainingQueries === 0) {
-        // Write schema information to a text file
-        fs.writeFile("schema.sql", schema, (err) => {
-          if (err) {
-            console.error("Error writing schema information to file:", err);
-            return;
-          }
-          console.log("Schema information has been saved to schema.sql");
-          releaseConnectionToPool(connection);
-        });
-      }
-    }
-  });
 }
 
 module.exports = {
