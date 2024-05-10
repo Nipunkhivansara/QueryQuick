@@ -31,8 +31,8 @@ router.post("/chat", async (req, res) => {
       "..." +
       "give me the sql query for finding the:" +
       prompt +
-      "Using strictly the schema details I provided.";
-    ("... give strictly only the sql query");
+      "Using strictly the schema details I provided." +
+      "... give strictly only the sql query";
     console.log(x);
     openai.completions
       .create({
