@@ -11,7 +11,7 @@ const pool = mysql.createPool({
 
 let clientConnectionpool = null;
 
-async function getclientConnectionpool(req) {
+async function getclientConnectionpool(database) {
   if (clientConnectionpool == null) {
     clientConnectionpool = mysql.createPool({
       connectionLimit: 10, // Adjust the limit as per your requirements
@@ -20,7 +20,7 @@ async function getclientConnectionpool(req) {
       //password: "aswin",
       password: "Nipunsql@123",
       //password: "Meet@123",
-      database: req.query.database,
+      database: database,
     });
   }
   return getClientConnectionFromPool();

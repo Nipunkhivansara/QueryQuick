@@ -1,14 +1,14 @@
 const {
   getConnectionFromPool,
   releaseConnectionToPool,
+  getclientConnectionpool,
 } = require("../dbconnection/sqldbconn");
 
 const fs = require("fs");
 
-const connection = await getConnectionFromPool();
-
 async function getSchemaInfo() {
   // Get a connection from the pool
+  const connection = await getclientConnectionpool("cs220p");
 
   connection.query("SHOW TABLES", (err, tables) => {
     if (err) {
