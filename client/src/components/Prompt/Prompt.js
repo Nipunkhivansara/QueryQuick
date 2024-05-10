@@ -58,6 +58,7 @@ const Prompt = () => {
             });
             const data = await response.json();
             setQuery(data.msg);
+            setError(null);
         } catch (error) {
             setError(error.message);
         } finally {
@@ -86,6 +87,7 @@ const Prompt = () => {
             console.log(databaseRecords);
         } catch (error) {
             console.error('Error fetching data from SQL:', error.message);
+            setError(error.message);
         }
     }
 

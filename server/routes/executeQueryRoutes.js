@@ -22,7 +22,6 @@ sqlExecutionRouter.get("/", async (req, res) => {
       });
     });
     console.log(results);
-    releaseClientConnectionToPool(connection);
     res.status(200).json(results);
   } catch (error) {
     // Catch any errors that occurred during query execution
