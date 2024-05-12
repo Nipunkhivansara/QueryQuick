@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS notebooks (
 );
 
 CREATE TABLE IF NOT EXISTS cells (
-     id int primary key,
+     id int AUTO_INCREMENT PRIMARY KEY,
      notebook_id int,
      user_id INT,
      prompt text,

@@ -6,7 +6,8 @@ const chatRoutes = require("./routes/chatRoutes.js");
 const executesqlRoutes =
   require("../server/routes/executeQueryRoutes.js").sqlExecutionRouter;
 const mongoRoutes = require("./routes/mongoRoutes.js");
-const userroutes = require("./routes/userDataRoutes.js");
+const userroutes = require("./routes/getUserDataRoutes.js");
+const saveUserRoutes = require("./routes/saveUserDataRoutes.js");
 
 const app = express();
 app.use(cors());
@@ -17,6 +18,7 @@ app.use("/", chatRoutes);
 app.use("/sql", executesqlRoutes);
 app.use("/mongo", mongoRoutes);
 app.use("/", userroutes);
+app.use("/", saveUserRoutes);
 
 const port = process.env.PORT || 5000;
 
