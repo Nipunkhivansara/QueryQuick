@@ -16,7 +16,6 @@ const LineChart = ({data, xCoord, yCoord}) => {
         borderColor: 'rgba(75, 192, 192, 1)',
         borderWidth: 1,
         tension: 0.1,
-        borderColor: 'rgba(75, 192, 192, 1)',
       },
     ],
   };

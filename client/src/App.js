@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,17 +8,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
-import Prompt from "./components/Prompt/Prompt";
-import Login from "./components/Authentication/Login";
 import { useAuth0 } from "@auth0/auth0-react";
-import Logout from "./components/Authentication/Logout";
 import UserProfile from "./components/Authentication/userprofile";
-import { useState } from "react";
 import PromptPageComponent from "./components/PromptPageComponent/PromptPageComponent";
 import Landing from "./components/Landing/Landing";
 
 const App = () => {
-  const { isAuthenticated, isLoading, user, logout } = useAuth0();
+  const { isAuthenticated, isLoading } = useAuth0();
 
   return isLoading ? (
     <h1>Loading....</h1>

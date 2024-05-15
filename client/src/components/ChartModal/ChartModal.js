@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import {Chart as ChartJS,
-    defaults} from 'chart.js/auto';
-import {Chart} from 'react-chartjs-2';
-import { Modal, Dropdown, Button, DropdownButton } from 'react-bootstrap';
+import { Modal, Dropdown, Button } from 'react-bootstrap';
 
 const ChartModal = ({ data, show, handleClose, handleSubmit }) => {
     const [chartType, setChartType] = useState('Bar');

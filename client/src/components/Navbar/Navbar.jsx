@@ -2,14 +2,12 @@ import React from "react";
 import "./Navbar.css";
 import logoWhite from "./logo-black.png"; // Import the black logo image
 
-import { Link } from "react-router-dom";
-import image from "./web.jpg";
 import Logout from "../Authentication/Logout";
 
 const Navbar = () => {
   return (
     <div className="navbar">
-      <img src={logoWhite} className="logo-img-white" />
+      <img src={logoWhite} className="logo-img-white" alt="QueryQuick" />
       <ul>
         <li>Home</li>
         <li>Products</li>
