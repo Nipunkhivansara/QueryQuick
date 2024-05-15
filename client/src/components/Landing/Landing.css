@@ -1,0 +1,21 @@
+.bgheader {
+    background-size: 20%;
+    background-position-x: right;
+    background-position-y: top;
+    background: url(./bg2.png), radial-gradient(circle, rgb(75, 75, 75) 11%, rgb(6, 6, 6) 57%), rgb(75, 75, 75);
+    background-repeat: no-repeat;
+    background-size: 26%, 100%, 100%;
+    background-position-x: 25cm, 0, 0;
+    background-position-y: 3cm, 0, 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(30px + 2vmin);
+    text-align: center;
+  }
+  
+  .mainDiv{
+    display: inline;
+  }

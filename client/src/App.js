@@ -16,6 +16,7 @@ import Logout from "./components/Authentication/Logout";
 import UserProfile from "./components/Authentication/userprofile";
 import { useState } from "react";
 import PromptPageComponent from "./components/PromptPageComponent/PromptPageComponent";
+import Landing from "./components/Landing/Landing";
 
 const App = () => {
   const { isAuthenticated, isLoading, user, logout } = useAuth0();
@@ -34,7 +35,7 @@ const App = () => {
           />
           <Route
             path="/login"
-            element={isAuthenticated ? <AuthenticatedHome /> : <Login />}
+            element={isAuthenticated ? <AuthenticatedHome /> : <Landing />}
           />
         </Routes>
       </Router>
