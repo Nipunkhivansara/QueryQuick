@@ -5,18 +5,18 @@ import Appbar from '../Appbar/Appbar';
 import Performance from '../Performance/Performance';
 import NewNotebook from '../NewNotebook/NewNotebook';
 import SiteInfo from '../SiteInfo/SiteInfo';
-// import Home from '../Home/Home';
+import Home from '../Home/Home';
 
 
 
-const Dashboard = ({ open, handleDrawerToggle, menuBarWidth }) => {
+const Dashboard = ({ open, user,logout, handleDrawerToggle, menuBarWidth }) => {
+    console.log(user);
     return (
         <div>
-
-            {/* <Home /> */}
+            {/* <Home />  */}
             <Box sx={{ zIndex: 1, display: 'flex' }}>
-                <Appbar handleDrawerToggle={handleDrawerToggle} menuBarWidth={menuBarWidth} />
-                <Sidebar open={open} menuBarWidth={menuBarWidth} />
+                <Appbar handleDrawerToggle={handleDrawerToggle} menuBarWidth={menuBarWidth} user={user} />
+                <Sidebar open={open} menuBarWidth={menuBarWidth} logout={logout} user={user}/>
                 <Box sx={{ marginLeft: '-50px', marginTop: '60px', width: `${1930 - menuBarWidth}px`, height: '94.4vh', bgcolor: '#222B3D' }}>
                     <Performance />
                     <NewNotebook />

@@ -1,13 +1,13 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { AreaChart, Area, Tooltip, Legend, ResponsiveContainer, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Box, Typography } from '@mui/material';
-import { bgcolor, display, textAlign } from '@mui/system';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Chip } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CrownIcon from '@mui/icons-material/EmojiEvents';
 import EditIcon from '@mui/icons-material/Edit';
 import PenIcon from '@mui/icons-material/Create';
 import BuildIcon from '@mui/icons-material/Build';
+import { X } from '@mui/icons-material';
 
 
 const data = [
@@ -48,7 +48,10 @@ const SiteInfo = ({open}) => {
       <Box width="40%" height={450} textAlign={'center'}>
         <h2>Database Connections</h2>
         <ResponsiveContainer  >
+          <CartesianGrid strokeDasharray="3 3" />
           <AreaChart width={400} height={400} data={data}>
+            <XAxis dataKey="name" />
+            <YAxis />
             <Tooltip />
             <Legend />
             <Area type="monotone" dataKey="SQL" stackId="1" stroke="#8884d8" strokeWidth={4} fill="#c6c4f5" />
