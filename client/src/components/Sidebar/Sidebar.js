@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import BoltSharpIcon from '@mui/icons-material/BoltSharp';
 import InboxIcon from '@mui/icons-material/Inbox';
 import MailIcon from '@mui/icons-material/Mail';
@@ -7,6 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import StarIcon from '@mui/icons-material/Star';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Link } from 'react-router-dom';
 
 
 const Sidebar = ({ open, menuBarWidth }) => {
@@ -45,7 +46,9 @@ const Sidebar = ({ open, menuBarWidth }) => {
           <List>
             <ListItem>
               <ListItemIcon sx={{ color: '#ffffff' }}>
-                <BoltSharpIcon />
+                <IconButton edge="end" color="inherit" component={Link} to="/">
+                  <BoltSharpIcon />
+                </IconButton>
               </ListItemIcon>
               {open && <ListItemText primary="QueryQuick" sx={{ color: '#ffffff' }} />}
             </ListItem>

@@ -48,7 +48,12 @@ const App = () => {
           />
           <Route
             path="/notebook/:notebook_id" // Define dynamic route with parameter notebook_id
-            element={<Notebook />} // Render Notebook component
+            element={<Notebook 
+              open={open}
+              handleDrawerToggle={handleDrawerToggle}
+              user={user} 
+              menuBarWidth={menuBarWidth} 
+              logout={logout}  />} // Render Notebook component
           />
         </Routes>
       </div>
