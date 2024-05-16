@@ -75,7 +75,7 @@ const SiteInfo = ({open}) => {
                 <TableRow key={index}>
                   <TableCell sx={{color: '#e3e8e8'}}>
                     <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                      <AccountCircleIcon color="action" />
+                      <AccountCircleIcon color="action" sx={{fill: '#fff'}} />
                       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ml: '5px' }}>
                         <Typography variant="subtitle1">{row.name}</Typography>
                         <Typography variant="caption">{row.username}</Typography>

@@ -3,6 +3,10 @@ import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/materia
 import BoltSharpIcon from '@mui/icons-material/BoltSharp';
 import InboxIcon from '@mui/icons-material/Inbox';
 import MailIcon from '@mui/icons-material/Mail';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import StarIcon from '@mui/icons-material/Star';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 const Sidebar = ({ open, menuBarWidth }) => {
@@ -45,6 +49,8 @@ const Sidebar = ({ open, menuBarWidth }) => {
               </ListItemIcon>
               {open && <ListItemText primary="QueryQuick" sx={{ color: '#ffffff' }} />}
             </ListItem>
+            </List>
+            <List>
             <ListItem button>
               <ListItemIcon sx={{ color: '#ffffff' }}>
                 <InboxIcon />
@@ -56,6 +62,30 @@ const Sidebar = ({ open, menuBarWidth }) => {
                 <MailIcon />
               </ListItemIcon>
               {open && <ListItemText primary="Mail" sx={{ color: '#ffffff' }} />}
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon sx={{ color: '#ffffff' }}>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Profile" sx={{ color: '#ffffff' }} />}
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon sx={{ color: '#ffffff' }}>
+                <BookmarksIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Bookmarks" sx={{ color: '#ffffff' }} />}
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon sx={{ color: '#ffffff' }}>
+                <StarIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Premium" sx={{ color: '#ffffff' }} />}
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon sx={{ color: '#ffffff' }}>
+                <SettingsIcon />
+              </ListItemIcon>
+              {open && <ListItemText primary="Settings" sx={{ color: '#ffffff' }} />}
             </ListItem>
           </List>
         </Drawer>

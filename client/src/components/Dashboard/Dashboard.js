@@ -17,7 +17,7 @@ const Dashboard = ({ open, handleDrawerToggle, menuBarWidth }) => {
             <Box sx={{ zIndex: 1, display: 'flex' }}>
                 <Appbar handleDrawerToggle={handleDrawerToggle} menuBarWidth={menuBarWidth} />
                 <Sidebar open={open} menuBarWidth={menuBarWidth} />
-                <Box sx={{ marginLeft: '-50px', marginTop: '60px', width: `${1930 - menuBarWidth}px`, height: '93.8vh', bgcolor: '#222B3D' }}>
+                <Box sx={{ marginLeft: '-50px', marginTop: '60px', width: `${1930 - menuBarWidth}px`, height: '94.4vh', bgcolor: '#222B3D' }}>
                     <Performance />
                     <NewNotebook />
                     <SiteInfo open={open} />
