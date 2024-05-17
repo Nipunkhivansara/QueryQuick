@@ -1,63 +1,64 @@
-import logo from "./logo.svg";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
-import Home from "./components/Home/Home";
-import Navbar from "./components/Navbar/Navbar";
-import Prompt from "./components/Prompt/Prompt";
-import Login from "./components/Authentication/Login";
-import { useAuth0 } from "@auth0/auth0-react";
-import Logout from "./components/Authentication/Logout";
-import UserProfile from "./components/Authentication/userprofile";
-import { useState } from "react";
-import PromptPageComponent from "./components/PromptPageComponent/PromptPageComponent";
-import Landing from "./components/Landing/Landing";
+import React, { useState } from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/Dashboard/Dashboard';
+import Landing from './components/Landing/Landing';
+import Help from './components/Help/Help';
+import Notebook from './components/Notebook/Notebook';
+import './App.css';
+
+const miniDrawerWidth = 60;
+const maxDrawerWidth = 240;
 
 const App = () => {
   const { isAuthenticated, isLoading, user, logout } = useAuth0();
+  const [open, setOpen] = useState(false);
+  const [menuBarWidth, setMenuBarWidth] = useState(miniDrawerWidth);
+
+  const handleDrawerToggle = () => {
+    setOpen(!open);
+    setMenuBarWidth(open ? miniDrawerWidth : maxDrawerWidth);
+  };
 
   return isLoading ? (
     <h1>Loading....</h1>
   ) : (
-    <div>
-      <Router>
+    <Router>
+      <div>
         <Routes>
           <Route
             path="/"
             element={
-              isAuthenticated ? <AuthenticatedHome /> : <Navigate to="login" />
+              isAuthenticated ? (
+                <Dashboard
+                  open={open}
+                  user={user}
+                  logout={logout}
+                  handleDrawerToggle={handleDrawerToggle}
+                  menuBarWidth={menuBarWidth}
+                />
+              ) : (
+                <Landing />
+              )
             }
           />
           <Route
-            path="/login"
-            element={isAuthenticated ? <AuthenticatedHome /> : <Landing />}
+            path="/help"
+            element={<Help />} // Render Help component when URL is /help
+          />
+          <Route
+            path="/notebook/:notebook_id" // Define dynamic route with parameter notebook_id
+            element={<Notebook 
+              open={open}
+              handleDrawerToggle={handleDrawerToggle}
+              user={user} 
+              menuBarWidth={menuBarWidth} 
+              logout={logout}  />} // Render Notebook component
           />
         </Routes>
-      </Router>
-    </div>
+      </div>
+    </Router>
   );
 };
-
-const AuthenticatedHome =()=> {
-
-
-  console.log(prompt); 
-
-  return (
-    <>
-      <Navbar />
-      <UserProfile />
-      <PromptPageComponent />
-    
-
-      <Home />
-    </>
-  );
-}
 
 export default App;

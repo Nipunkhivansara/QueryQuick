@@ -6,6 +6,7 @@
     "@auth0/auth0-react": "^2.2.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.17",
     "@mui/material": "^5.15.17",
     "@mui/system": "^5.15.15",
     "@testing-library/jest-dom": "^5.17.0",
@@ -15,6 +16,7 @@
     "ag-grid-react": "^31.2.1",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.2",
+    "dotenv": "^16.4.5",
     "prism-react-renderer": "^2.3.1",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
@@ -25,6 +27,7 @@
     "react-scripts": "5.0.1",
     "react-simple-code-editor": "^0.13.1",
     "react-tabs": "^6.0.2",
+    "recharts": "^2.12.7",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

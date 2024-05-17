@@ -10,11 +10,9 @@ function Landing() {
       <div>
         <Logo />
       </div>  
-
       <div>
           <Login/>
       </div>
-      
     </div>
     </div>
   )

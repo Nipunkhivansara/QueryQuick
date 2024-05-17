@@ -23,7 +23,6 @@ const Prompt = () => {
     const [query, setQuery] = useState('');
     const [databaseRecords, setDatabaseRecords] = useState([]);
     const [gridApi, setGridApi] = useState(null);
-    const [gridColumnApi, setGridColumnApi] = useState(null);
 
     const databaseOptions = {
         MySQL: ['car', 'cs220p'],
@@ -44,9 +43,9 @@ const Prompt = () => {
         setLoading(true);
         setError(null);
         try {
-            if(databaseType == 'MySQL') {
+            if(databaseType === 'MySQL') {
                 api = 'http://localhost:5000/chat'
-            } else if (databaseType == 'MongoDB') {
+            } else if (databaseType === 'MongoDB') {
                 api = 'http://localhost:5000/mongo/chat'
             }
             const response = await fetch(api, {
@@ -68,16 +67,15 @@ const Prompt = () => {
 
     const onGridReady = (params) => {
         setGridApi(params.api);
-        setGridColumnApi(params.columnApi);
     };
 
     const fetchRecordsFromDatabase = async () => {
         try {
             console.log(`Query from handleSubmit : ${query}`);
             let data;
-            if(databaseType == 'MySQL') {
+            if(databaseType === 'MySQL') {
                 data = await getDataFromSql({ query, database });
-            } else if (databaseType == 'MongoDB') {
+            } else if (databaseType === 'MongoDB') {
                 data = await getDataFromMongoDB({ query, database });
             } 
             setDatabaseRecords(data); // Wrap data in an array

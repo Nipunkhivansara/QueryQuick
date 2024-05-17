@@ -1,15 +1,18 @@
 import React from "react";
 import "./Navbar.css";
 import logoWhite from "./logo-black.png"; // Import the black logo image
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import { Link } from "react-router-dom";
-import image from "./web.jpg";
 import Logout from "../Authentication/Logout";
 
-const Navbar = () => {
+const Navbar = ({ handleDrawerOpen }) => {
   return (
     <div className="navbar">
-      <img src={logoWhite} className="logo-img-white" />
+       <IconButton onClick={handleDrawerOpen} edge="start" color="inherit" aria-label="menu">
+        <MenuIcon />
+      </IconButton>
+      <img src={logoWhite} className="logo-img-white" alt="QueryQuick" />
       <ul>
         <li>Home</li>
         <li>Products</li>

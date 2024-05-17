@@ -1,6 +1,6 @@
 import React from 'react'
 import Prompt from '../Prompt/Prompt'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import './PromptPageComponent.css'
 
 function PromptPageComponent() {
