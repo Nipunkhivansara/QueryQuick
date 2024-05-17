@@ -17,17 +17,26 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS notebooks (
-    notebook_id INT AUTO_INCREMENT PRIMARY KEY,
+    notebook_id INT,
     user_id INT,
+    PRIMARY KEY (user_id, notebook_id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE INDEX notebook_id ON notebooks(notebook_id);
+
+
 CREATE TABLE IF NOT EXISTS cells (
-     id int AUTO_INCREMENT PRIMARY KEY,
-     notebook_id int,
-     user_id INT,
-     prompt text,
-     query text,
-     FOREIGN KEY (user_id) REFERENCES users(id),
-     FOREIGN KEY (notebook_id) REFERENCES notebooks(notebook_id)
+    id INT AUTO_INCREMENT,
+    notebook_id INT,
+    user_id INT,
+    prompt TEXT,
+    query TEXT,
+    cellType VARCHAR(50),
+    cellValue TEXT,
+    cellDatabaseType VARCHAR(50),
+    cellDatabase VARCHAR(50),
+    PRIMARY KEY (id, user_id, notebook_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (notebook_id) REFERENCES notebooks(notebook_id)
 );
