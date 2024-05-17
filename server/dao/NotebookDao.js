@@ -4,98 +4,157 @@ class NotebookDao {
   }
 
   async getMaxNotebookIdForUser(userId) {
-    // Perform database query to fetch user by email
-    // Example using MySQL and promises
     return new Promise((resolve, reject) => {
-      const query =
-        "SELECT MAX(notebook_id) AS max_id from notebooks where user_id = ?";
-      this.database.query(query, [userId], (error, result, fields) => {
+      const query = "SELECT MAX(notebook_id) AS max_id FROM notebooks WHERE user_id = ?";
+      this.database.query(query, [userId], (error, result) => {
         if (error) {
           console.error("Error querying database:", error);
+          reject(error);
           return;
         }
-        // Results contain the rows returned by the query
-        resolve(result == null ? 0 : result[0].max_id); // Resolve the promise with the max_id value
+        resolve(result[0].max_id || 0);
       });
     });
   }
+
+  async saveNotebook(notebookData, user_id) {
+    const { notebook_id } = notebookData;
+
+    return new Promise((resolve, reject) => {
+      const query = "INSERT INTO notebooks (notebook_id, user_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE notebook_id=VALUES(notebook_id)";
+      this.database.query(query, [notebook_id, user_id], (error, result) => {
+        if (error) {
+          console.error("Error querying database:", error);
+          reject(error);
+          return;
+        }
+        resolve(result[0]);
+      });
+    });
+
+    
+};
+
+async saveCell(notebookData, user_id) {
+  const { notebook_id, cells } = notebookData;
+  const promises = cells.map(cell => {
+    const {cellId, type, value, databaseType, database, prompt, query } = cell;
+    return new Promise((resolve, reject) => {
+      const sqlQuery = "INSERT INTO cells (id, notebook_id, user_id, cellType, cellValue, cellDatabaseType, cellDatabase, prompt, query) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE cellValue=VALUES(cellValue), cellDatabaseType=VALUES(cellDatabaseType), cellDatabase=VALUES(cellDatabase), prompt=VALUES(prompt), query=VALUES(query)";
+      this.database.query(sqlQuery, [cellId, notebook_id, user_id, type, value, databaseType, database, prompt, query], (error, result) => {
+        if (error) {
+          console.error("Error querying database:", error);
+          reject(error);
+          return;
+        }
+        resolve(result[0]);
+      });
+    });
+  });
+
+  return Promise.all(promises);
+}
+
+
+
 
   async createNewNotebook(userId) {
-    // Perform database query to fetch user by email
-    // Example using MySQL and promises
     return new Promise((resolve, reject) => {
-      const query = "Insert into notebooks(user_id) values (?)";
-      this.database.query(query, [userId], (error, result, fields) => {
-        if (error) {
-          console.error("Error querying database:", error);
-          return;
-        }
-        // Results contain the rows returned by the query
-        resolve(result); // Resolve the promise with the max_id value
-      });
-    });
-  }
-
-  async saveCells(userId, notebookId, cells) {
-    return new Promise((resolve, reject) => {
-      const values = cells.map((cell) => [
-        notebookId,
-        userId,
-        cell.prompt,
-        cell.query,
-      ]);
-      const query =
-        "INSERT INTO cells (notebook_id, user_id, prompt, query) VALUES ?";
-      this.database.query(query, [values], (error, result) => {
+      const query = "SELECT MAX(notebook_id) AS max_id FROM notebooks WHERE user_id = ?";
+      this.database.query(query, [userId], (error, result) => {
         if (error) {
           console.error("Error querying database:", error);
           reject(error);
           return;
         }
-        resolve(result);
+        const newNotebookId = (result[0].max_id || 0) + 1;
+        const insertQuery = "INSERT INTO notebooks (notebook_id, user_id) VALUES (?, ?, ?)";
+        this.database.query(insertQuery, [newNotebookId, userId], (insertError, insertResult) => {
+          if (insertError) {
+            console.error("Error inserting into database:", insertError);
+            reject(insertError);
+            return;
+          }
+          resolve(newNotebookId);
+        });
       });
     });
   }
 
-  async updateCells(userId, cells) {
-    return new Promise((resolve, reject) => {
-      const values = cells.map((cell) => ({
-        id: cell.cell_id,
-        prompt: cell.prompt,
-        query: cell.query,
-      }));
-
-      // Iterate over the values array and execute each update query
-      const promises = values.map((cell) => {
-        return new Promise((resolveUpdate, rejectUpdate) => {
-          const query = "UPDATE cells SET prompt = ?, query = ? WHERE id = ?";
-          this.database.query(
-            query,
-            [cell.prompt, cell.query, cell.id],
-            (error, result) => {
-              if (error) {
-                console.error("Error updating cell:", error);
-                rejectUpdate(error);
-                return;
-              }
-              resolveUpdate(result);
-            }
-          );
+  async updateCells(cells) {
+    const promises = cells.map(cell => {
+      return new Promise((resolve, reject) => {
+        const query = "UPDATE cells SET prompt = ?, query = ?, cellType = ?, cellValue = ?, cellDatabaseType = ?, cellDatabase = ? WHERE id = ? AND user_id = ? AND notebook_id = ?";
+        this.database.query(query, [cell.prompt, cell.query, cell.cellType, cell.cellValue, cell.cellDatabaseType, cell.cellDatabase, cell.id, cell.user_id, cell.notebook_id], (error, result) => {
+          if (error) {
+            console.error("Error updating cell:", error);
+            reject(error);
+            return;
+          }
+          resolve(result);
         });
       });
-
-      // Wait for all update queries to complete
-      Promise.all(promises)
-        .then((results) => {
-          // Resolve the main promise with the results of all update queries
-          resolve(results);
-        })
-        .catch((error) => {
-          // If any update query fails, reject the main promise with the error
-          reject(error);
-        });
     });
+
+    return Promise.all(promises);
   }
+
+//   async getNotebookById(notebookId, userId) {
+//     return new Promise((resolve, reject) => {
+//       const query = "SELECT * FROM notebooks WHERE notebook_id = ? AND user_id = ?";
+//       this.database.query(query, [notebookId, userId], (error, result) => {
+//         if (error) {
+//           console.error("Error querying database:", error);
+//           reject(error);
+//           return;
+//         }
+//         resolve(result[0]);
+//       });
+//     });
+//   }
+
+//   async getCellsByNotebookId(notebookId, userId) {
+//     return new Promise((resolve, reject) => {
+//       const query = "SELECT * FROM cells WHERE notebook_id = ? AND user_id = ?";
+//       this.database.query(query, [notebookId, userId], (error, result) => {
+//         if (error) {
+//           console.error("Error querying database:", error);
+//           reject(error);
+//           return;
+//         }
+//         resolve(result);
+//       });
+//     });
+//   }
+// }
+
+async getNotebookById(notebookId, userId) {
+  return new Promise((resolve, reject) => {
+    const query = "SELECT * FROM notebooks WHERE notebook_id = ? AND user_id = ?";
+    this.database.query(query, [notebookId, userId], (error, result) => {
+      if (error) {
+        console.error("Error querying database:", error);
+        reject(error);
+        return;
+      }
+      resolve(result[0]);
+    });
+  });
+}
+
+async getCellsByNotebookId(notebookId, userId) {
+  return new Promise((resolve, reject) => {
+    const query = "SELECT * FROM cells WHERE notebook_id = ? AND user_id = ?";
+    this.database.query(query, [notebookId, userId], (error, result) => {
+      if (error) {
+        console.error("Error querying database:", error);
+        reject(error);
+        return;
+      }
+      resolve(result);
+    });
+  });
+}
 }
 
 module.exports = NotebookDao;

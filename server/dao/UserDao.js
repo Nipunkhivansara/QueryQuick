@@ -36,7 +36,7 @@ class UserDAO {
 
         // Results contain the rows returned by the query
         console.log("Query results:", results[0]);
-        resolve(results[0]);
+        resolve(results[0].id);
       });
     });
   }
