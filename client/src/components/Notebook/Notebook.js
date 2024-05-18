@@ -261,7 +261,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
                   disableUnderline: true,
                   style: {
                     color: "#fff",
-                    fontSize: "2.125rem",
+                    fontSize: "1.9rem",
                     paddingLeft: "0px",
                   },
                 }}
@@ -274,9 +274,13 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
                 }}
               />
               <Typography
-                variant="body1"
+                variant="body10"
                 color="white"
-                sx={{ marginTop: "6px", paddingLeft: "0px" }}
+                sx={{
+                  marginTop: "6px",
+                  paddingLeft: "0px",
+                  fontSize: "1.0rem",
+                }}
               >
                 Created By: {user.name}
               </Typography>
