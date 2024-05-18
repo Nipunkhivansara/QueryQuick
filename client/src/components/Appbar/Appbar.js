@@ -31,7 +31,7 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
       >
         <Toolbar>
           <IconButton
-            sx={{ ml: "500px" }}
+            sx={{ ml: "387px" }}
             edge="start"
             color="inherit"
             aria-label="menu"
@@ -40,26 +40,36 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
             <MenuIcon />
           </IconButton>
           <Box
-            sx={{ flexGrow: 1, textAlign: "center", textTransform: "cursive" }}
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              textTransform: "cursive",
+              marginLeft: "30px", // Adjust this value to shift the box to the right
+            }}
           >
-            <Typography variant="h4">
-              QueryQuick
+            <Typography
+              variant="h4"
+              component="div"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <IconButton
                 edge="end"
                 color="inherit"
                 component={Link}
                 to="/example-url"
               >
-                <BoltSharp />
+                <BoltSharp style={{ fontSize: 40 }} />{" "}
+                {/* Custom size in pixels */}
               </IconButton>
-              <IconButton
-                edge="end"
-                color="inherit"
-                component={Link}
-                to="/another-url"
-              >
-                <BoltSharp />
-              </IconButton>
+              <Box component="span" sx={{ ml: 2 }}>
+                {" "}
+                {/* Adjust the value to control the spacing */}
+                QueryQuick
+              </Box>{" "}
             </Typography>
           </Box>
           <IconButton
