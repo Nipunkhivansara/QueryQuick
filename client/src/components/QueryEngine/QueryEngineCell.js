@@ -28,7 +28,15 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [showQuery, setShowQuery] = useState(false); // State to manage showing query after lightning icon click
+  const [isOpen, setIsOpen] = useState(false);
 
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -86,7 +94,7 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
 
   const commonStyles = {
     fontSize: "0.700rem",
-    color: "#7F848E",
+    color: "#fff",
     "& .MuiSelect-select, & .MuiInputBase-input": {
       padding: "8px 14px",
       borderRadius: "4px",
@@ -100,6 +108,27 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
       borderColor: "#1A202D",
+    },
+  };
+
+  const dropDownStyles = {
+    marginLeft: "10px",
+    "& .MuiSelect-root": {
+      backgroundColor: isOpen ? "#fff" : "#f0f0f0", // Example background color change on open
+      borderRadius: isOpen ? "4px 4px 0 0" : "4px", // Example border radius change on open
+      width: "fit-content", // Adjust width dynamically
+      minWidth: "150px", //
+      fontSize: "0.700 rem",
+      padding: "8px 14px",
+    },
+    "& .MuiListItem-root": {
+      fontSize: "14px", // Example font size
+      color: "#fff", // Example text color
+      backgroundColor: isOpen ? "#f0f0f0" : "#fff", // Example background color change on open
+      "&:hover": {
+        backgroundColor: "#e0e0e0", // Example hover background color
+      },
+      fontSize: "0.700 rem",
     },
   };
 
@@ -125,17 +154,24 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
           value={databaseType}
           onChange={handleDatabaseTypeChange}
           displayEmpty
+          open={isOpen}
+          onClose={handleClose}
+          onOpen={handleOpen}
           sx={{
             minWidth: "150px",
             ...commonStyles,
-            marginLeft: "10px",
+            ...dropDownStyles,
           }}
         >
-          <MenuItem value="" disabled>
+          <MenuItem value="" disabled sx={{ fontSize: "0.700rem" }}>
             Select Database Type
           </MenuItem>
-          <MenuItem value="MySQL">MySQL</MenuItem>
-          <MenuItem value="PostgreSQL">PostgreSQL</MenuItem>
+          <MenuItem value="MySQL" sx={{ fontSize: "0.700rem" }}>
+            MySQL
+          </MenuItem>{" "}
+          <MenuItem value="PostgreSQL" sx={{ fontSize: "0.700rem" }}>
+            PostgreSQL
+          </MenuItem>
           {/* Add more database types as needed */}
         </Select>
         <Box sx={{ marginLeft: "10px" }}>
@@ -145,14 +181,19 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
             displayEmpty
             sx={{
               ...commonStyles,
+              ...dropDownStyles,
               minWidth: "200px",
             }}
           >
-            <MenuItem value="" disabled>
+            <MenuItem value="" disabled sx={{ fontSize: "0.700rem" }}>
               Select Database Schema
             </MenuItem>
-            <MenuItem value="db1">Database 1</MenuItem>
-            <MenuItem value="db2">Database 2</MenuItem>
+            <MenuItem value="db1" sx={{ fontSize: "0.700rem" }}>
+              Database 1
+            </MenuItem>
+            <MenuItem value="db2" sx={{ fontSize: "0.700rem" }}>
+              Database 2
+            </MenuItem>
             {/* Add more databases as needed */}
           </Select>
         </Box>
