@@ -206,6 +206,8 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
           marginBottom: "10px",
           marginLeft: "10px",
         }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <Paper
           component="form"
@@ -214,30 +216,27 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
             display: "flex",
             alignItems: "center",
             width: "100%",
-            backgroundColor: "#222B3D",
+            backgroundColor: hovered ? "#1565C0" : "#222B3D",
           }}
         >
           <IconButton
             sx={{
               padding: "4px 8px", // Adjust the padding to make the button smaller
-              fontSize: "0.700rem",
-              width: "fit-content",
-              color: "#fff", // Set icon color to white
-              backgroundColor: "#222B3D", // Set initial background color to dark blue
+              fontSize: "0.200rem",
               borderRadius: "0px", // Square corners
               transition: "background-color 0.6s", // Add transition effect
-
-              "&:hover": {
-                backgroundColor: "#1565C0", // Darker shade of blue on hover
-              },
             }}
             aria-label="search"
             onClick={handleGetQuery}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
           >
             {hovered ? (
-              <FlashOnOutlinedIcon sx={{ color: "#fff" }} />
+              <FlashOnOutlinedIcon
+                sx={{
+                  color: "#fff",
+                  backgroundColor: "#1565C0", // Darker shade of blue on hover
+                  width: "100%",
+                }}
+              />
             ) : (
               <DataArrayIcon sx={{ color: "#fff" }} />
             )}
