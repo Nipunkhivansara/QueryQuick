@@ -16,8 +16,9 @@ import StarIcon from "@mui/icons-material/Star";
 import LinkIcon from "@mui/icons-material/Link";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
+import HomePage from "../../Pages/HomePage";
 
-const Sidebar = ({ open, menuBarWidth, toggleConnections }) => {
+const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome }) => {
   return (
     <div>
       <Drawer
@@ -63,14 +64,17 @@ const Sidebar = ({ open, menuBarWidth, toggleConnections }) => {
             <ListItemIcon sx={{ color: "#ffffff" }}>
               <InboxIcon />
             </ListItemIcon>
-            {open && <ListItemText primary="Inbox" sx={{ color: "#ffffff" }} />}
+            {open && (
+              <ListItemText
+                primary="Home"
+                sx={{ color: "#ffffff" }}
+                onClick={() => {
+                  toggleHome();
+                }}
+              />
+            )}
           </ListItem>
-          <ListItem button>
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <MailIcon />
-            </ListItemIcon>
-            {open && <ListItemText primary="Mail" sx={{ color: "#ffffff" }} />}
-          </ListItem>
+
           <ListItem button>
             <ListItemIcon sx={{ color: "#ffffff" }}>
               <AccountCircleIcon />
@@ -93,30 +97,9 @@ const Sidebar = ({ open, menuBarWidth, toggleConnections }) => {
               />
             )}
           </ListItem>
-          <ListItem button>
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <BookmarksIcon />
-            </ListItemIcon>
-            {open && (
-              <ListItemText primary="Bookmarks" sx={{ color: "#ffffff" }} />
-            )}
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <StarIcon />
-            </ListItemIcon>
-            {open && (
-              <ListItemText primary="Premium" sx={{ color: "#ffffff" }} />
-            )}
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon sx={{ color: "#ffffff" }}>
-              <SettingsIcon />
-            </ListItemIcon>
-            {open && (
-              <ListItemText primary="Settings" sx={{ color: "#ffffff" }} />
-            )}
-          </ListItem>
+
+          
+         
         </List>
       </Drawer>
     </div>
