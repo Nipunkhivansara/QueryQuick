@@ -6,9 +6,14 @@ import Landing from './components/Landing/Landing';
 import Help from './components/Help/Help';
 import Notebook from './components/Notebook/Notebook';
 import './App.css';
+import HomePage from './Pages/HomePage';
+import Appbar from './components/Appbar/Appbar';
+import Sidebar from './components/Sidebar/Sidebar';
 
 const miniDrawerWidth = 60;
 const maxDrawerWidth = 240;
+
+
 
 const App = () => {
   const { isAuthenticated, isLoading, user, logout } = useAuth0();
@@ -30,13 +35,21 @@ const App = () => {
             path="/"
             element={
               isAuthenticated ? (
+                
                 <Dashboard
-                  open={open}
-                  user={user}
-                  logout={logout}
-                  handleDrawerToggle={handleDrawerToggle}
-                  menuBarWidth={menuBarWidth}
-                />
+                   open={open}
+                   user={user}
+                   logout={logout}
+                   handleDrawerToggle={handleDrawerToggle}
+                    menuBarWidth={menuBarWidth}
+                 />
+                // <HomePage 
+                //   open={open}
+                //   user={user}
+                //   logout={logout}
+                //   handleDrawerToggle={handleDrawerToggle}
+                //   menuBarWidth={menuBarWidth}
+                // />
               ) : (
                 <Landing />
               )

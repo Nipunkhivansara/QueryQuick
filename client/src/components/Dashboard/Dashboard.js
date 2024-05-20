@@ -8,6 +8,7 @@ import Connection from "../Connections/Connections";
 import SiteInfo from "../SiteInfo/SiteInfo";
 import Home from "../Home/Home";
 import { useState } from "react";
+import HomePage from "../../Pages/HomePage";
 
 // c
 const Dashboard = ({
@@ -20,9 +21,33 @@ const Dashboard = ({
   console.log(user);
 
   const [connections, setConnections] = useState(false);
+  const [Home, setHome] = useState(false);
 
   const toggleConnections = () => {
     setConnections(!connections);
+    setHome(false);
+  };
+
+  const toggleHome = () => {
+    setHome(!Home);
+    setConnections(false);
+  }
+
+  const renderComponent = () => {
+    switch (true) {
+      case connections:
+        return <Connection />;
+      case Home:
+        return <HomePage />;
+      default:
+        return (
+          <>
+            <Performance />
+            <NewNotebook />
+            <SiteInfo open={open} />
+          </>
+        );
+    }
   };
 
   // console.log(connections);
@@ -41,6 +66,7 @@ const Dashboard = ({
           menuBarWidth={menuBarWidth}
           logout={logout}
           user={user}
+          toggleHome={toggleHome}
           toggleConnections={toggleConnections}
         />
         <Box
@@ -52,7 +78,8 @@ const Dashboard = ({
             bgcolor: "#222B3D",
           }}
         >
-          {connections ? (
+          {renderComponent()}
+          {/* {connections ? (
             <Connection />
           ) : (
             <>
@@ -60,7 +87,7 @@ const Dashboard = ({
               <NewNotebook />
               <SiteInfo open={open} />
             </>
-          )}
+          )} */}
         </Box>
       </Box>
     </div>
