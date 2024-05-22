@@ -19,10 +19,10 @@ class NotebookDao {
   }
 
   async saveNotebook(notebookData, user_id) {
-    const { notebook_id } = notebookData;
+    const { notebook_id, name } = notebookData;
 
     return new Promise((resolve, reject) => {
-      const query = `INSERT INTO notebooks (notebook_id, user_id) VALUES (${notebook_id}, ${user_id}) ON DUPLICATE KEY UPDATE notebook_id=VALUES(notebook_id)`;
+      const query = `INSERT INTO notebooks (notebook_id, user_id, name) VALUES ('${notebook_id}', ${user_id}, '${name}') ON DUPLICATE KEY UPDATE notebook_id=VALUES(notebook_id)`;
       console.log("query", query);
       this.database.query(query, (error, result) => {
         if (error) {
@@ -81,7 +81,7 @@ class NotebookDao {
     return Promise.all(promises);
   }
 
-  async createNewNotebook(userId) {
+  async createNewNotebook(userId, name) {
     return new Promise((resolve, reject) => {
       const query =
         "SELECT MAX(notebook_id) AS max_id FROM notebooks WHERE user_id = ?";
@@ -93,10 +93,10 @@ class NotebookDao {
         }
         const newNotebookId = (result[0].max_id || 0) + 1;
         const insertQuery =
-          "INSERT INTO notebooks (notebook_id, user_id) VALUES (?, ?, ?)";
+          "INSERT INTO notebooks (notebook_id, user_id, name) VALUES (?, ?, ?)";
         this.database.query(
           insertQuery,
-          [newNotebookId, userId],
+          [newNotebookId, userId, name],
           (insertError, insertResult) => {
             if (insertError) {
               console.error("Error inserting into database:", insertError);

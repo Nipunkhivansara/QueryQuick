@@ -35,7 +35,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
     const fetchNotebook = async () => {
       try {
         const response = await axios.get(`http://localhost:5000/getNotebook`, {
-          params: { notebook_id: 1, user_id: 1 },
+          params: { notebook_id: notebook_id, email: user.email },
         });
         const { notebook, cells } = response.data;
         setTitle(notebook.title || "Default Title");
@@ -115,8 +115,8 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
   const handleSave = async () => {
     const notebookData = {
       notebook_id,
+      name: title,
       user_id: user.email,
-      title,
       cells,
     };
 
