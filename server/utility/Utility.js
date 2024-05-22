@@ -13,12 +13,10 @@ async function getTransformedData(allUsersLinkedToNotebooks) {
     }
 
     // Push the username to the respective notebook_id
-    transformedData[item.notebook_id].associated_users.push([
-      {
-        username: item.username,
-        profile: item.profile,
-      },
-    ]);
+    transformedData[item.notebook_id].associated_users.push({
+      username: item.username,
+      profile: item.profile,
+    });
   });
 
   // Convert transformedData object into the desired array format
