@@ -6,14 +6,15 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Grid } from '@mui/material';
 import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
 import CardContent from '@mui/material/CardContent';
-import { flexbox, fontWeight } from '@mui/system';
 import CardActionArea from '@mui/material/CardActionArea';
 import { grey } from '@mui/material/colors';
-import Divider from '@mui/material/Divider';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
+import { Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { styled } from '@mui/system';
+
+
 
 
 function TabPanel(props) {
@@ -51,25 +52,23 @@ function a11yProps(index) {
 
 const HomePage = ({ user }) => {
 
-  const [notebooks, setNotebooks] = useState(null);
+  const [notebooks, setNotebooks] = useState([]);
 
   useEffect(() => {
     const fetchNotebooks = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/getNotebooks', {
+        const response = await axios.get('http://localhost:5000/getNotebooksById', {
           params: {
             email: user.email
           }
         });
         setNotebooks(response.data);
-        console.log('Notebooks:', notebooks);
       } catch (error) {
         console.error('Failed to fetch notebooks:', error);
       }
     };
-
     fetchNotebooks();
-  }, [user.email]);
+  }, []);
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -147,6 +146,33 @@ const HomePage = ({ user }) => {
           <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
             <CardContent>
               <h2>Notebooks</h2>
+              <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
+                <Table stickyHeader aria-label="notebook table">
+                  <TableHead>
+                    <TableRow >
+                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }} >NotebookId</TableCell>
+                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }} >Notebook Name</TableCell>
+                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }} >Users</TableCell>
+                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }} >Last Modifed</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {notebooks?.map((row) => (
+                      <TableRow key={row.notebookId}>
+                        <TableCell sx={{ backgroundColor: '#212B3C', color: '#fff', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>{row.notebookId}</TableCell>
+                        <TableCell sx={{ backgroundColor: '#212B3C', color: '#fff', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>{row.notebookName}</TableCell>
+                        <TableCell sx={{ backgroundColor: '#212B3C', display: 'flex', flexDirection: 'row', justifyContent: 'center', height: '100%' }}>
+  {row.users.map((user) => (
+    <Avatar key={user.email} alt={user.email} src={user.picture} sx={{ margin: '5px' }} />
+  ))}
+</TableCell>
+
+                        <TableCell sx={{ backgroundColor: '#212B3C', color: '#fff', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>12/12/2021</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </CardContent>
           </Card>
         </Grid>
