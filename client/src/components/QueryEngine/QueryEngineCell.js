@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -19,11 +19,16 @@ import {
   PlayArrow as PlayArrowIcon,
 } from "@mui/icons-material";
 
-const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
-  const [databaseType, setDatabaseType] = useState("");
-  const [database, setDatabase] = useState("");
-  const [prompt, setPrompt] = useState("");
-  const [query, setQuery] = useState("");
+const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, userInput, userQuery }) => {
+  console.log("QueryEngineCell -> dType", dType);
+  console.log("QueryEngineCell -> db", db);
+  console.log("QueryEngineCell -> userInput", userInput);
+  console.log("QueryEngineCell -> userQuery", userQuery);
+
+  const [cellDatabaseType, setCellDatabaseType] = useState(dType);
+  const [cellDatabase, setCellDatabase] = useState(db);
+  const [prompt, setPrompt] = useState(userInput);
+  const [query, setQuery] = useState(userQuery);
   const [tab, setTab] = useState("table");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
@@ -37,6 +42,7 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
   const handleClose = () => {
     setIsOpen(false);
   };
+
   const [hovered, setHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -48,13 +54,13 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
   };
 
   const handleDatabaseTypeChange = (event) => {
-    setDatabaseType(event.target.value);
-    onQueryEngineChange(index, "databaseType", event.target.value);
+    setCellDatabaseType(event.target.value);
+    onQueryEngineChange(index, "cellDatabaseType", event.target.value);
   };
 
   const handleDatabaseChange = (event) => {
-    setDatabase(event.target.value);
-    onQueryEngineChange(index, "database", event.target.value);
+    setCellDatabase(event.target.value);
+    onQueryEngineChange(index, "cellDatabase", event.target.value);
   };
 
   const handlePromptChange = (event) => {
@@ -122,7 +128,6 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
       padding: "8px 14px",
     },
     "& .MuiListItem-root": {
-      fontSize: "14px", // Example font size
       color: "#fff", // Example text color
       backgroundColor: isOpen ? "#f0f0f0" : "#fff", // Example background color change on open
       "&:hover": {
@@ -151,7 +156,7 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
     >
       <Box sx={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
         <Select
-          value={databaseType}
+          value={cellDatabaseType}
           onChange={handleDatabaseTypeChange}
           displayEmpty
           open={isOpen}
@@ -176,7 +181,7 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
         </Select>
         <Box sx={{ marginLeft: "10px" }}>
           <Select
-            value={database}
+            value={cellDatabase}
             onChange={handleDatabaseChange}
             displayEmpty
             sx={{
@@ -305,7 +310,6 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
               variant: "contained",
               color: "primary",
               padding: "4px 8px", // Adjust the padding to make the button smaller
-              fontSize: "0.875rem",
               width: "fit-content",
               marginLeft: "10px",
               fontSize: "0.700rem",
@@ -388,3 +392,4 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange }) => {
 };
 
 export default QueryEngineCell;
+

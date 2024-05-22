@@ -29,7 +29,7 @@ router.get("/notebooks", async (req, res) => {
 });
 
 router.get("/notebooks/ids", async (req, res) => {
-  /* This is how I want the data format to be sent from this function
+  // This is how I want the data format to be sent from this function
   await res.status(200).json([
     {
       "notebook_id": "1",
@@ -41,8 +41,8 @@ router.get("/notebooks/ids", async (req, res) => {
         }
       ]
     }
-  ]); */
-  try {
+  ]);
+  /* try {
     // Get database connection from pool
     // Pass connection to getUserByEmail method
     const db = await getConnectionFromPool();
@@ -59,7 +59,7 @@ router.get("/notebooks/ids", async (req, res) => {
   } catch (error) {
     console.error("Error fetching user:", error);
     res.status(500).json({ error: "An error occurred while fetching user." });
-  }
+  } */
 });
 
 async function getUser(userDAO, req) {

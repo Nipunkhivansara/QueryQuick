@@ -130,8 +130,8 @@ async saveCell(notebookData, user_id) {
 
 async getNotebookById(notebookId, userId) {
   return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM notebooks WHERE notebook_id = ? AND user_id = ?";
-    this.database.query(query, [notebookId, userId], (error, result) => {
+    const query = `SELECT * FROM notebooks WHERE notebook_id = ${notebookId} AND user_id = ${userId};`;
+    this.database.query(query, (error, result) => {
       if (error) {
         console.error("Error querying database:", error);
         reject(error);
