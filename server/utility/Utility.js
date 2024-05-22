@@ -24,7 +24,7 @@ async function getTransformedData(allUsersLinkedToNotebooks) {
   // Convert transformedData object into the desired array format
   let result = Object.values(transformedData).map((item) => ({
     notebook_id: item.notebook_id,
-    notebook_name: item.name,
+    notebook_name: item.notebook_name,
     associated_users: item.associated_users,
   }));
 
