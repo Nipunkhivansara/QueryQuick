@@ -1,21 +1,19 @@
-import React, { useState } from 'react';
-import { useAuth0 } from '@auth0/auth0-react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './components/Dashboard/Dashboard';
-import Landing from './components/Landing/Landing';
-import Help from './components/Help/Help';
-import Notebook from './components/Notebook/Notebook';
-import './App.css';
+import React, { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Dashboard from "./components/Dashboard/Dashboard";
+import Landing from "./components/Landing/Landing";
+import Help from "./components/Help/Help";
+import Notebook from "./components/Notebook/Notebook";
+import "./App.css";
 
 const miniDrawerWidth = 60;
 const maxDrawerWidth = 240;
 
-
-
 const App = () => {
   const { isAuthenticated, isLoading, user, logout } = useAuth0();
-  const [open, setOpen] = useState(false);
-  const [menuBarWidth, setMenuBarWidth] = useState(miniDrawerWidth);
+  const [open, setOpen] = useState(true);
+  const [menuBarWidth, setMenuBarWidth] = useState(maxDrawerWidth);
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -32,7 +30,6 @@ const App = () => {
             path="/"
             element={
               isAuthenticated ? (
-
                 <Dashboard
                   open={open}
                   user={user}
@@ -40,14 +37,14 @@ const App = () => {
                   handleDrawerToggle={handleDrawerToggle}
                   menuBarWidth={menuBarWidth}
                 />
-                // <HomePage 
+              ) : (
+                // <HomePage
                 //   open={open}
                 //   user={user}
                 //   logout={logout}
                 //   handleDrawerToggle={handleDrawerToggle}
                 //   menuBarWidth={menuBarWidth}
                 // />
-              ) : (
                 <Landing />
               )
             }
@@ -58,22 +55,27 @@ const App = () => {
           />
           <Route
             path="/notebook/:notebook_name/:notebook_id" // Define dynamic route with parameter notebook_id
-            element={<Notebook
-              open={open}
-              handleDrawerToggle={handleDrawerToggle}
-              user={user}
-              menuBarWidth={menuBarWidth}
-              logout={logout} />} // Render Notebook component
+            element={
+              <Notebook
+                open={open}
+                handleDrawerToggle={handleDrawerToggle}
+                user={user}
+                menuBarWidth={menuBarWidth}
+                logout={logout}
+              />
+            } // Render Notebook component
           />
           <Route
             path="/profile" // Define dynamic route with parameter notebook_id
-            element={<Dashboard
-              open={open}
-              user={user}
-              logout={logout}
-              handleDrawerToggle={handleDrawerToggle}
-              menuBarWidth={menuBarWidth}
-            />} // Render Notebook component
+            element={
+              <Dashboard
+                open={open}
+                user={user}
+                logout={logout}
+                handleDrawerToggle={handleDrawerToggle}
+                menuBarWidth={menuBarWidth}
+              />
+            } // Render Notebook component
           />
         </Routes>
       </div>
