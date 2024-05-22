@@ -174,8 +174,10 @@ class NotebookDao {
 
   async getNotebookById(notebookId, userId) {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM notebooks WHERE notebook_id = ${notebookId} AND user_id = ${userId};`;
-      this.database.query(query, (error, result) => {
+      const query = `SELECT * FROM notebooks WHERE notebook_id = ? AND user_id = ?`;
+      const values = [notebookId, userId];
+      
+      this.database.query(query, values, (error, result) => {
         if (error) {
           console.error("Error querying database:", error);
           reject(error);
@@ -185,11 +187,13 @@ class NotebookDao {
       });
     });
   }
+  
 
   async getCellsByNotebookId(notebookId, userId) {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM cells WHERE notebook_id = ${notebookId} AND user_id = ${userId};`;
-      this.database.query(query, (error, result) => {
+      const query = `SELECT * FROM cells WHERE notebook_id = ? AND user_id = ?;`;
+      const values = [notebookId, userId];
+      this.database.query(query, values, (error, result) => {
         if (error) {
           console.error("Error querying database:", error);
           reject(error);
