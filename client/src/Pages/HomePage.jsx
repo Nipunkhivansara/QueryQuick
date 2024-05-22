@@ -125,7 +125,7 @@ const HomePage = ({ user }) => {
   useEffect(() => {
     const fetchNotebooks = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/getNotebooksById', {
+        const response = await axios.get('http://localhost:5000/notebooks/ids', {
           params: {
             email: user.email
           }
@@ -256,11 +256,11 @@ const HomePage = ({ user }) => {
                   <TableBody>
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
-                        <TableCell sx={{ backgroundColor: '#212B3C', color: '#fff', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>{row.notebookId}</TableCell>
-                        <TableCell sx={{ backgroundColor: '#212B3C', color: '#fff', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>{row.notebookName}</TableCell>
+                        <TableCell sx={{ backgroundColor: '#212B3C', color: '#fff', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>{row.notebook_id}</TableCell>
+                        <TableCell sx={{ backgroundColor: '#212B3C', color: '#fff', alignContent: 'center', alignItems: 'center', textAlign: 'center' }}>{row.notebook_name}</TableCell>
                         <TableCell sx={{ backgroundColor: '#212B3C', display: 'flex', flexDirection: 'row', justifyContent: 'center', height: '100%' }}>
-  {row.users.map((user) => (
-    <Avatar key={user.email} alt={user.email} src={user.picture} sx={{ margin: '5px' }} />
+  {row.associated_users.map((user) => (
+    <Avatar key={user.username} alt={user.username} src={user.profile} sx={{ margin: '5px' }} />
   ))}
 </TableCell>
 

@@ -29,6 +29,19 @@ router.get("/notebooks", async (req, res) => {
 });
 
 router.get("/notebooks/ids", async (req, res) => {
+  /* This is how I want the data format to be sent from this function
+  await res.status(200).json([
+    {
+      "notebook_id": "1",
+      "notebook_name": "Notebook 1",
+      "associated_users": [
+        {
+          "username": "superdataman00@gmail.com",
+          "profile": "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+        }
+      ]
+    }
+  ]); */
   try {
     // Get database connection from pool
     // Pass connection to getUserByEmail method
