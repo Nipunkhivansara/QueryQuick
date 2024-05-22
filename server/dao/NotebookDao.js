@@ -21,8 +21,9 @@ class NotebookDao {
     const { notebook_id } = notebookData;
 
     return new Promise((resolve, reject) => {
-      const query = "INSERT INTO notebooks (notebook_id, user_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE notebook_id=VALUES(notebook_id)";
-      this.database.query(query, [notebook_id, user_id], (error, result) => {
+      const query = `INSERT INTO notebooks (notebook_id, user_id) VALUES (${notebook_id}, ${user_id}) ON DUPLICATE KEY UPDATE notebook_id=VALUES(notebook_id)`;
+      console.log("query", query);
+      this.database.query(query, (error, result) => {
         if (error) {
           console.error("Error querying database:", error);
           reject(error);
@@ -130,8 +131,8 @@ async saveCell(notebookData, user_id) {
 
 async getNotebookById(notebookId, userId) {
   return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM notebooks WHERE notebook_id = ? AND user_id = ?";
-    this.database.query(query, [notebookId, userId], (error, result) => {
+    const query = `SELECT * FROM notebooks WHERE notebook_id = ${notebookId} AND user_id = ${userId};`;
+    this.database.query(query, (error, result) => {
       if (error) {
         console.error("Error querying database:", error);
         reject(error);
@@ -144,8 +145,8 @@ async getNotebookById(notebookId, userId) {
 
 async getCellsByNotebookId(notebookId, userId) {
   return new Promise((resolve, reject) => {
-    const query = "SELECT * FROM cells WHERE notebook_id = ? AND user_id = ?";
-    this.database.query(query, [notebookId, userId], (error, result) => {
+    const query = `SELECT * FROM cells WHERE notebook_id = ${notebookId} AND user_id = ${userId};`;
+    this.database.query(query, (error, result) => {
       if (error) {
         console.error("Error querying database:", error);
         reject(error);

@@ -15,92 +15,9 @@ import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import Sidebar from "../Sidebar/Sidebar";
 import Appbar from "../Appbar/Appbar";
 import QueryEngineCell from "../QueryEngine/QueryEngineCell";
+import Cell from "../Cell/Cell";
 
-// CSS for the different cell types
-const styles = {
-  textBlock: {
-    display: "flex",
-    alignItems: "center",
-    color: "#fff",
-    padding: "8px 0", // Adjust padding as needed
-  },
-  heading1: {
-    fontSize: "2em",
-    fontWeight: "bold",
-    display: "flex",
-    alignItems: "center",
-    color: "#fff",
-    padding: "8px 0", // Adjust padding as needed
-  },
-  heading2: {
-    fontSize: "1.5em",
-    fontWeight: "bold",
-    display: "flex",
-    alignItems: "center",
-    color: "#fff",
-    padding: "8px 0", // Adjust padding as needed
-  },
-  heading3: {
-    fontSize: "1.17em",
-    fontWeight: "bold",
-    display: "flex",
-    alignItems: "center",
-    color: "#fff",
-    padding: "8px 0", // Adjust padding as needed
-  },
-  info: {
-    display: "flex",
-    alignItems: "center",
-    padding: "8px 0", // Adjust padding as needed
-    backgroundColor: "#e7f3fe",
-    borderLeft: "4px solid #2196F3",
-  },
-  horizontalDivider: {
-    borderTop: "1px solid #ddd",
-    margin: "8px 0",
-  },
-};
 
-const Cell = ({ type, value, onChange, onDelete, handleMenuOpen }) => {
-  const inputProps = {
-    disableUnderline: true,
-    style: { ...styles[type], paddingLeft: "0px" },
-  };
-
-  return (
-    <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
-      <IconButton onClick={handleMenuOpen}>
-        <AddIcon style={{ color: "#fff" }} />
-      </IconButton>
-      <IconButton onClick={onDelete}>
-        <DeleteIcon style={{ color: "#fff", fontSize: 16 }} />
-      </IconButton>
-      {type === "horizontalDivider" ? (
-        <Divider style={styles.horizontalDivider} />
-      ) : (
-        <TextField
-          fullWidth
-          multiline={type === "textBlock" || type === "info"}
-          variant="standard"
-          value={value}
-          onChange={onChange}
-          InputProps={inputProps}
-          sx={{
-            "& .MuiInputBase-input": {
-              color: type === "info" ? "#000" : "#fff",
-              padding: 0, // Remove padding for alignment
-            },
-            "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                border: "none",
-              },
-            },
-          }}
-        />
-      )}
-    </Box>
-  );
-};
 
 const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
   const { notebook_name, notebook_id } = useParams();
@@ -109,19 +26,19 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
   const [title, setTitle] = useState(notebook_name);
   const nextCellID = useRef(1);
 
-  const [databaseType, setDatabaseType] = useState("");
-  const [database, setDatabase] = useState("");
+  const [cellDatabaseType, setCellDatabaseType] = useState("");
+  const [celldatabase, setCellDatabase] = useState("");
   const [prompt, setPrompt] = useState("");
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     const fetchNotebook = async () => {
       try {
-        const response = await axios.get(`/getNotebook`, {
-          params: { user_id: user.user_id, notebook_id: notebook_id },
+        const response = await axios.get(`http://localhost:5000/getNotebook`, {
+          params: { notebook_id: 1, user_id: 1 },
         });
         const { notebook, cells } = response.data;
-        setTitle(notebook.title);
+        setTitle(notebook.title || "Default Title");
         setCells(cells);
       } catch (error) {
         console.error("Error fetching notebook:", error);
@@ -143,11 +60,13 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
     setCells([
       ...cells,
       {
-        cellId: nextCellID.current,
-        type,
-        value: "",
-        database: "",
-        databaseType: "",
+        id: nextCellID.current,
+        notebook_id: notebook_id,
+        user_id: 1, // TO be changed
+        cellType: type,
+        cellValue: "",
+        cellDatabase: "",
+        cellDatabaseType: "",
         prompt: "",
         query: "",
       },
@@ -158,19 +77,19 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
 
   const updateCell = (index, value) => {
     const newCells = [...cells];
-    newCells[index].value = value;
+    newCells[index].cellValue = value;
     setCells(newCells);
   };
 
   const onQueryEngineChange = (index, prop, val) => {
     const newCells = [...cells];
-    if (prop === "databaseType") {
-      setDatabaseType(val);
-      newCells[index].databaseType = val;
+    if (prop === "cellDatabaseType") {
+      setCellDatabaseType(val);
+      newCells[index].cellDatabaseType = val;
     }
-    if (prop === "database") {
-      setDatabase(val);
-      newCells[index].database = val;
+    if (prop === "cellDatabase") {
+      setCellDatabase(val);
+      newCells[index].cellDatabase = val;
     }
     if (prop === "prompt") {
       setPrompt(val);
@@ -189,7 +108,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
     setCells(newCells);
   };
 
-  const handleChange = (event) => {
+  const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
 
@@ -253,7 +172,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             <Box sx={{ flex: 1 }}>
               <TextField
                 value={title}
-                onChange={handleChange}
+                onChange={handleTitleChange}
                 fullWidth
                 InputProps={{
                   disableUnderline: true,
@@ -299,6 +218,10 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             </Button>
           </Box>
 
+          <div style={{color:'#fff'}}>
+            {JSON.stringify(cells)}
+          </div>
+
           <Box sx={{ width: "100%", paddingLeft: "0px", marginTop: "16px" }}>
             <IconButton onClick={handleMenuOpen}>
               <AddIcon style={{ color: "#fff" }} />
@@ -307,13 +230,13 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
 
           <Box>
             {cells.map((cell, index) =>
-              cell.type === "queryEngine" ? (
+              cell.cellType === "queryEngine" ? (
                 <QueryEngineCell
                   key={index}
-                  // databaseType={cell.databaseType}
-                  // database={cell.database}
-                  // prompt={cell.prompt}
-                  // query={cell.query}
+                  dType={cell.cellDatabaseType}
+                  db={cell.cellDatabase}
+                  userInput={cell.prompt}
+                  userQuery={cell.query}
                   onQueryEngineChange={onQueryEngineChange}
                   index={index}
                   onDelete={() => deleteCell(index)}
@@ -321,8 +244,8 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
               ) : (
                 <Cell
                   key={index}
-                  type={cell.type}
-                  value={cell.value}
+                  type={cell.cellType}
+                  value={cell.cellValue}
                   onChange={(e) => updateCell(index, e.target.value)}
                   onDelete={() => deleteCell(index)}
                   handleMenuOpen={handleMenuOpen}

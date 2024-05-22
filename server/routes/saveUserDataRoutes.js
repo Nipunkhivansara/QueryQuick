@@ -17,6 +17,7 @@ router.post('/saveNotebook', async (req, res) => {
     console.log("received save notebook call" + notebookData);
     const userDAO = new UserDAO(db);
     const user_id = await userDAO.getUserIdByEmail(req.body.user_id);
+    console.log("user_id", user_id);
     if (user_id == null) {
       throw new Error("User does not exist");
     }
@@ -32,9 +33,9 @@ router.post('/saveNotebook', async (req, res) => {
 });
 
 router.get('/getNotebook', async (req, res) => {
-  console.log("received reqqqq")
-  const { notebook_id } = req.params.notebook_id;
-  const user_id = req.params.user_id;
+  console.log("received reqqqq");
+  const notebook_id = req.query.notebook_id;
+  const user_id = req.query.user_id;
 
   try {
       const db = await getConnectionFromPool();
@@ -43,10 +44,11 @@ router.get('/getNotebook', async (req, res) => {
 
       // Fetch notebook
       const notebook = await notebookDao.getNotebookById(notebook_id, user_id);
-
+      console.log(notebook);
+      
       // Fetch cells associated with the notebook
       const cells = await notebookDao.getCellsByNotebookId(notebook_id, user_id);
-
+      console.log(cells);
       // Release database connection back to the pool
       await releaseConnectionToPool(db);
 
