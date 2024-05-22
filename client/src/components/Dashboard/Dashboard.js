@@ -2,12 +2,10 @@ import React from "react";
 import { Box } from "@mui/material";
 import Sidebar from "../Sidebar/Sidebar";
 import Appbar from "../Appbar/Appbar";
-import Performance from "../Performance/Performance";
-import NewNotebook from "../NewNotebook/NewNotebook";
 import Connection from "../Connections/Connections";
-import SiteInfo from "../SiteInfo/SiteInfo";
-import Home from "../Home/Home";
 import { useState } from "react";
+import HomePage from "../../Pages/HomePage";
+import Profile from "../Profile/Profile";
 
 // c
 const Dashboard = ({
@@ -17,12 +15,47 @@ const Dashboard = ({
   handleDrawerToggle,
   menuBarWidth,
 }) => {
-  console.log(user);
 
+  const [Home, setHome] = useState(true);
   const [connections, setConnections] = useState(false);
+  const [profile, setProfile] = useState(false);
 
   const toggleConnections = () => {
-    setConnections(!connections);
+    setConnections(true);
+    setHome(false);
+    setProfile(false);
+  };
+
+  const toggleHome = () => {
+    setHome(true);
+    setConnections(false);
+    setProfile(false);
+  }
+
+  const toggleProfile = () => {
+    setProfile(true);
+    setHome(false);
+    setConnections(false);
+  }
+
+  const renderComponent = () => {
+    switch (true) {
+      case connections:
+        return <Connection />;
+      case Home:
+        return <HomePage user={user} />;
+      case profile:
+        return <Profile open={open} />;
+      default:
+        return (
+          <>
+           {/*  <Performance />
+            { <NewNotebook /> }
+            <SiteInfo open={open} /> */}
+            <div>Nothing</div>
+          </>
+        );
+    }
   };
 
   // console.log(connections);
@@ -41,18 +74,21 @@ const Dashboard = ({
           menuBarWidth={menuBarWidth}
           logout={logout}
           user={user}
+          toggleHome={toggleHome}
           toggleConnections={toggleConnections}
+          toggleProfile={toggleProfile}
         />
         <Box
           sx={{
             marginLeft: "-50px",
             marginTop: "60px",
-            width: `${1930 - menuBarWidth}px`,
-            height: "94.4vh",
+            minWidth: `${1930 - menuBarWidth}px`,
+            minHeight: "94.4vh",
             bgcolor: "#222B3D",
           }}
         >
-          {connections ? (
+          {renderComponent()}
+          {/* {connections ? (
             <Connection />
           ) : (
             <>
@@ -60,7 +96,7 @@ const Dashboard = ({
               <NewNotebook />
               <SiteInfo open={open} />
             </>
-          )}
+          )} */}
         </Box>
       </Box>
     </div>
