@@ -78,7 +78,7 @@ const HomePage = ({ user }) => {
     const notebookData = {
       notebook_id: uniqueId,
       user_id: user.email,
-      title: notebookName,
+      name: notebookName,
       cells: []
     };
 

@@ -40,6 +40,7 @@ router.get("/getNotebook", async (req, res) => {
     const email = req.query.email;
     const db = await getConnectionFromPool();
     const userDAO = new UserDAO(db);
+    console.log(email);
     const user_id = await userDAO.getUserIdByEmail(email);
     console.log("user_id", user_id);
     if (user_id == null) {
