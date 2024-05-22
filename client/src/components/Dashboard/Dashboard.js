@@ -15,7 +15,6 @@ const Dashboard = ({
   handleDrawerToggle,
   menuBarWidth,
 }) => {
-  console.log(user);
 
   const [Home, setHome] = useState(true);
   const [connections, setConnections] = useState(false);
@@ -44,7 +43,7 @@ const Dashboard = ({
       case connections:
         return <Connection />;
       case Home:
-        return <HomePage />;
+        return <HomePage user={user} />;
       case profile:
         return <Profile open={open} />;
       default:
