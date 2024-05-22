@@ -103,10 +103,10 @@ const Cell = ({ type, value, onChange, onDelete, handleMenuOpen }) => {
 };
 
 const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
-  const { notebook_id } = useParams();
+  const { notebook_name, notebook_id } = useParams();
   const [cells, setCells] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [title, setTitle] = useState("Notebook Title");
+  const [title, setTitle] = useState(notebook_name);
   const nextCellID = useRef(1);
 
   const [databaseType, setDatabaseType] = useState("");
