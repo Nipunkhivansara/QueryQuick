@@ -18,6 +18,7 @@ import {
   Delete as DeleteIcon,
   PlayArrow as PlayArrowIcon,
 } from "@mui/icons-material";
+import Grid from '../Grid/Grid';
 
 const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, userInput, userQuery }) => {
   console.log("QueryEngineCell -> dType", dType);
@@ -348,6 +349,7 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
               <Typography variant="h6">
                 Table will be rendered here...
               </Typography>
+              <Grid />
             </Box>
           )}
           {tab === "charts" && (
