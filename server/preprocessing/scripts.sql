@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS notebooks (
-    notebook_id INT,
+    notebook_id VARCHAR(255),
     user_id INT,
     name VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_id, notebook_id),
@@ -30,7 +30,7 @@ CREATE INDEX notebook_id ON notebooks(notebook_id);
 
 CREATE TABLE IF NOT EXISTS cells (
     id INT AUTO_INCREMENT,
-    notebook_id INT,
+    notebook_id VARCHAR(255),
     user_id INT,
     prompt TEXT,
     query TEXT,
