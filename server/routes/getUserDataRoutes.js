@@ -13,6 +13,7 @@ router.get("/notebooks", async (req, res) => {
   try {
     // Get database connection from pool
     // Pass connection to getUserByEmail method
+    console.log("request received to get noteboook data");
     const db = await getConnectionFromPool();
     const userDAO = new UserDAO(db);
     const user = await getUser(userDAO, req);
