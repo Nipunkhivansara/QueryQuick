@@ -19,6 +19,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
+import ConnectionComponent from './ConnectionComponent';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -140,12 +141,13 @@ const HomePage = ({ user }) => {
     <>
       <Box
         sx={{
-          flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224,
+          flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 350,
           alignItems: 'center',
           marginTop: 10,
           marginLeft: 10,
           marginRight: 10,
-          boxShadow: 3
+          boxShadow: 3,
+          overflow: 'hidden'
         }}
       >
         <Tabs
@@ -161,7 +163,7 @@ const HomePage = ({ user }) => {
           <Tab label="Item Three" {...a11yProps(2)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          Item One
+          <ConnectionComponent />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
