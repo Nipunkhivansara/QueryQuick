@@ -9,16 +9,11 @@ import {
 } from "@mui/material";
 import BoltSharpIcon from "@mui/icons-material/BoltSharp";
 import InboxIcon from "@mui/icons-material/Inbox";
-import MailIcon from "@mui/icons-material/Mail";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import StarIcon from "@mui/icons-material/Star";
 import LinkIcon from "@mui/icons-material/Link";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
-import HomePage from "../../Pages/HomePage";
 
-const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome }) => {
+const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome, toggleProfile }) => {
   return (
     <div>
       <Drawer
@@ -42,9 +37,9 @@ const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome }) => {
             color: "#ffffff",
           },
           "& .MuiListItem-root:hover .MuiListItemIcon-root, & .MuiListItem-root:hover .MuiListItemText-root":
-            {
-              color: "#8059F4",
-            },
+          {
+            color: "#8059F4",
+          },
         }}
       >
         <List>
@@ -60,7 +55,9 @@ const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome }) => {
           </ListItem>
         </List>
         <List>
-          <ListItem button>
+          <ListItem button onClick={() => {
+            toggleHome();
+          }}>
             <ListItemIcon sx={{ color: "#ffffff" }}>
               <InboxIcon />
             </ListItemIcon>
@@ -68,14 +65,12 @@ const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome }) => {
               <ListItemText
                 primary="Home"
                 sx={{ color: "#ffffff" }}
-                onClick={() => {
-                  toggleHome();
-                }}
+
               />
             )}
           </ListItem>
 
-          <ListItem button>
+          <ListItem button onClick={() => { toggleProfile(); }} >
             <ListItemIcon sx={{ color: "#ffffff" }}>
               <AccountCircleIcon />
             </ListItemIcon>
@@ -83,7 +78,9 @@ const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome }) => {
               <ListItemText primary="Profile" sx={{ color: "#ffffff" }} />
             )}
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={() => {
+            toggleConnections();
+          }}>
             <ListItemIcon sx={{ color: "#ffffff" }}>
               <LinkIcon />
             </ListItemIcon>
@@ -91,15 +88,9 @@ const Sidebar = ({ open, menuBarWidth, toggleConnections, toggleHome }) => {
               <ListItemText
                 primary="Connections"
                 sx={{ color: "#ffffff" }}
-                onClick={() => {
-                  toggleConnections();
-                }}
               />
             )}
           </ListItem>
-
-          
-         
         </List>
       </Drawer>
     </div>
