@@ -41,6 +41,26 @@ class UserDAO {
     });
   }
 
+  async getUsersFromNotebookId(notebook_ids) {
+    // Perform database query to fetch user by email
+    // Example using MySQL and promises
+    console.log(notebook_ids);
+    const query =
+      "SELECT us.id,us.username,us.profile, nb.notebook_id, nb.name FROM users us join notebooks nb on nb.user_id = us.id WHERE notebook_id IN (?)";
+    const results = await new Promise((resolve, reject) => {
+      this.database.query(query, [notebook_ids], function (err, results) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+    return results;
+    // Results contain the rows returned by the quer
+    // Other CRUD methods can be implemented similarly
+  }
+
   async getUserNoteBooksByUserId(userId) {
     // Perform database query to fetch user by email
     // Example using MySQL and promises

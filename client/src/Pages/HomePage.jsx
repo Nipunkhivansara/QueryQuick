@@ -12,13 +12,18 @@ import { grey } from '@mui/material/colors';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import { Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { styled } from '@mui/system';
-
-
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { useNavigate } from 'react-router-dom';
 
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+
 
   return (
     <div
@@ -50,9 +55,72 @@ function a11yProps(index) {
   };
 }
 
+
+
 const HomePage = ({ user }) => {
 
   const [notebooks, setNotebooks] = useState([]);
+  const [notebookName, setNotebookName] = useState('');
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  let navigate = useNavigate();
+
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    const notebookName = formJson.name;
+    const uniqueId = generateUniqueId(); // Function to generate unique ID
+
+    
+    const notebookData = {
+      notebook_id: uniqueId,
+      user_id: user.email,
+      title: notebookName,
+      cells: []
+    };
+
+    console.log(notebookData);
+
+    try {
+      await axios.post("http://localhost:5000/saveNotebook", notebookData);
+      alert("Notebook saved successfully!");
+    } catch (error) {
+      console.error("Error saving notebook:", error);
+      alert("Failed to save notebook.");
+    }
+
+
+    // Navigate to the notebook page
+    navigate(`/notebook/${notebookName}/${uniqueId}`);
+
+    handleClose();
+  };
+
+
+  const generateUniqueId = () => {
+    // Function to generate a unique ID (you can use any method you prefer)
+    const uuid = () => {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = (Math.random() * 16) | 0,
+          v = c == 'x' ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      });
+    };
+
+    return uuid();
+  };
+
+
 
   useEffect(() => {
     const fetchNotebooks = async () => {
@@ -116,13 +184,42 @@ const HomePage = ({ user }) => {
                 border: '1px solid black',
               }
             }}>
-              <CardActionArea sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}>
+              <CardActionArea sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }} onClick={handleClickOpen}>
                 <AddIcon fontSize="large" />
                 <Typography component="div" variant="h6">
                   Create Notebook
                 </Typography>
               </CardActionArea>
             </Card>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              PaperProps={{
+                component: 'form',
+                onSubmit: handleSubmit,
+                style: { minWidth: 500, minHeight: 200 }
+              }}
+            >
+              <DialogTitle>Enter Notebook Name</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  required
+                  margin="dense"
+                  id="name"
+                  name="name"
+                  label="Name"
+                  fullWidth
+                  variant="standard"
+                  value={notebookName}
+                  onChange={(e) => setNotebookName(e.target.value)}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button type="submit">Create</Button>
+              </DialogActions>
+      </Dialog>
           </div>
         </TabPanel>
         <TabPanel value={value} index={2}>
