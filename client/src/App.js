@@ -57,7 +57,7 @@ const App = () => {
             element={<Help />} // Render Help component when URL is /help
           />
           <Route
-            path="/notebook/:notebook_id" // Define dynamic route with parameter notebook_id
+            path="/notebook/:notebook_name/:notebook_id" // Define dynamic route with parameter notebook_id
             element={<Notebook
               open={open}
               handleDrawerToggle={handleDrawerToggle}
