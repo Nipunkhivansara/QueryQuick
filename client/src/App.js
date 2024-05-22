@@ -6,9 +6,6 @@ import Landing from './components/Landing/Landing';
 import Help from './components/Help/Help';
 import Notebook from './components/Notebook/Notebook';
 import './App.css';
-import HomePage from './Pages/HomePage';
-import Appbar from './components/Appbar/Appbar';
-import Sidebar from './components/Sidebar/Sidebar';
 
 const miniDrawerWidth = 60;
 const maxDrawerWidth = 240;
@@ -35,14 +32,14 @@ const App = () => {
             path="/"
             element={
               isAuthenticated ? (
-                
+
                 <Dashboard
-                   open={open}
-                   user={user}
-                   logout={logout}
-                   handleDrawerToggle={handleDrawerToggle}
-                    menuBarWidth={menuBarWidth}
-                 />
+                  open={open}
+                  user={user}
+                  logout={logout}
+                  handleDrawerToggle={handleDrawerToggle}
+                  menuBarWidth={menuBarWidth}
+                />
                 // <HomePage 
                 //   open={open}
                 //   user={user}
@@ -61,12 +58,22 @@ const App = () => {
           />
           <Route
             path="/notebook/:notebook_id" // Define dynamic route with parameter notebook_id
-            element={<Notebook 
+            element={<Notebook
               open={open}
               handleDrawerToggle={handleDrawerToggle}
-              user={user} 
-              menuBarWidth={menuBarWidth} 
-              logout={logout}  />} // Render Notebook component
+              user={user}
+              menuBarWidth={menuBarWidth}
+              logout={logout} />} // Render Notebook component
+          />
+          <Route
+            path="/profile" // Define dynamic route with parameter notebook_id
+            element={<Dashboard
+              open={open}
+              user={user}
+              logout={logout}
+              handleDrawerToggle={handleDrawerToggle}
+              menuBarWidth={menuBarWidth}
+            />} // Render Notebook component
           />
         </Routes>
       </div>

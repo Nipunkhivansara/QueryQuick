@@ -31,7 +31,7 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
       >
         <Toolbar>
           <IconButton
-            sx={{ ml: "387px" }}
+            sx={{ ml: "0px" }}
             edge="start"
             color="inherit"
             aria-label="menu"

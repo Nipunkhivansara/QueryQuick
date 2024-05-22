@@ -218,8 +218,6 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
         sx={{
           zIndex: 1,
           display: "flex",
-          minHeight: "100%",
-          minWidth: "100%",
           bgcolor: "#222B3D",
         }}
       >
@@ -242,7 +240,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             marginRight: "30px",
             marginBottom: "100px",
             width: "99%",
-            minHeight: "975px",
+            minHeight: "81.9vh",
           }}
         >
           <Box

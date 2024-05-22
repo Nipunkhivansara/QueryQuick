@@ -2,13 +2,10 @@ import React from "react";
 import { Box } from "@mui/material";
 import Sidebar from "../Sidebar/Sidebar";
 import Appbar from "../Appbar/Appbar";
-import Performance from "../Performance/Performance";
-import NewNotebook from "../NewNotebook/NewNotebook";
 import Connection from "../Connections/Connections";
-import SiteInfo from "../SiteInfo/SiteInfo";
-import Home from "../Home/Home";
 import { useState } from "react";
 import HomePage from "../../Pages/HomePage";
+import Profile from "../Profile/Profile";
 
 // c
 const Dashboard = ({
@@ -20,16 +17,25 @@ const Dashboard = ({
 }) => {
   console.log(user);
 
+  const [Home, setHome] = useState(true);
   const [connections, setConnections] = useState(false);
-  const [Home, setHome] = useState(false);
+  const [profile, setProfile] = useState(false);
 
   const toggleConnections = () => {
-    setConnections(!connections);
+    setConnections(true);
     setHome(false);
+    setProfile(false);
   };
 
   const toggleHome = () => {
-    setHome(!Home);
+    setHome(true);
+    setConnections(false);
+    setProfile(false);
+  }
+
+  const toggleProfile = () => {
+    setProfile(true);
+    setHome(false);
     setConnections(false);
   }
 
@@ -39,12 +45,15 @@ const Dashboard = ({
         return <Connection />;
       case Home:
         return <HomePage />;
+      case profile:
+        return <Profile open={open} />;
       default:
         return (
           <>
-            <Performance />
-            <NewNotebook />
-            <SiteInfo open={open} />
+           {/*  <Performance />
+            { <NewNotebook /> }
+            <SiteInfo open={open} /> */}
+            <div>Nothing</div>
           </>
         );
     }
@@ -68,13 +77,14 @@ const Dashboard = ({
           user={user}
           toggleHome={toggleHome}
           toggleConnections={toggleConnections}
+          toggleProfile={toggleProfile}
         />
         <Box
           sx={{
             marginLeft: "-50px",
             marginTop: "60px",
-            width: `${1930 - menuBarWidth}px`,
-            height: "94.4vh",
+            minWidth: `${1930 - menuBarWidth}px`,
+            minHeight: "94.4vh",
             bgcolor: "#222B3D",
           }}
         >
