@@ -4,6 +4,8 @@ const pool = mysql.createPool({
   connectionLimit: 10, // Adjust the limit as per your requirements
   host: "localhost",
   user: "root",
+  password: "Nipunsql@123",
+  //password: "Meet@123",
   // password: "Nipunsql@123",
   //password: "Meet@123",
   password: "aswin",
@@ -19,6 +21,7 @@ async function getclientConnectionpool(database) {
       host: "localhost",
       user: "root",
       //password: "aswin",
+      //password: "Meet@123",
       // password: "Nipunsql@123",
       password: "aswin",
       database: database,
