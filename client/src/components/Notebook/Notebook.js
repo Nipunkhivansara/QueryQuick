@@ -24,7 +24,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
   const [cells, setCells] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [title, setTitle] = useState(notebook_name);
-  const nextCellID = useRef(1);
+  const [nextCellID, setNextCellID] = useState(1);
 
   const [cellDatabaseType, setCellDatabaseType] = useState("");
   const [celldatabase, setCellDatabase] = useState("");
@@ -38,15 +38,23 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
           params: { notebook_id: notebook_id, email: user.email },
         });
         const { notebook, cells } = response.data;
-        setTitle(notebook.title || "Default Title");
+        setTitle(notebook.name || "Default Title");
         setCells(cells);
+
+        // Determine the next cell ID
+        if (cells && cells.length > 0) {
+          const lastCellID = cells[cells.length - 1].id;
+          setNextCellID(lastCellID + 1);
+        } else {
+          setNextCellID(1);
+        }
       } catch (error) {
         console.error("Error fetching notebook:", error);
       }
     };
 
     fetchNotebook();
-  }, [notebook_id, user.user_id]);
+  }, [notebook_id, user.email]);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -60,7 +68,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
     setCells([
       ...cells,
       {
-        id: nextCellID.current,
+        id: nextCellID,
         notebook_id: notebook_id,
         user_id: 1, // TO be changed
         cellType: type,
@@ -71,7 +79,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
         query: "",
       },
     ]);
-    nextCellID.current++;
+    setNextCellID(nextCellID + 1);
     handleMenuClose();
   };
 
@@ -102,10 +110,19 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
     setCells(newCells);
   };
 
-  const deleteCell = (index) => {
+  const deleteCell = async (index) => {
+    const cellToDelete = cells[index];
     const newCells = [...cells];
     newCells.splice(index, 1);
     setCells(newCells);
+
+    try {
+        await axios.post(`http://localhost:5000/deleteCell`, {
+            id: cellToDelete.id, notebook_id: cellToDelete.notebook_id, user_id: cellToDelete.user_id, email: user.email
+        });
+      } catch (error) {
+        console.error("Error deleting cell:", error);
+      }
   };
 
   const handleTitleChange = (event) => {
