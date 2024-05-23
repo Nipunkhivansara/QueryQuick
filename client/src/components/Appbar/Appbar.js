@@ -25,7 +25,7 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
         position="fixed"
         sx={{
           width: `${1930 - menuBarWidth}px`,
-          bgcolor: "#1A202D",
+          bgcolor: "#1F1E1F",
           zIndex: 1,
         }}
       >

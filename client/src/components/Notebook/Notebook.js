@@ -137,7 +137,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
         sx={{
           zIndex: 1,
           display: "flex",
-          bgcolor: "#222B3D",
+          bgcolor: "#383838",
         }}
       >
         <Appbar

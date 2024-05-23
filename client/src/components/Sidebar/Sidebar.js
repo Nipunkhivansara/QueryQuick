@@ -35,7 +35,7 @@ const Sidebar = ({
           width: menuBarWidth,
           overflow: "hidden",
           boxSizing: "border-box",
-          bgcolor: "#1A202D",
+          bgcolor: "#1F1E1F",
           transition: "width 0.3s ease",
           display: "flex",
           flexDirection: "column",
