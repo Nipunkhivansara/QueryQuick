@@ -14,13 +14,25 @@ import {
 } from "@mui/material";
 import FlashOnOutlinedIcon from "@mui/icons-material/FlashOnOutlined";
 import DataArrayIcon from "@mui/icons-material/DataArray";
+import { highlight, languages } from "prismjs/components/prism-core";
+
 import {
   Delete as DeleteIcon,
   PlayArrow as PlayArrowIcon,
 } from "@mui/icons-material";
-import Grid from '../Grid/Grid';
+import Grid from "../Grid/Grid";
+import getDataFromSql from "../../services/sqlservice";
+import getDataFromMongoDB from "../../services/mongodbservice";
 
-const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, userInput, userQuery }) => {
+const QueryEngineCell = ({
+  index,
+  onDelete,
+  onQueryEngineChange,
+  dType,
+  db,
+  userInput,
+  userQuery,
+}) => {
   console.log("QueryEngineCell -> dType", dType);
   console.log("QueryEngineCell -> db", db);
   console.log("QueryEngineCell -> userInput", userInput);
@@ -29,6 +41,8 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
   const [cellDatabaseType, setCellDatabaseType] = useState(dType);
   const [cellDatabase, setCellDatabase] = useState(db);
   const [prompt, setPrompt] = useState(userInput);
+  const [error, setError] = useState(null);
+
   const [query, setQuery] = useState(userQuery);
   const [tab, setTab] = useState("table");
   const [loading, setLoading] = useState(false);
@@ -60,8 +74,9 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
   };
 
   const handleDatabaseChange = (event) => {
-    setCellDatabase(event.target.value);
-    onQueryEngineChange(index, "cellDatabase", event.target.value);
+    const newDatabase = event.target.value;
+    setCellDatabase(newDatabase);
+    onQueryEngineChange(index, "cellDatabase", newDatabase);
   };
 
   const handlePromptChange = (event) => {
@@ -73,30 +88,72 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
     setTab(newValue);
   };
 
-  const handleGetQuery = () => {
-    // Simulate fetching query
+  const handleGetQuery = async () => {
+    let api = "";
     setLoading(true);
-    setTimeout(() => {
-      setQuery("SELECT * FROM example_table");
-      onQueryEngineChange(index, "query", "SELECT * FROM example_table");
+    setError(null);
+    try {
+      if (cellDatabaseType === "MySQL") {
+        api = "http://localhost:5000/chat";
+      } else if (cellDatabaseType === "MongoDB") {
+        api = "http://localhost:5000/mongo/chat";
+      }
+      const response = await fetch(api, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      });
+      const data = await response.json();
+      setQuery(data.msg);
+      onQueryEngineChange(index, "query", data.msg);
+      setShowQuery(true);
+    } catch (error) {
+      setError(error.message);
+    } finally {
       setLoading(false);
-      setShowQuery(true); // Set showQuery to true after query is loaded
-    }, 1000);
+    }
   };
 
-  const handleRunQuery = () => {
-    // Simulate running query and fetching data
-    setLoading(true);
-    setTimeout(() => {
-      setData([
-        { id: 1, title: "A Quiet Place Part II", year: 2022, rating: 7.3 },
-        { id: 2, title: "Black Widow", year: 2022, rating: 6.8 },
-        { id: 3, title: "Dune", year: 2022, rating: 8.1 },
-        { id: 4, title: "No Time to Die", year: 2022, rating: 7.4 },
-        { id: 5, title: "The French Dispatch", year: 2022, rating: 7.5 },
-      ]);
+  const handleQueryChange = (event) => {
+    setQuery(event.target.value);
+    onQueryEngineChange(index, "query", event.target.value);
+  };
+
+  const handleRunQuery = async () => {
+    // /Simulate running query and fetching data
+    // setTimeout(() => {
+    //   setData([
+    //     { id: 1, title: "A Quiet Place Part II", year: 2022, rating: 7.3 },
+    //     { id: 2, title: "Black Widow", year: 2022, rating: 6.8 },
+    //     { id: 3, title: "Dune", year: 2022, rating: 8.1 },
+    //     { id: 4, title: "No Time to Die", year: 2022, rating: 7.4 },
+    //     { id: 5, title: "The French Dispatch", year: 2022, rating: 7.5 },
+    //   ]);
+    //   setLoading(false);
+    // }, 1000);
+    try {
+      setLoading(true);
+      let data;
+      if (cellDatabaseType === "MySQL") {
+        data = await getDataFromSql({ query, cellDatabase });
+      } else if (cellDatabaseType === "MongoDB") {
+        data = await getDataFromMongoDB({ query, cellDatabase });
+      }
+      console.log(data);
+      setData(data);
+      // setDatabaseRecords(data); // Wrap data in an array
+      // if (gridApi) {
+      //   gridApi.setRowData(data); // Wrap data in an array
+      // }
+      // console.log(databaseRecords);
+    } catch (error) {
+      console.error("Error fetching data from SQL:", error.message);
+      setError(error.message);
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   const commonStyles = {
@@ -194,8 +251,8 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
             <MenuItem value="" disabled sx={{ fontSize: "0.700rem" }}>
               Select Database Schema
             </MenuItem>
-            <MenuItem value="db1" sx={{ fontSize: "0.700rem" }}>
-              Database 1
+            <MenuItem value="cs220p" sx={{ fontSize: "0.700rem" }}>
+              cs220p
             </MenuItem>
             <MenuItem value="db2" sx={{ fontSize: "0.700rem" }}>
               Database 2
@@ -278,8 +335,9 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
         <Box sx={{ marginRight: "10px" }}>
           <TextField
             value={query}
+            onChange={handleQueryChange}
             placeholder="Loading query..."
-            InputProps={{ disableUnderline: true, readOnly: true }}
+            InputProps={{ disableUnderline: true }}
             sx={{
               "& .MuiInputBase-input": {
                 color: "#7F848E",
@@ -345,6 +403,7 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
                 marginRight: "10px",
               }}
             >
+              <div style={{ color: "#fff" }}>{JSON.stringify(data)}</div>
               {/* Placeholder for dynamically rendered table */}
               <Typography variant="h6">
                 Table will be rendered here...
@@ -394,4 +453,3 @@ const QueryEngineCell = ({ index, onDelete, onQueryEngineChange, dType, db, user
 };
 
 export default QueryEngineCell;
-
