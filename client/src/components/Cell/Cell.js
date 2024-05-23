@@ -51,7 +51,6 @@ const Cell = ({ type, value, onChange, onDelete, handleMenuOpen }) => {
     const [hover, setHover] = useState(false);
 
     const inputProps = {
-        disableUnderline: true,
         style: { ...styles[type], paddingLeft: "0px" },
     };
 

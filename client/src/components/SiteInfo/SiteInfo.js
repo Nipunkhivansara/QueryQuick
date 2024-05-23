@@ -44,7 +44,7 @@ const statusColors = {
 
 const SiteInfo = ({open}) => {
   return (
-    <Box sx={{ background: '#1A202D', color: '#95A2B3', padding: '20px', margin: '30px', width: '95%', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', height: 520 }}>
+    <Box sx={{ background: '#1F1E1F', color: '#95A2B3', padding: '20px', margin: '30px', width: '95%', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', height: 520 }}>
       <Box width="40%" height={450} textAlign={'center'}>
         <h2>Database Connections</h2>
         <ResponsiveContainer  >
@@ -65,7 +65,7 @@ const SiteInfo = ({open}) => {
         <h2>Active Users</h2>
         <TableContainer component={Paper} sx={{ width: open ? '800px' : '900px' , height: 450, overflow: 'auto' }} >
           <Table sx={{overflow: 'auto'}} >
-            <TableHead sx={{ backgroundColor: '#293245'}}>
+            <TableHead sx={{ backgroundColor: '#565656'}}>
               <TableRow>
                 <TableCell sx={{ width: '200px' , color: '#e3e8e8' }}>User</TableCell>
                 <TableCell sx={{ width: '300px' , color: '#e3e8e8' }}>Email</TableCell>
@@ -73,7 +73,7 @@ const SiteInfo = ({open}) => {
                 <TableCell sx={{ width: '100px' , color: '#e3e8e8' }}>Status</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody sx={{ backgroundColor: '#212B3C', color:'#fff' }}>
+            <TableBody sx={{ backgroundColor: '#383838', color:'#fff' }}>
               {rows.map((row, index) => (
                 <TableRow key={index}>
                   <TableCell sx={{color: '#e3e8e8'}}>

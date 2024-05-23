@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import {
@@ -7,7 +7,6 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Divider,
   Typography,
   Button,
 } from "@mui/material";
@@ -192,7 +191,6 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
                 onChange={handleTitleChange}
                 fullWidth
                 InputProps={{
-                  disableUnderline: true,
                   style: {
                     color: "#fff",
                     fontSize: "1.9rem",
@@ -225,7 +223,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
               onClick={handleSave}
               sx={{
                 color: "primary",
-                backgroundColor: "#1A202D",
+                backgroundColor: "#1F1E1F",
                 padding: "6px 12px",
                 fontSize: "0.875rem",
                 width: "fit-content",

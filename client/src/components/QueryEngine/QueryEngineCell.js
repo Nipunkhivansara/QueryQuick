@@ -14,7 +14,23 @@ import {
 } from "@mui/material";
 import FlashOnOutlinedIcon from "@mui/icons-material/FlashOnOutlined";
 import DataArrayIcon from "@mui/icons-material/DataArray";
+/* import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-sql";
+import "prismjs/themes/prism.css"; */
+/* import "prismjs/themes/prism-dark.css"; */
+/* import "prismjs/themes/prism-dark.min.css"; */
+
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-sql";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/theme-ambiance";
+import "ace-builds/src-noconflict/theme-gruvbox";
+import "ace-builds/src-noconflict/theme-gob";
 
 import {
   Delete as DeleteIcon,
@@ -23,6 +39,7 @@ import {
 import Grid from "../Grid/Grid";
 import getDataFromSql from "../../services/sqlservice";
 import getDataFromMongoDB from "../../services/mongodbservice";
+import Graphs from "../Graphs/Graphs";
 
 const QueryEngineCell = ({
   index,
@@ -33,10 +50,6 @@ const QueryEngineCell = ({
   userInput,
   userQuery,
 }) => {
-  console.log("QueryEngineCell -> dType", dType);
-  console.log("QueryEngineCell -> db", db);
-  console.log("QueryEngineCell -> userInput", userInput);
-  console.log("QueryEngineCell -> userQuery", userQuery);
 
   const [cellDatabaseType, setCellDatabaseType] = useState(dType);
   const [cellDatabase, setCellDatabase] = useState(db);
@@ -168,10 +181,10 @@ const QueryEngineCell = ({
       borderColor: "#383838",
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#1A202D",
+      borderColor: "#1F1E1F",
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#1A202D",
+      borderColor: "#1F1E1F",
     },
   };
 
@@ -308,7 +321,6 @@ const QueryEngineCell = ({
             value={prompt}
             onChange={handlePromptChange}
             placeholder="Enter prompt..."
-            InputProps={{ disableUnderline: true }}
             sx={{
               width: "100%",
               borderRadius: "4px",
@@ -332,34 +344,18 @@ const QueryEngineCell = ({
         </Paper>
       </Box>
       {showQuery && !loading && (
-        <Box sx={{ marginRight: "10px" }}>
-          <TextField
+        <>
+          <AceEditor
+            height="100px"
+            width="100%"
             value={query}
-            onChange={handleQueryChange}
+            mode="sql"
+            theme="gob"
+            fontSize="16px"
+            highlightActiveLine={true}
+            onChange={(code) => setQuery(code)}
+            name="UNIQUE_ID_OF_DIV"
             placeholder="Loading query..."
-            InputProps={{ disableUnderline: true }}
-            sx={{
-              "& .MuiInputBase-input": {
-                color: "#7F848E",
-                fontSize: "0.700rem",
-                padding: "8px 14px",
-                borderRadius: "0px",
-                backgroundColor: "#383838",
-              },
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#383838",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#777",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#888",
-              },
-              marginBottom: "10px",
-              marginLeft: "10px",
-              marginRight: "10px", // Corrected margin-right property
-              width: "100%",
-            }}
           />
           <Button
             variant="contained"
@@ -370,13 +366,13 @@ const QueryEngineCell = ({
               color: "primary",
               padding: "4px 8px", // Adjust the padding to make the button smaller
               width: "fit-content",
-              marginLeft: "10px",
+              margin: "10px",
               fontSize: "0.700rem",
             }}
           >
             Run
           </Button>
-        </Box>
+        </>
       )}
       {data && (
         <>
@@ -385,13 +381,12 @@ const QueryEngineCell = ({
             onChange={handleTabChange}
             sx={{ marginTop: "16px", color: "#fff", marginLeft: "16px" }}
           >
-            <Tab label="Table" value="table" />
-            <Tab label="Charts" value="charts" />
+            <Tab sx={{ color: '#fff' }} label="Table" value="table" />
+            <Tab sx={{ color: '#fff' }} label="Charts" value="charts" />
           </Tabs>
           {tab === "table" && (
             <Box
               sx={{
-                height: 300,
                 width: "100%",
                 backgroundColor: "#333",
                 borderRadius: "4px",
@@ -403,18 +398,12 @@ const QueryEngineCell = ({
                 marginRight: "10px",
               }}
             >
-              <div style={{ color: "#fff" }}>{JSON.stringify(data)}</div>
-              {/* Placeholder for dynamically rendered table */}
-              <Typography variant="h6">
-                Table will be rendered here...
-              </Typography>
-              <Grid />
+              <Grid gridData={data} />
             </Box>
           )}
           {tab === "charts" && (
             <Box
               sx={{
-                height: 300,
                 width: "100%",
                 backgroundColor: "#333",
                 borderRadius: "4px",
@@ -423,12 +412,10 @@ const QueryEngineCell = ({
                 padding: "10px",
                 boxShadow: 3,
                 marginLeft: "10px",
+                marginRight: "10px",
               }}
             >
-              {/* Placeholder for dynamically rendered chart */}
-              <Typography variant="h6">
-                Chart will be rendered here...
-              </Typography>
+              <Graphs graphData={data} />
             </Box>
           )}
         </>

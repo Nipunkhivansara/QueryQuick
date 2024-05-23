@@ -1,14 +1,13 @@
 import React from 'react';
-import {Scatter} from 'react-chartjs-2';
+import { Scatter } from 'react-chartjs-2';
 
-const ScatterChart = ({data, xCoord, yCoord}) => {
-  
+const ScatterChart = ({ data, xCoord, yCoord }) => {
+
     const scatterChartData = {
-        labels: ['Scatter Chart'],
         datasets: [
             {
                 label: 'Scatter Chart',
-                data: data.map(item => ({x: item[xCoord], y: item[yCoord]})),
+                data: data.map(item => ({ x: item[xCoord], y: item[yCoord] })),
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderWidth: 1,
             },
@@ -16,27 +15,40 @@ const ScatterChart = ({data, xCoord, yCoord}) => {
     };
 
     const scatterOptions = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: 'Scatter Chart',
+            },
+        },
         scales: {
-            yAxes: [
-                {
-                    ticks: {
-                        beginAtZero: true,
-                    },
+            x: {
+                display: true,
+                title: {
+                    display: true,
+                    text: xCoord,
                 },
-            ],
+            },
+            y: {
+                display: true,
+                title: {
+                    display: true,
+                    text: yCoord,
+                },
+            },
         },
     };
-  
-    return (
-    <>
-    <div>Scatter chart with {xCoord + " " + yCoord}</div>
-         <div className='chartContainer'>
-            <div className='chartCss'>
-                <Scatter data={scatterChartData} options={scatterOptions} />
-            </div>
-        </div>
-    </>
-  )
-}
 
-export default ScatterChart
+    return (
+        <>
+            <div className='chartContainer'>
+                <div className='chartCss'>
+                    <Scatter data={scatterChartData} options={scatterOptions} />
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default ScatterChart;
