@@ -6,6 +6,7 @@ import Landing from "./components/Landing/Landing";
 import Help from "./components/Help/Help";
 import Notebook from "./components/Notebook/Notebook";
 import "./App.css";
+import Home from "./components/Home/Home";
 
 const miniDrawerWidth = 60;
 const maxDrawerWidth = 240;
@@ -30,13 +31,16 @@ const App = () => {
             path="/"
             element={
               isAuthenticated ? (
+                <>
+                <Home />
                 <Dashboard
                   open={open}
                   user={user}
                   logout={logout}
                   handleDrawerToggle={handleDrawerToggle}
                   menuBarWidth={menuBarWidth}
-                />
+                  />
+                </>
               ) : (
                 // <HomePage
                 //   open={open}
