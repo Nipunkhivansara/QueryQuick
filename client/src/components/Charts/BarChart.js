@@ -1,26 +1,38 @@
 import React from 'react';
-import {Bar} from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
+import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-const BarChart = ({data, xCoord, yCoord}) => {
+// Register necessary components
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
+const BarChart = ({ data, xCoord, yCoord }) => {
   const barChartOptions = {
-    title: {
-      display: true,
-      text: 'Bar Chart'
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Bar Chart'
+      },
+      legend: {
+        display: true,
+        position: 'top',
+      },
+      tooltip: {
+        enabled: true,
+      },
     },
     scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true
-          }
-        }
-      ]
+      y: {
+        beginAtZero: true,
+      }
     }
   };
 
   const labels = data.map(item => item[xCoord]);
   const dataValues = data.map(item => item[yCoord]);
+
+  console.log(labels);
+  console.log(dataValues);
 
   const barChartData = {
     labels: labels,
@@ -35,11 +47,8 @@ const BarChart = ({data, xCoord, yCoord}) => {
     ]
   };
 
-
-
   return (
     <>
-    <div>Bar chart with {xCoord + " " + yCoord}</div>
     <div className='chartContainer'>
       <div className='chartCss'>
         <Bar
@@ -52,4 +61,4 @@ const BarChart = ({data, xCoord, yCoord}) => {
   )
 }
 
-export default BarChart
+export default BarChart;

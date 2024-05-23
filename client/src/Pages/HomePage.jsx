@@ -233,43 +233,43 @@ const HomePage = ({ user }) => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#ded7d7' }}>
             <CardContent>
-              <h2>Notebooks</h2>
+            <Typography variant='h5'>Notebooks</Typography>
               <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
                 <Table stickyHeader aria-label="notebook table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }}>NotebookId</TableCell>
-                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
-                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }}>Users</TableCell>
-                      <TableCell sx={{ backgroundColor: '#1A202C', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
+                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>NotebookId</TableCell>
+                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
+                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Users</TableCell>
+                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
                         <TableCell
-                          sx={{ backgroundColor: '#212B3C', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
+                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
                           onClick={() => gotoNotebook(row.notebook_name, row.notebook_id)}
                         >
                           {row.notebook_id}
                         </TableCell>
                         <TableCell
-                          sx={{ backgroundColor: '#212B3C', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
+                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
                           onClick={() => gotoNotebook(row.noteook_name,row.notebook_id)}
                         >
                           {row.notebook_name}
                         </TableCell>
                         <TableCell
-                          sx={{ backgroundColor: '#212B3C', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}
+                          sx={{ backgroundColor: '#383838', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}
                         >
                           {row.associated_users.map((user) => (
                             <Avatar key={user.username} alt={user.username} src={user.profile} sx={{ margin: '5px' }} />
                           ))}
                         </TableCell>
                         <TableCell
-                          sx={{ backgroundColor: '#212B3C', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
+                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
                         >
                           12/12/2021
                         </TableCell>

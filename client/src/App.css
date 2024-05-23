@@ -41,6 +41,11 @@
   height: 100%; /* Height same as parent */
 }
 
+.noGraph{
+  margin-left: 400px;
+  margin-top: 200px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

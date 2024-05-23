@@ -1,17 +1,20 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 
-const PieChart = ({data, xCoord, yCoord}) => {
+// Register necessary components
+Chart.register(ArcElement, Tooltip, Legend);
 
+const PieChart = ({ data, xCoord, yCoord }) => {
   const makeCounts = data.reduce((acc, item) => {
     acc[item[xCoord]] = (acc[item[xCoord]] || 0) + 1;
-    return acc
-  },{});
-  
+    return acc;
+  }, {});
+
   const pieLabels = Object.keys(makeCounts);
   let pieDataValues = Object.values(makeCounts);
-  pieDataValues = pieDataValues.map(item => item * 100 / data.length);
-  
+  pieDataValues = pieDataValues.map(item => (item * 100) / data.length);
+
   const pieChartData = {
     labels: pieLabels,
     datasets: [
@@ -32,37 +35,33 @@ const PieChart = ({data, xCoord, yCoord}) => {
           'rgba(153, 102, 255, 0.6)',
           'rgba(255, 159, 64, 0.6)',
         ],
-      borderWidth: 1,
+        borderWidth: 1,
       },
     ],
   };
 
   const pieChartOptions = {
-    tooltips: {
-        position: 'inside',
+    responsive: true,
+    plugins: {
+      tooltip: {
+        enabled: true,
+      },
+      legend: {
+        display: true,
+        position: 'top',
+      },
     },
-    scales: {
-        yAxes: [
-            {
-                ticks: {
-                    beginAtZero: true,
-                },
-            },
-        ],
-    },
-};
+  };
 
-  
   return (
     <>
-    <div>PieChart</div>
-    <div className='chartContainer'>
-            <div className='chartCss'>
-                <Pie data={pieChartData} options={pieChartOptions} />
-            </div>
+      <div className='chartContainer'>
+        <div className='chartCss'>
+          <Pie data={pieChartData} options={pieChartOptions} />
         </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default PieChart
+export default PieChart;
