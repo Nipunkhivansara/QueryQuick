@@ -14,7 +14,23 @@ import {
 } from "@mui/material";
 import FlashOnOutlinedIcon from "@mui/icons-material/FlashOnOutlined";
 import DataArrayIcon from "@mui/icons-material/DataArray";
+/* import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-sql";
+import "prismjs/themes/prism.css"; */
+/* import "prismjs/themes/prism-dark.css"; */
+/* import "prismjs/themes/prism-dark.min.css"; */
+
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-sql";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/ext-language_tools";
+import "ace-builds/src-noconflict/theme-ambiance";
+import "ace-builds/src-noconflict/theme-gruvbox";
+import "ace-builds/src-noconflict/theme-gob";
 
 import {
   Delete as DeleteIcon,
@@ -328,33 +344,18 @@ const QueryEngineCell = ({
         </Paper>
       </Box>
       {showQuery && !loading && (
-        <Box sx={{ marginRight: "10px" }}>
-          <TextField
+        <>
+          <AceEditor
+            height="100px"
+            width="100%"
             value={query}
-            onChange={handleQueryChange}
+            mode="sql"
+            theme="gob"
+            fontSize="16px"
+            highlightActiveLine={true}
+            onChange={(code) => setQuery(code)}
+            name="UNIQUE_ID_OF_DIV"
             placeholder="Loading query..."
-            sx={{
-              "& .MuiInputBase-input": {
-                color: "#7F848E",
-                fontSize: "0.700rem",
-                padding: "8px 14px",
-                borderRadius: "0px",
-                backgroundColor: "#383838",
-              },
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#383838",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#777",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#888",
-              },
-              marginBottom: "10px",
-              marginLeft: "10px",
-              marginRight: "10px", // Corrected margin-right property
-              width: "100%",
-            }}
           />
           <Button
             variant="contained"
@@ -365,13 +366,13 @@ const QueryEngineCell = ({
               color: "primary",
               padding: "4px 8px", // Adjust the padding to make the button smaller
               width: "fit-content",
-              marginLeft: "10px",
+              margin: "10px",
               fontSize: "0.700rem",
             }}
           >
             Run
           </Button>
-        </Box>
+        </>
       )}
       {data && (
         <>
@@ -380,8 +381,8 @@ const QueryEngineCell = ({
             onChange={handleTabChange}
             sx={{ marginTop: "16px", color: "#fff", marginLeft: "16px" }}
           >
-            <Tab sx={{color:'#fff'}} label="Table" value="table" />
-            <Tab sx={{color:'#fff'}}  label="Charts" value="charts" />
+            <Tab sx={{ color: '#fff' }} label="Table" value="table" />
+            <Tab sx={{ color: '#fff' }} label="Charts" value="charts" />
           </Tabs>
           {tab === "table" && (
             <Box
@@ -397,7 +398,7 @@ const QueryEngineCell = ({
                 marginRight: "10px",
               }}
             >
-              <Grid gridData = {data} />
+              <Grid gridData={data} />
             </Box>
           )}
           {tab === "charts" && (
@@ -414,7 +415,7 @@ const QueryEngineCell = ({
                 marginRight: "10px",
               }}
             >
-              <Graphs graphData = {data} />
+              <Graphs graphData={data} />
             </Box>
           )}
         </>
