@@ -80,11 +80,14 @@ const Dashboard = ({
         />
         <Box
           sx={{
-            marginLeft: "-50px",
+            marginLeft: "-48px",
             marginTop: "60px",
-            minWidth: `${1930 - menuBarWidth}px`,
-            minHeight: "94.4vh",
+            // minWidth: `${1930 - menuBarWidth}px`,
+            // minHeight: "94.4vh",
+            width: `calc(100vw - ${menuBarWidth}px)`,
+            height: "calc(100vh - 60px)",
             bgcolor: "#222B3D",
+            overflow: 'auto'
           }}
         >
           {renderComponent()}
