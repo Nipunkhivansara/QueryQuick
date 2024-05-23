@@ -385,13 +385,12 @@ const QueryEngineCell = ({
             onChange={handleTabChange}
             sx={{ marginTop: "16px", color: "#fff", marginLeft: "16px" }}
           >
-            <Tab label="Table" value="table" />
-            <Tab label="Charts" value="charts" />
+            <Tab sx={{color:'#fff'}} label="Table" value="table" />
+            <Tab sx={{color:'#fff'}}  label="Charts" value="charts" />
           </Tabs>
           {tab === "table" && (
             <Box
               sx={{
-                height: 300,
                 width: "100%",
                 backgroundColor: "#333",
                 borderRadius: "4px",
@@ -403,11 +402,6 @@ const QueryEngineCell = ({
                 marginRight: "10px",
               }}
             >
-              <div style={{ color: "#fff" }}>{JSON.stringify(data)}</div>
-              {/* Placeholder for dynamically rendered table */}
-              <Typography variant="h6">
-                Table will be rendered here...
-              </Typography>
               <Grid />
             </Box>
           )}
