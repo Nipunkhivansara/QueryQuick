@@ -7,7 +7,7 @@ import { useState } from "react";
 import HomePage from "../../Pages/HomePage";
 import Profile from "../Profile/Profile";
 
-// c
+
 const Dashboard = ({
   open,
   user,
@@ -62,7 +62,6 @@ const Dashboard = ({
 
   return (
     <div>
-      {/* <Home />  */}
       <Box sx={{ zIndex: 1, display: "flex" }}>
         <Appbar
           handleDrawerToggle={handleDrawerToggle}
