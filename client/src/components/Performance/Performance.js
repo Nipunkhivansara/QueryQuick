@@ -73,7 +73,7 @@ const Performance = () => {
             width: 375,
             margin: 0,
             height: 180,
-            backgroundColor: "#1A202D",
+            backgroundColor: "#1F1E1F",
             borderRadius: "15px",
           }}
         >
@@ -117,7 +117,7 @@ const Performance = () => {
             width: 375,
             margin: 0,
             height: 180,
-            backgroundColor: "#1A202D",
+            backgroundColor: "#1F1E1F",
             borderRadius: "15px",
           }}
         >
@@ -167,7 +167,7 @@ const Performance = () => {
             width: 375,
             margin: 0,
             height: 180,
-            backgroundColor: "#1A202D",
+            backgroundColor: "#1F1E1F",
             borderRadius: "15px",
           }}
         >
@@ -211,7 +211,7 @@ const Performance = () => {
             width: 375,
             margin: 0,
             height: 180,
-            backgroundColor: "#1A202D",
+            backgroundColor: "#1F1E1F",
             borderRadius: "15px",
           }}
         >
@@ -248,7 +248,7 @@ const Performance = () => {
                   type="monotone"
                   dataKey="uv"
                   stroke="#DF9A35"
-                  fill="#1A202D"
+                  fill="#1F1E1F"
                   strokeWidth={4}
                 />
               </AreaChart>

@@ -23,6 +23,7 @@ import {
 import Grid from "../Grid/Grid";
 import getDataFromSql from "../../services/sqlservice";
 import getDataFromMongoDB from "../../services/mongodbservice";
+import Graphs from "../Graphs/Graphs";
 
 const QueryEngineCell = ({
   index,
@@ -33,10 +34,6 @@ const QueryEngineCell = ({
   userInput,
   userQuery,
 }) => {
-  console.log("QueryEngineCell -> dType", dType);
-  console.log("QueryEngineCell -> db", db);
-  console.log("QueryEngineCell -> userInput", userInput);
-  console.log("QueryEngineCell -> userQuery", userQuery);
 
   const [cellDatabaseType, setCellDatabaseType] = useState(dType);
   const [cellDatabase, setCellDatabase] = useState(db);
@@ -168,10 +165,10 @@ const QueryEngineCell = ({
       borderColor: "#383838",
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#1A202D",
+      borderColor: "#1F1E1F",
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#1A202D",
+      borderColor: "#1F1E1F",
     },
   };
 
@@ -308,7 +305,6 @@ const QueryEngineCell = ({
             value={prompt}
             onChange={handlePromptChange}
             placeholder="Enter prompt..."
-            InputProps={{ disableUnderline: true }}
             sx={{
               width: "100%",
               borderRadius: "4px",
@@ -337,7 +333,6 @@ const QueryEngineCell = ({
             value={query}
             onChange={handleQueryChange}
             placeholder="Loading query..."
-            InputProps={{ disableUnderline: true }}
             sx={{
               "& .MuiInputBase-input": {
                 color: "#7F848E",
@@ -402,13 +397,12 @@ const QueryEngineCell = ({
                 marginRight: "10px",
               }}
             >
-              <Grid />
+              <Grid gridData = {data} />
             </Box>
           )}
           {tab === "charts" && (
             <Box
               sx={{
-                height: 300,
                 width: "100%",
                 backgroundColor: "#333",
                 borderRadius: "4px",
@@ -417,12 +411,10 @@ const QueryEngineCell = ({
                 padding: "10px",
                 boxShadow: 3,
                 marginLeft: "10px",
+                marginRight: "10px",
               }}
             >
-              {/* Placeholder for dynamically rendered chart */}
-              <Typography variant="h6">
-                Chart will be rendered here...
-              </Typography>
+              <Graphs graphData = {data} />
             </Box>
           )}
         </>

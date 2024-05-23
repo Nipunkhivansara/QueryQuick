@@ -3,11 +3,10 @@ import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1A202D",
+  backgroundColor: "#1F1E1F",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
