@@ -74,12 +74,30 @@ router.post("/updateCells", async (req, res) => {
     console.log("Post request received to create new cell");
     const db = await getConnectionFromPool();
     const userDAO = new UserDAO(db);
-    const user = await userDAO.getUserByEmail(req.body.email);
+    const user = await userDAO.getUserByEmail(req.query.email);
     if (user == null) {
       throw new Error("User does not exist");
     }
     const notebookDao = new NotebookDAO(db);
     await notebookDao.updateCells(user.id, req.body.cells);
+    res.status(200).send("OK");
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send(err); // Send an error response back to the client
+  }
+});
+
+router.post("/deleteCell", async (req, res) => {
+  try {
+    console.log("Post request received to delete cell");
+    const db = await getConnectionFromPool();
+    const userDAO = new UserDAO(db);
+    const user = await userDAO.getUserByEmail(req.body.email);
+    if (user == null) {
+      throw new Error("User does not exist");
+    }
+    const notebookDao = new NotebookDAO(db);
+    await notebookDao.deleteRecordIfExists(req.body.id, req.body.notebook_id, req.body.user_id);
     res.status(200).send("OK");
   } catch (err) {
     console.error("Error:", err);

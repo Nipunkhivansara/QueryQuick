@@ -81,6 +81,33 @@ class NotebookDao {
     return Promise.all(promises);
   }
 
+  async deleteRecordIfExists(cell_id, notebook_id, user_id) {
+    return new Promise((resolve, reject) => {
+        // Parameterized delete query
+        const query = `
+            DELETE FROM cells 
+            WHERE id = ? 
+            AND notebook_id = ?
+            AND user_id = ?
+        `;
+        const values = [cell_id, notebook_id, user_id];
+
+        this.database.query(query, values, (error, results) => {
+            if (error) {
+                console.error('Error deleting cell:', error);
+                reject('Error deleting cell');
+                return;
+            }
+            if (results.affectedRows > 0) {
+                resolve({ message: 'Cell deleted successfully' });
+            } else {
+                resolve({ message: 'Cell not found' });
+            }
+        });
+    });
+}
+
+
   async createNewNotebook(userId, name) {
     return new Promise((resolve, reject) => {
       const query =

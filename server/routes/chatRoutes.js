@@ -21,8 +21,7 @@ router.get("/", (req, res) => {
 router.post("/chat", async (req, res) => {
   try {
     console.log("Post request received");
-    res.status(200).json({"msg": "select * from Car;"});
-   /*  const { prompt } = req.body;
+    const { prompt } = req.body;
     const result = await processQuery(prompt, "sql");
     const x =
       "..." +
@@ -53,7 +52,7 @@ router.post("/chat", async (req, res) => {
       .catch((error) => {
         console.error("Error:", error);
         res.status(500).send(error); // Send an error response back to the client
-      }); */
+      });
   } catch (err) {
     console.error("Error:", err);
     res.status(500).send(err); // Send an error response back to the client
