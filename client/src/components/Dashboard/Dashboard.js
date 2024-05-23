@@ -86,7 +86,7 @@ const Dashboard = ({
             // minHeight: "94.4vh",
             width: `calc(100vw - ${menuBarWidth}px)`,
             height: "calc(100vh - 60px)",
-            bgcolor: "#222B3D",
+            bgcolor: "#383838",
             overflow: 'auto'
           }}
         >

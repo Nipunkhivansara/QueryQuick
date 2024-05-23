@@ -162,10 +162,10 @@ const QueryEngineCell = ({
     "& .MuiSelect-select, & .MuiInputBase-input": {
       padding: "8px 14px",
       borderRadius: "4px",
-      backgroundColor: "#222B3D",
+      backgroundColor: "#383838",
     },
     "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#1A202D",
+      borderColor: "#383838",
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
       borderColor: "#1A202D",
@@ -201,7 +201,7 @@ const QueryEngineCell = ({
         display: "flex",
         flexDirection: "column",
         padding: "16px",
-        bgcolor: "#1A202D",
+        bgcolor: "#1F1E1F",
         borderRadius: "8px",
         boxShadow: 3,
         position: "relative",
@@ -279,7 +279,7 @@ const QueryEngineCell = ({
             display: "flex",
             alignItems: "center",
             width: "100%",
-            backgroundColor: hovered ? "#1565C0" : "#222B3D",
+            backgroundColor: hovered ? "#1565C0" : "#383838",
           }}
         >
           <IconButton
@@ -316,7 +316,7 @@ const QueryEngineCell = ({
               color: "#fff",
               "& .MuiSelect-select, & .MuiInputBase-input": {
                 padding: "8px 14px",
-                backgroundColor: "#222B3D",
+                backgroundColor: "#1F1E1F",
               },
               "& .MuiOutlinedInput-notchedOutline": {
                 borderColor: "#777",
@@ -344,10 +344,10 @@ const QueryEngineCell = ({
                 fontSize: "0.700rem",
                 padding: "8px 14px",
                 borderRadius: "0px",
-                backgroundColor: "#222B3D",
+                backgroundColor: "#383838",
               },
               "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#222B3D",
+                borderColor: "#383838",
               },
               "&:hover .MuiOutlinedInput-notchedOutline": {
                 borderColor: "#777",
