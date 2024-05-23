@@ -22,7 +22,7 @@ async function getclientConnectionpool(database) {
       user: "root",
       //password: "Meet@123",
       password: "Nipunsql@123",
-      //password: "aswin",
+      // password: "aswin",
       database: database,
     });
   }
