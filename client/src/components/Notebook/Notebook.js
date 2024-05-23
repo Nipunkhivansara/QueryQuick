@@ -235,10 +235,6 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             </Button>
           </Box>
 
-          <div style={{color:'#fff'}}>
-            {JSON.stringify(cells)}
-          </div>
-
           <Box sx={{ width: "100%", paddingLeft: "0px", marginTop: "16px" }}>
             <IconButton onClick={handleMenuOpen}>
               <AddIcon style={{ color: "#fff" }} />
