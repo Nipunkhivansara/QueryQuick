@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, TextField, IconButton, Divider } from "@mui/material";
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 
@@ -48,19 +48,23 @@ const styles = {
 };
 
 const Cell = ({ type, value, onChange, onDelete, handleMenuOpen }) => {
+    const [hover, setHover] = useState(false);
+
     const inputProps = {
         disableUnderline: true,
         style: { ...styles[type], paddingLeft: "0px" },
     };
 
     return (
-        <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
+        <Box
+            sx={{ display: "flex", alignItems: "center", width: "100%" }}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+        >
             <IconButton onClick={handleMenuOpen}>
                 <AddIcon style={{ color: "#fff" }} />
             </IconButton>
-            <IconButton onClick={onDelete}>
-                <DeleteIcon style={{ color: "#fff", fontSize: 16 }} />
-            </IconButton>
+
             {type === "horizontalDivider" ? (
                 <Divider style={styles.horizontalDivider} />
             ) : (
@@ -69,6 +73,7 @@ const Cell = ({ type, value, onChange, onDelete, handleMenuOpen }) => {
                     multiline={type === "textBlock" || type === "info"}
                     variant="standard"
                     value={value}
+                    placeholder='Start typing...'
                     onChange={onChange}
                     InputProps={inputProps}
                     sx={{
@@ -84,8 +89,14 @@ const Cell = ({ type, value, onChange, onDelete, handleMenuOpen }) => {
                     }}
                 />
             )}
+
+            {hover && (
+                <IconButton onClick={onDelete}>
+                    <DeleteIcon style={{ color: "#fff", fontSize: 16 }} />
+                </IconButton>
+            )}
         </Box>
     );
 };
 
-export default Cell
+export default Cell;
