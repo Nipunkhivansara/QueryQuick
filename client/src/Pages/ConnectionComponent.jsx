@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, TextField, Grid, Typography } from "@mui/material";
 
-/* const connectionsList = [
+const connectionsList = [
     "ADP Workforce Now",
     "ActiveCampaign",
     "AdRoll",
@@ -17,7 +17,7 @@ import { Box, TextField, Grid, Typography } from "@mui/material";
     "Amplitude",
     "Anaplan",
     // Add more connections as needed
-]; */
+];
 
 const databases = [
     {

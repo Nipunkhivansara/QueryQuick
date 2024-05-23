@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1F1E1F",
+  backgroundColor: "#1A202D",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
