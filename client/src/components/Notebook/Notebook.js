@@ -170,9 +170,9 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
 
         <Box
           sx={{
-            marginLeft: "-30px",
+            marginLeft: "0px",
             marginTop: "75px",
-            marginRight: "30px",
+            marginRight: "75px",
             marginBottom: "100px",
             width: "99%",
             minHeight: "81.9vh",
@@ -194,7 +194,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
                   style: {
                     color: "#fff",
                     fontSize: "1.9rem",
-                    paddingLeft: "0px",
+                    paddingLeft: "15px",
                   },
                 }}
                 sx={{
@@ -210,7 +210,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
                 color="white"
                 sx={{
                   marginTop: "6px",
-                  paddingLeft: "0px",
+                  paddingLeft: "15px",
                   fontSize: "1.0rem",
                 }}
               >
@@ -223,10 +223,13 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
               onClick={handleSave}
               sx={{
                 color: "primary",
-                backgroundColor: "#1F1E1F",
+                backgroundColor: "green",
                 padding: "6px 12px",
-                fontSize: "0.875rem",
+                fontSize: "0.800rem",
                 width: "fit-content",
+                '&:hover': {
+                  backgroundColor: "darkgreen", // Added hover effect
+                }
               }}
             >
               Save Notebook
@@ -234,7 +237,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
           </Box>
 
           <Box sx={{ width: "100%", paddingLeft: "0px", marginTop: "16px" }}>
-            <IconButton onClick={handleMenuOpen}>
+            <IconButton onClick={handleMenuOpen} sx={{ '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}>
               <AddIcon style={{ color: "#fff" }} />
             </IconButton>
           </Box>
@@ -251,6 +254,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
                   onQueryEngineChange={onQueryEngineChange}
                   index={index}
                   onDelete={() => deleteCell(index)}
+                  handleMenuOpen={handleMenuOpen}
                 />
               ) : (
                 <Cell
@@ -269,15 +273,15 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={() => addCell("textBlock")}>Text Block</MenuItem>
-            <MenuItem onClick={() => addCell("queryEngine")}>
+            <MenuItem onClick={() => addCell("textBlock")} sx={{ fontSize: '0.800rem'}}>Text Block</MenuItem>
+            <MenuItem onClick={() => addCell("queryEngine")} sx={{ fontSize: '0.800rem'}}>
               Query Engine
             </MenuItem>
-            <MenuItem onClick={() => addCell("heading1")}>Heading 1</MenuItem>
-            <MenuItem onClick={() => addCell("heading2")}>Heading 2</MenuItem>
-            <MenuItem onClick={() => addCell("heading3")}>Heading 3</MenuItem>
-            <MenuItem onClick={() => addCell("info")}>Info</MenuItem>
-            <MenuItem onClick={() => addCell("horizontalDivider")}>
+            <MenuItem onClick={() => addCell("heading1")} sx={{ fontSize: '0.800rem'}}>Heading 1</MenuItem>
+            <MenuItem onClick={() => addCell("heading2")} sx={{ fontSize: '0.800rem'}}>Heading 2</MenuItem>
+            <MenuItem onClick={() => addCell("heading3")} sx={{ fontSize: '0.800rem'}}>Heading 3</MenuItem>
+            <MenuItem onClick={() => addCell("info")} sx={{ fontSize: '0.800rem'}}>Info</MenuItem>
+            <MenuItem onClick={() => addCell("horizontalDivider")} sx={{ fontSize: '0.800rem'}}>
               Horizontal Divider
             </MenuItem>
           </Menu>
