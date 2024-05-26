@@ -31,7 +31,8 @@
     "react-simple-code-editor": "^0.13.1",
     "react-tabs": "^6.0.2",
     "recharts": "^2.12.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "dev": "FAST_REFRESH=false react-scripts start",
