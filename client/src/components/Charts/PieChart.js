@@ -56,7 +56,7 @@ const PieChart = ({ data, xCoord, yCoord }) => {
   return (
     <>
       <div className='chartContainer'>
-        <div className='chartCss'>
+        <div className='chartCss pieChart'>
           <Pie data={pieChartData} options={pieChartOptions} />
         </div>
       </div>

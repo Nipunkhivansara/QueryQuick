@@ -51,7 +51,7 @@ const DoughnutChart = ({ data, xCoord, yCoord }) => {
     return (
         <>
             <div className='chartContainer'>
-                <div className='chartCss'>
+                <div className='chartCss pieChart'>
                     <Doughnut data={doughnutChartData} options={doughnutOptions} />
                 </div>
             </div>
