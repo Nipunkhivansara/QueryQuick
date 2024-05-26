@@ -28,11 +28,15 @@ const LineChart = ({ data, xCoord, yCoord }) => {
     plugins: {
       title: {
         display: true,
-        text: 'Line Chart'
+        text: 'Line Chart',
+        color: '#fff',
       },
       legend: {
         display: true,
         position: 'top',
+        labels: {
+          color: '#fff',
+        },
       },
       tooltip: {
         enabled: true,
@@ -44,6 +48,13 @@ const LineChart = ({ data, xCoord, yCoord }) => {
         title: {
           display: true,
           text: xCoord,
+          color: '#fff',
+        },
+        ticks: {
+          color: '#fff',
+        },
+        grid: {
+          color: '#444',
         },
       },
       y: {
@@ -52,20 +63,38 @@ const LineChart = ({ data, xCoord, yCoord }) => {
         title: {
           display: true,
           text: yCoord,
+          color: '#fff',
+        },
+        ticks: {
+          color: '#fff',
+        },
+        grid: {
+          color: '#444',
         },
       },
     },
   };
 
   return (
-    <>
-      <div className='chartContainer'>
-        <div className='chartCss'>
-          <Line data={lineChartData} options={lineOptions} />
-        </div>
+    <div style={styles.chartContainer}>
+      <div style={styles.chartCss}>
+        <Line data={lineChartData} options={lineOptions} />
       </div>
-    </>
+    </div>
   );
+};
+
+const styles = {
+  chartContainer: {
+    padding: '20px',
+    borderRadius: '8px',
+    backgroundColor: '#1e1e1e',
+    maxWidth: '100%',
+    margin: '0 auto',
+  },
+  chartCss: {
+    maxWidth: '100%',
+  },
 };
 
 export default LineChart;

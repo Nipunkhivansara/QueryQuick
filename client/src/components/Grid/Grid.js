@@ -5,7 +5,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import 'ag-grid-community/styles/ag-theme-balham.css';
 import 'ag-grid-community/styles/ag-theme-material.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
-import './ag-theme-v2.css';
+import './ag-theme-v3.css';
 
 const Grid = ({gridData}) => {
   const columns = gridData.length > 0 ? Object.keys(gridData[0]).map(key => ({ headerName: key, field: key })) : [];
@@ -14,12 +14,12 @@ const Grid = ({gridData}) => {
 
   return (
     <div>
-      <div className={`ag-theme-v2`} style={{ height: 600, width: '100%' }}>
+      <div className={`ag-theme-v3`} style={{ height: 320 , width: '100%' }}>
       <AgGridReact
           rowData={rowData}
           columnDefs={columns.map(column => ({
             ...column,
-            floatingFilterComponentParams: { color: 'white' },
+            // floatingFilterComponentParams: { color: 'white' },
           }))}
           pagination={true}
           paginationPageSize={10}
@@ -29,7 +29,7 @@ const Grid = ({gridData}) => {
             resizable: true,
             suppressMovable: false,
             suppressDragLeaveHidesColumns: true,
-            floatingFilter: true, // Enable floating filters
+            // floatingFilter: true, // Enable floating filters
             suppressMenu: false, // Add this line
           }}
           rowSelection="multiple" // Enable row selection
