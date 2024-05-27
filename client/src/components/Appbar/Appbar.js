@@ -24,14 +24,14 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
       <AppBar
         position="fixed"
         sx={{
-          width: `${1930 - menuBarWidth}px`,
+          width: `100%`,
           bgcolor: "#1F1E1F",
           zIndex: 1,
         }}
       >
         <Toolbar>
           <IconButton
-            sx={{ ml: "400px" }}
+            sx={{ ml: `${menuBarWidth-20}px` }}
             edge="start"
             color="inherit"
             aria-label="menu"
