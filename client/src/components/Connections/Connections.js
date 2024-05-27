@@ -6,11 +6,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#1A202D",
+  backgroundColor: "#1F1E1F",
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
-  color: "#95A2B3",
+  color: "#FFFFFF",
   display: "flex",
   alignItems: "center", // Center aligns vertically
   justifyContent: "flex-start", // Aligns content to the left
