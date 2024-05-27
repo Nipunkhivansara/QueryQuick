@@ -24,13 +24,14 @@ import "prismjs/themes/prism.css"; */
 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-sql";
-import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/theme-ambiance";
 import "ace-builds/src-noconflict/theme-gruvbox";
 import "ace-builds/src-noconflict/theme-gob";
+import "ace-builds/src-noconflict/theme-dracula";
 
 import {
   Add as AddIcon,
@@ -56,13 +57,14 @@ const QueryEngineCell = ({
   const [cellDatabase, setCellDatabase] = useState(db);
   const [prompt, setPrompt] = useState(userInput);
   const [error, setError] = useState(null);
-
   const [query, setQuery] = useState(userQuery);
   const [tab, setTab] = useState("table");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const [showQuery, setShowQuery] = useState(userQuery != "");
+  const [showQuery, setShowQuery] = useState(true); // State to manage showing query after lightning icon click
   const [isOpen, setIsOpen] = useState(false);
+
+  let mode = dType === "MySQL" ? "sql" : "javascript";
 
   const databaseOptions = {
     MySQL: ["car", "cs220p"],
@@ -143,7 +145,6 @@ const QueryEngineCell = ({
   const handleRunQuery = async () => {
     console.log(cellDatabase);
     try {
-      setError(null);
       setLoading(true);
       let data;
       if (cellDatabaseType === "MySQL") {
@@ -159,7 +160,7 @@ const QueryEngineCell = ({
       // }
       // console.log(databaseRecords);
     } catch (error) {
-      console.log("Error fetching data from SQL:", error);
+      console.error("Error fetching data from SQL:", error.message);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -355,7 +356,7 @@ const QueryEngineCell = ({
             height="4rem"
             width="100%"
             value={query}
-            mode="sql"
+            mode={mode}
             theme="gob"
             fontSize="0.800rem"
             highlightActiveLine={true}
@@ -365,6 +366,7 @@ const QueryEngineCell = ({
             setOptions={{
               enableBasicAutocompletion: true,
               enableLiveAutocompletion: true,
+              useWorker: false,
             }}
           />
           <Button
@@ -387,91 +389,72 @@ const QueryEngineCell = ({
           </Button>
         </>
       )}
-      {error ? (
-        <Box
-          sx={{
-            width: "97%",
-            backgroundColor: "#000", // Error background color
-            borderRadius: "4px",
-            marginTop: "10px",
-            color: "#BC6764",
-            padding: "10px",
-            boxShadow: "0px 3px 3px rgba(0, 0, 0, 0.25)", // Correctly formatted boxShadow
-            textAlign: "center",
-            marginLeft: "10px",
-            marginRight: "10px",
-          }}
-        >
-          {error}
-        </Box>
-      ) : (
-        data && (
-          <>
-            <Tabs
-              value={tab}
-              onChange={handleTabChange}
+      {data && (
+        <>
+          <Tabs
+            value={tab}
+            onChange={handleTabChange}
+            sx={{
+              // marginTop: "10px",
+              color: "#fff",
+              marginLeft: "16px",
+              "& .MuiTab-root": {
+                fontSize: "0.800rem",
+                "&.Mui-selected": {
+                  color: "#4CAF50",
+                },
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#4CAF50",
+              },
+            }}
+          >
+            <Tab
+              sx={{ color: "#fff", fontSize: "0.800rem" }}
+              label="Table"
+              value="table"
+            />
+            <Tab
+              sx={{ color: "#fff", fontSize: "0.800rem" }}
+              label="Charts"
+              value="charts"
+            />
+          </Tabs>
+          {tab === "table" && (
+            <Box
               sx={{
-                // marginTop: "10px",
+                width: "100%",
+                backgroundColor: "#333",
+                borderRadius: "4px",
+                marginTop: "10px",
                 color: "#fff",
-                marginLeft: "16px",
-                "& .MuiTab-root": {
-                  fontSize: "0.800rem",
-                  "&.Mui-selected": {
-                    color: "#4CAF50",
-                  },
-                },
-                "& .MuiTabs-indicator": {
-                  backgroundColor: "#4CAF50",
-                },
+                padding: "1px",
+                boxShadow: 3,
+                marginLeft: "10px",
+                marginRight: "10px",
               }}
             >
-              <Tab
-                sx={{ color: "#fff", fontSize: "0.800rem" }}
-                label="Table"
-                value="table"
-              />
-              <Tab
-                sx={{ color: "#fff", fontSize: "0.800rem" }}
-                label="Charts"
-                value="charts"
-              />
-            </Tabs>
-            {tab === "table" && (
-              <Box
-                sx={{
-                  width: "100%",
-                  backgroundColor: "#333",
-                  borderRadius: "4px",
-                  marginTop: "10px",
-                  color: "#fff",
-                  padding: "1px",
-                  boxShadow: 3,
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                }}
-              >
-                <Grid gridData={data} />
-              </Box>
-            )}
-            {tab === "charts" && (
-              <Box
-                sx={{
-                  width: "98%",
-                  backgroundColor: "#333",
-                  borderRadius: "4px",
-                  marginTop: "10px",
-                  color: "#fff",
-                  padding: "10px",
-                  boxShadow: 3,
-                  marginLeft: "10px",
-                  marginRight: "10px",
-                }}
-              >
-                <Graphs graphData={data} />
-              </Box>
-            )}
-          </>
-        )
+              <Grid gridData={data} />
+            </Box>
+          )}
+          {tab === "charts" && (
+            <Box
+              sx={{
+                width: "98%",
+                backgroundColor: "#333",
+                borderRadius: "4px",
+                marginTop: "10px",
+                color: "#fff",
+                padding: "10px",
+                boxShadow: 3,
+                marginLeft: "10px",
+                marginRight: "10px",
+              }}
+            >
+              <Graphs graphData={data} />
+            </Box>
+          )}
+        </>
       )}
       <IconButton
         onClick={onDelete}
