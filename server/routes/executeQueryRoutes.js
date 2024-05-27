@@ -25,9 +25,9 @@ sqlExecutionRouter.get("/", async (req, res) => {
     res.status(200).json(results);
   } catch (error) {
     // Catch any errors that occurred during query execution
-    console.error(error);
     // Send an error response with a 500 status code
-    res.status(500).send(error.message);
+    console.log(error.sqlMessage);
+    res.status(500).send(error.sqlMessage);
   } finally {
     // Always release the connection back to the pool
     releaseClientConnectionToPool(connection);
