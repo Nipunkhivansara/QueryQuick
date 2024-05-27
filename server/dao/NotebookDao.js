@@ -22,7 +22,12 @@ class NotebookDao {
     const { notebook_id, name } = notebookData;
 
     return new Promise((resolve, reject) => {
-      const query = `INSERT INTO notebooks (notebook_id, user_id, name) VALUES ('${notebook_id}', ${user_id}, '${name}') ON DUPLICATE KEY UPDATE notebook_id=VALUES(notebook_id)`;
+      const query = `INSERT INTO notebooks (notebook_id, user_id, name) 
+               VALUES ('${notebook_id}', ${user_id}, '${name}') 
+               ON DUPLICATE KEY UPDATE 
+                   notebook_id=VALUES(notebook_id), 
+                   name=VALUES(name)`;
+
       console.log("query", query);
       this.database.query(query, (error, result) => {
         if (error) {
@@ -83,30 +88,29 @@ class NotebookDao {
 
   async deleteRecordIfExists(cell_id, notebook_id, user_id) {
     return new Promise((resolve, reject) => {
-        // Parameterized delete query
-        const query = `
+      // Parameterized delete query
+      const query = `
             DELETE FROM cells 
             WHERE id = ? 
             AND notebook_id = ?
             AND user_id = ?
         `;
-        const values = [cell_id, notebook_id, user_id];
+      const values = [cell_id, notebook_id, user_id];
 
-        this.database.query(query, values, (error, results) => {
-            if (error) {
-                console.error('Error deleting cell:', error);
-                reject('Error deleting cell');
-                return;
-            }
-            if (results.affectedRows > 0) {
-                resolve({ message: 'Cell deleted successfully' });
-            } else {
-                resolve({ message: 'Cell not found' });
-            }
-        });
+      this.database.query(query, values, (error, results) => {
+        if (error) {
+          console.error("Error deleting cell:", error);
+          reject("Error deleting cell");
+          return;
+        }
+        if (results.affectedRows > 0) {
+          resolve({ message: "Cell deleted successfully" });
+        } else {
+          resolve({ message: "Cell not found" });
+        }
+      });
     });
-}
-
+  }
 
   async createNewNotebook(userId, name) {
     return new Promise((resolve, reject) => {
@@ -203,7 +207,7 @@ class NotebookDao {
     return new Promise((resolve, reject) => {
       const query = `SELECT * FROM notebooks WHERE notebook_id = ? AND user_id = ?`;
       const values = [notebookId, userId];
-      
+
       this.database.query(query, values, (error, result) => {
         if (error) {
           console.error("Error querying database:", error);
@@ -214,7 +218,6 @@ class NotebookDao {
       });
     });
   }
-  
 
   async getCellsByNotebookId(notebookId, userId) {
     return new Promise((resolve, reject) => {
