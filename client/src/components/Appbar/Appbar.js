@@ -30,21 +30,12 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
         }}
       >
         <Toolbar>
-          <IconButton
-            sx={{ ml: `${menuBarWidth-20}px` }}
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleDrawerToggle}
-          >
-            <MenuIcon />
-          </IconButton>
           <Box
             sx={{
               flexGrow: 1,
               textAlign: "center",
               textTransform: "cursive",
-              marginLeft: "30px", // Adjust this value to shift the box to the right
+              marginLeft: "200px", // Adjust this value to shift the box to the right
             }}
           >
             <Typography
