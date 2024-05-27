@@ -11,7 +11,7 @@ import {
   Typography,
   Paper,
   InputBase,
-  } from "@mui/material";
+} from "@mui/material";
 import FlashOnOutlinedIcon from "@mui/icons-material/FlashOnOutlined";
 import DataArrayIcon from "@mui/icons-material/DataArray";
 /* import Editor from "react-simple-code-editor";
@@ -31,10 +31,10 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/theme-ambiance";
 import "ace-builds/src-noconflict/theme-gruvbox";
 import "ace-builds/src-noconflict/theme-gob";
-import "ace-builds/src-noconflict/theme-dracula"
+import "ace-builds/src-noconflict/theme-dracula";
 
 import {
-    Add as AddIcon,
+  Add as AddIcon,
   Delete as DeleteIcon,
   PlayArrow as PlayArrowIcon,
 } from "@mui/icons-material";
@@ -51,11 +51,8 @@ const QueryEngineCell = ({
   db,
   userInput,
   userQuery,
-  handleMenuOpen
+  handleMenuOpen,
 }) => {
-
-  
-
   const [cellDatabaseType, setCellDatabaseType] = useState(dType);
   const [cellDatabase, setCellDatabase] = useState(db);
   const [prompt, setPrompt] = useState(userInput);
@@ -64,7 +61,7 @@ const QueryEngineCell = ({
   const [tab, setTab] = useState("table");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const [showQuery, setShowQuery] = useState(true); // State to manage showing query after lightning icon click
+  const [showQuery, setShowQuery] = useState(userQuery != "");
   const [isOpen, setIsOpen] = useState(false);
 
   let mode = dType === "MySQL" ? "sql" : "javascript";
@@ -146,9 +143,9 @@ const QueryEngineCell = ({
   };
 
   const handleRunQuery = async () => {
-    
     console.log(cellDatabase);
     try {
+      setError(null);
       setLoading(true);
       let data;
       if (cellDatabaseType === "MySQL") {
@@ -164,7 +161,7 @@ const QueryEngineCell = ({
       // }
       // console.log(databaseRecords);
     } catch (error) {
-      console.error("Error fetching data from SQL:", error.message);
+      console.log("Error fetching data from SQL:", error);
       setError(error.message);
     } finally {
       setLoading(false);
@@ -189,7 +186,7 @@ const QueryEngineCell = ({
       borderColor: "#fff",
     },
     "& .MuiSelect-icon": {
-        color: "#fff", // Set the arrow color to white
+      color: "#fff", // Set the arrow color to white
     },
   };
 
@@ -214,7 +211,6 @@ const QueryEngineCell = ({
   };
 
   return (
-
     <Box
       sx={{
         display: "flex",
@@ -231,56 +227,59 @@ const QueryEngineCell = ({
         marginBottom: "16px",
       }}
     >
-
-      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-        <IconButton onClick={handleMenuOpen} sx={{ '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}>
-            <AddIcon style={{ color: "#fff" }} />
-        </IconButton >
-      <Select
-        value={cellDatabaseType}
-        onChange={handleDatabaseTypeChange}
-        displayEmpty
-        open={isOpen}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        sx={{
-          minWidth: '150px',
-          ...commonStyles,
-          ...dropDownStyles
-        }}
-      >
-        <MenuItem value="" disabled sx={{ fontSize: '0.800rem' }}>
-          Select Database Type
-        </MenuItem>
-        {Object.keys(databaseOptions).map((type) => (
-          <MenuItem key={type} value={type} sx={{ fontSize: '0.800rem' }}>
-            {type}
-          </MenuItem>
-        ))}
-      </Select>
-      <Box sx={{ marginLeft: '10px' }}>
+      <Box sx={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+        <IconButton
+          onClick={handleMenuOpen}
+          sx={{ "&:hover": { backgroundColor: "rgba(255, 255, 255, 0.2)" } }}
+        >
+          <AddIcon style={{ color: "#fff" }} />
+        </IconButton>
         <Select
-          value={cellDatabase}
-          onChange={handleDatabaseChange}
+          value={cellDatabaseType}
+          onChange={handleDatabaseTypeChange}
           displayEmpty
+          open={isOpen}
+          onClose={handleClose}
+          onOpen={handleOpen}
           sx={{
+            minWidth: "150px",
             ...commonStyles,
             ...dropDownStyles,
-            minWidth: '200px',
           }}
-          disabled={!cellDatabaseType}
         >
-          <MenuItem value="" disabled sx={{ fontSize: '0.800rem' }}>
-            Select Database
+          <MenuItem value="" disabled sx={{ fontSize: "0.800rem" }}>
+            Select Database Type
           </MenuItem>
-          {cellDatabaseType && databaseOptions[cellDatabaseType].map((db) => (
-            <MenuItem key={db} value={db} sx={{ fontSize: '0.800rem' }}>
-              {db}
+          {Object.keys(databaseOptions).map((type) => (
+            <MenuItem key={type} value={type} sx={{ fontSize: "0.800rem" }}>
+              {type}
             </MenuItem>
           ))}
         </Select>
+        <Box sx={{ marginLeft: "10px" }}>
+          <Select
+            value={cellDatabase}
+            onChange={handleDatabaseChange}
+            displayEmpty
+            sx={{
+              ...commonStyles,
+              ...dropDownStyles,
+              minWidth: "200px",
+            }}
+            disabled={!cellDatabaseType}
+          >
+            <MenuItem value="" disabled sx={{ fontSize: "0.800rem" }}>
+              Select Database
+            </MenuItem>
+            {cellDatabaseType &&
+              databaseOptions[cellDatabaseType].map((db) => (
+                <MenuItem key={db} value={db} sx={{ fontSize: "0.800rem" }}>
+                  {db}
+                </MenuItem>
+              ))}
+          </Select>
+        </Box>
       </Box>
-    </Box>
 
       <Box
         sx={{
@@ -299,10 +298,10 @@ const QueryEngineCell = ({
             display: "flex",
             alignItems: "center",
             width: "100%",
-            backgroundColor: hovered ? "#1565C0" : "#3E3E3E",  
+            backgroundColor: hovered ? "#1565C0" : "#3E3E3E",
             // borderRadius: "8px",
             // boxShadow: hovered ? "0px 4px 20px rgba(21, 101, 192, 0.3)" : "0px 2px 10px rgba(0, 0, 0, 0.3)",
-        }}
+          }}
         >
           <IconButton
             sx={{
@@ -350,7 +349,6 @@ const QueryEngineCell = ({
               },
             }}
           />
-
         </Paper>
       </Box>
       {showQuery && !loading && (
@@ -367,10 +365,10 @@ const QueryEngineCell = ({
             name="UNIQUE_ID_OF_DIV"
             placeholder="Loading query..."
             setOptions={{
-                enableBasicAutocompletion: true,  
-                enableLiveAutocompletion: true,
-                useWorker: false,
-              }}
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              useWorker: false,
+            }}
           />
           <Button
             variant="contained"
@@ -384,7 +382,7 @@ const QueryEngineCell = ({
               margin: "10px",
               fontSize: "0.800rem",
               "&:hover": {
-                backgroundColor: "#45A049"
+                backgroundColor: "#45A049",
               },
             }}
           >
@@ -392,64 +390,91 @@ const QueryEngineCell = ({
           </Button>
         </>
       )}
-      {data && (
-        <>
-          <Tabs
-            value={tab}
-            onChange={handleTabChange}
-            sx={{
+      {error ? (
+        <Box
+          sx={{
+            width: "97%",
+            backgroundColor: "#000", // Error background color
+            borderRadius: "4px",
+            marginTop: "10px",
+            color: "#BC6764",
+            padding: "10px",
+            boxShadow: "0px 3px 3px rgba(0, 0, 0, 0.25)", // Correctly formatted boxShadow
+            textAlign: "center",
+            marginLeft: "10px",
+            marginRight: "10px",
+          }}
+        >
+          {error}
+        </Box>
+      ) : (
+        data && (
+          <>
+            <Tabs
+              value={tab}
+              onChange={handleTabChange}
+              sx={{
                 // marginTop: "10px",
                 color: "#fff",
                 marginLeft: "16px",
                 "& .MuiTab-root": {
                   fontSize: "0.800rem",
                   "&.Mui-selected": {
-                    color: "#4CAF50",  
+                    color: "#4CAF50",
                   },
                 },
                 "& .MuiTabs-indicator": {
-                  backgroundColor: "#4CAF50",  
+                  backgroundColor: "#4CAF50",
                 },
               }}
-          >
-            <Tab sx={{ color: '#fff', fontSize: '0.800rem' }} label="Table" value="table" />
-            <Tab sx={{ color: '#fff', fontSize: '0.800rem' }} label="Charts" value="charts" />
-          </Tabs>
-          {tab === "table" && (
-            <Box
-              sx={{
-                width: "100%",
-                backgroundColor: "#333",
-                borderRadius: "4px",
-                marginTop: "10px",
-                color: "#fff",
-                padding: "1px",
-                boxShadow: 3,
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
             >
-              <Grid gridData={data} />
-            </Box>
-          )}
-          {tab === "charts" && (
-            <Box
-              sx={{
-                width: "98%",
-                backgroundColor: "#333",
-                borderRadius: "4px",
-                marginTop: "10px",
-                color: "#fff",
-                padding: "10px",
-                boxShadow: 3,
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            >
-              <Graphs graphData={data} />
-            </Box>
-          )}
-        </>
+              <Tab
+                sx={{ color: "#fff", fontSize: "0.800rem" }}
+                label="Table"
+                value="table"
+              />
+              <Tab
+                sx={{ color: "#fff", fontSize: "0.800rem" }}
+                label="Charts"
+                value="charts"
+              />
+            </Tabs>
+            {tab === "table" && (
+              <Box
+                sx={{
+                  width: "100%",
+                  backgroundColor: "#333",
+                  borderRadius: "4px",
+                  marginTop: "10px",
+                  color: "#fff",
+                  padding: "1px",
+                  boxShadow: 3,
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                <Grid gridData={data} />
+              </Box>
+            )}
+            {tab === "charts" && (
+              <Box
+                sx={{
+                  width: "98%",
+                  backgroundColor: "#333",
+                  borderRadius: "4px",
+                  marginTop: "10px",
+                  color: "#fff",
+                  padding: "10px",
+                  boxShadow: 3,
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              >
+                <Graphs graphData={data} />
+              </Box>
+            )}
+          </>
+        )
       )}
       <IconButton
         onClick={onDelete}
