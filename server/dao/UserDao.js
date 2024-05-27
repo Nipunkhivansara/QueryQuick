@@ -41,6 +41,27 @@ class UserDAO {
     });
   }
 
+
+  async getAllUsers() {
+    // Perform database query to fetch user by email
+    // Example using MySQL and promises
+    let result;
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM users";
+      this.database.query(query, (error, results, fields) => {
+        if (error) {
+          console.error("Error querying database:", error);
+          return;
+        }
+  
+        // Results contain the rows returned by the query
+        console.log("Query results for ALL USERS:", results);
+        resolve(results);
+      });
+    });
+  }
+  
+
   async getUsersFromNotebookId(notebook_ids) {
     // Perform database query to fetch user by email
     // Example using MySQL and promises

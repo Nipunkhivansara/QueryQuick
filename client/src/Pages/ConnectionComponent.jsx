@@ -82,7 +82,7 @@ const ConnectionComponent = () => {
                 height: 315,
                 margin: "0 auto",
                 padding: "20px",
-                bgcolor: "#fff",
+                bgcolor: "##d1d1d1",
                 overflowY: 'auto',
                 '&::-webkit-scrollbar': {
                     display: 'none', // Hide scrollbar for Chrome, Safari, and Opera
@@ -103,7 +103,7 @@ const ConnectionComponent = () => {
                 variant="outlined"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                sx={{ marginBottom: "20px" }}
+                sx={{ marginBottom: "20px", marginTop: "20px" }}
             />
             <Grid container spacing={2}>
                 {filteredDatabases.map((database, index) => (
@@ -113,11 +113,11 @@ const ConnectionComponent = () => {
                                 display: "flex",
                                 alignItems: "center",
                                 padding: "10px",
-                                border: "1px solid #ddd",
+                                border: "1px solid #383838",
                                 borderRadius: "4px",
                                 cursor: "pointer",
                                 '&:hover': {
-                                    backgroundColor: "#f5f5f5",
+                                    backgroundColor: "#898585",
                                 },
                             }}
                         >

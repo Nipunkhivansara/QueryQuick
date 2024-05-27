@@ -29,6 +29,23 @@ router.get("/notebooks", async (req, res) => {
   }
 });
 
+router.get("/allUsers", async(req, res) => {
+  console.log("Received request to get all Users");
+  try{
+    const db = await getConnectionFromPool();
+    const userDAO = new UserDAO(db);
+    const users = await userDAO.getAllUsers();
+    releaseConnectionToPool(db);
+    res.status(200).json(users);
+
+  }catch (error) {
+    console.error("Error fetching users:", error);
+    console.log(error);
+    res.status(500).json({ error: "An error occurred while fetching users." });
+  }
+
+});
+
 router.get("/notebooks/ids", async (req, res) => {
   // This is how I want the data format to be sent from this function
   console.log("Received request to get notebooks by ids");
@@ -69,6 +86,8 @@ async function getUser(userDAO, req) {
   console.log("Getting user data for email", email);
   const user = await userDAO.getUserByEmail(email);
   return user;
-}
+};
+
+
 
 module.exports = router;
