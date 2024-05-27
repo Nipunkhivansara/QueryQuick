@@ -7,53 +7,44 @@ import 'ag-grid-community/styles/ag-theme-material.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import './ag-theme-v2.css';
 import * as XLSX from 'xlsx';
-import { Button } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { SaveAlt as SaveAltIcon } from '@mui/icons-material';
+import './ag-theme-v3.css';
 
 const Grid = ({ gridData }) => {
-  const gridRef = useRef(null); // Create a reference for the grid
 
   const columns = gridData.length > 0 ? Object.keys(gridData[0]).map(key => ({ headerName: key, field: key })) : [];
   const rowData = gridData.length > 0 ? gridData : [];
+  const gridApi = useRef(null);
 
-  const onBtnExport = () => {
-    const api = gridRef.current.api;
-    const allData = [];
-    api.forEachNode(node => allData.push(node.data));
-
-    const worksheet = XLSX.utils.json_to_sheet(allData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
-    XLSX.writeFile(workbook, 'grid-data.xlsx');
+  const exportData = () => {
+    const params = {
+      fileName: 'grid-data.csv',
+      onlySelected: false,
+      skipHeader: false,
+      columnSeparator: ','
+    };
+    gridApi.current.api.exportDataAsCsv(params);
   };
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', margin: 2 }}>
         <Button
-          onClick={onBtnExport}
           variant="contained"
+          color="primary"
+          onClick={exportData}
           startIcon={<SaveAltIcon />}
-          sx={{
-            backgroundColor: '#3f51b5',
-            marginTop: '15px',
-            marginRight: '15px',
-            color: '#fff',
-            '&:hover': {
-              backgroundColor: '#303f9f',
-            },
-          }}
         >
           Export
         </Button>
-      </div>
-      <div className={`ag-theme-v2`} style={{ height: 600, width: '100%' }}>
+      </Box>
+      <div className={`ag-theme-v3`} style={{ height: 320 , width: '100%' }}>
         <AgGridReact
-          ref={gridRef} // Assign the grid reference
           rowData={rowData}
           columnDefs={columns.map(column => ({
             ...column,
-            floatingFilterComponentParams: { color: 'white' },
+            // floatingFilterComponentParams: { color: 'white' },
           }))}
           pagination={true}
           paginationPageSize={10}
@@ -67,7 +58,10 @@ const Grid = ({ gridData }) => {
             suppressMenu: false,
           }}
           rowSelection="multiple"
-          onGridReady={params => params.api.sizeColumnsToFit()}
+          onGridReady={params => {
+            params.api.sizeColumnsToFit();
+            gridApi.current = params;
+          }}
         />
       </div>
     </div>

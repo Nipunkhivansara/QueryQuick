@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Box, TextField, IconButton, Divider } from "@mui/material";
-import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
+import {
+    Add as AddIcon,
+  Delete as DeleteIcon,
+} from "@mui/icons-material";
 
 // CSS for the different cell types
 const styles = {
@@ -37,7 +40,7 @@ const styles = {
     info: {
         display: "flex",
         alignItems: "center",
-        padding: "8px 0", // Adjust padding as needed
+        padding: "8px 8px", // Adjust padding as needed
         backgroundColor: "#e7f3fe",
         borderLeft: "4px solid #2196F3",
     },
@@ -60,7 +63,7 @@ const Cell = ({ type, value, onChange, onDelete, handleMenuOpen }) => {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
         >
-            <IconButton onClick={handleMenuOpen}>
+            <IconButton onClick={handleMenuOpen} sx={{ '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}>
                 <AddIcon style={{ color: "#fff" }} />
             </IconButton>
 

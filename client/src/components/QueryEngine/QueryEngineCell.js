@@ -11,7 +11,7 @@ import {
   Typography,
   Paper,
   InputBase,
-} from "@mui/material";
+  } from "@mui/material";
 import FlashOnOutlinedIcon from "@mui/icons-material/FlashOnOutlined";
 import DataArrayIcon from "@mui/icons-material/DataArray";
 /* import Editor from "react-simple-code-editor";
@@ -33,6 +33,7 @@ import "ace-builds/src-noconflict/theme-gruvbox";
 import "ace-builds/src-noconflict/theme-gob";
 
 import {
+    Add as AddIcon,
   Delete as DeleteIcon,
   PlayArrow as PlayArrowIcon,
 } from "@mui/icons-material";
@@ -49,6 +50,7 @@ const QueryEngineCell = ({
   db,
   userInput,
   userQuery,
+  handleMenuOpen
 }) => {
 
   const [cellDatabaseType, setCellDatabaseType] = useState(dType);
@@ -60,8 +62,13 @@ const QueryEngineCell = ({
   const [tab, setTab] = useState("table");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
-  const [showQuery, setShowQuery] = useState(false); // State to manage showing query after lightning icon click
+  const [showQuery, setShowQuery] = useState(true); // State to manage showing query after lightning icon click
   const [isOpen, setIsOpen] = useState(false);
+
+  const databaseOptions = {
+    MySQL: ["car", "cs220p"],
+    MongoDB: ["SampleUCI"],
+  };
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -135,17 +142,8 @@ const QueryEngineCell = ({
   };
 
   const handleRunQuery = async () => {
-    // /Simulate running query and fetching data
-    // setTimeout(() => {
-    //   setData([
-    //     { id: 1, title: "A Quiet Place Part II", year: 2022, rating: 7.3 },
-    //     { id: 2, title: "Black Widow", year: 2022, rating: 6.8 },
-    //     { id: 3, title: "Dune", year: 2022, rating: 8.1 },
-    //     { id: 4, title: "No Time to Die", year: 2022, rating: 7.4 },
-    //     { id: 5, title: "The French Dispatch", year: 2022, rating: 7.5 },
-    //   ]);
-    //   setLoading(false);
-    // }, 1000);
+    
+    console.log(cellDatabase);
     try {
       setLoading(true);
       let data;
@@ -170,7 +168,7 @@ const QueryEngineCell = ({
   };
 
   const commonStyles = {
-    fontSize: "0.700rem",
+    fontSize: "0.800rem",
     color: "#fff",
     "& .MuiSelect-select, & .MuiInputBase-input": {
       padding: "8px 14px",
@@ -178,13 +176,16 @@ const QueryEngineCell = ({
       backgroundColor: "#383838",
     },
     "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#383838",
+      borderColor: "#fff",
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#1F1E1F",
+      borderColor: "#fff",
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#1F1E1F",
+      borderColor: "#fff",
+    },
+    "& .MuiSelect-icon": {
+        color: "#fff", // Set the arrow color to white
     },
   };
 
@@ -195,7 +196,7 @@ const QueryEngineCell = ({
       borderRadius: isOpen ? "4px 4px 0 0" : "4px", // Example border radius change on open
       width: "fit-content", // Adjust width dynamically
       minWidth: "150px", //
-      fontSize: "0.700 rem",
+      fontSize: "0.800 rem",
       padding: "8px 14px",
     },
     "& .MuiListItem-root": {
@@ -204,11 +205,12 @@ const QueryEngineCell = ({
       "&:hover": {
         backgroundColor: "#e0e0e0", // Example hover background color
       },
-      fontSize: "0.700 rem",
+      fontSize: "0.800 rem",
     },
   };
 
   return (
+
     <Box
       sx={{
         display: "flex",
@@ -225,55 +227,56 @@ const QueryEngineCell = ({
         marginBottom: "16px",
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+
+      <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+        <IconButton onClick={handleMenuOpen} sx={{ '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' } }}>
+            <AddIcon style={{ color: "#fff" }} />
+        </IconButton >
+      <Select
+        value={cellDatabaseType}
+        onChange={handleDatabaseTypeChange}
+        displayEmpty
+        open={isOpen}
+        onClose={handleClose}
+        onOpen={handleOpen}
+        sx={{
+          minWidth: '150px',
+          ...commonStyles,
+          ...dropDownStyles
+        }}
+      >
+        <MenuItem value="" disabled sx={{ fontSize: '0.800rem' }}>
+          Select Database Type
+        </MenuItem>
+        {Object.keys(databaseOptions).map((type) => (
+          <MenuItem key={type} value={type} sx={{ fontSize: '0.800rem' }}>
+            {type}
+          </MenuItem>
+        ))}
+      </Select>
+      <Box sx={{ marginLeft: '10px' }}>
         <Select
-          value={cellDatabaseType}
-          onChange={handleDatabaseTypeChange}
+          value={cellDatabase}
+          onChange={handleDatabaseChange}
           displayEmpty
-          open={isOpen}
-          onClose={handleClose}
-          onOpen={handleOpen}
           sx={{
-            minWidth: "150px",
             ...commonStyles,
             ...dropDownStyles,
+            minWidth: '200px',
           }}
+          disabled={!cellDatabaseType}
         >
-          <MenuItem value="" disabled sx={{ fontSize: "0.700rem" }}>
-            Select Database Type
+          <MenuItem value="" disabled sx={{ fontSize: '0.800rem' }}>
+            Select Database
           </MenuItem>
-          <MenuItem value="MySQL" sx={{ fontSize: "0.700rem" }}>
-            MySQL
-          </MenuItem>{" "}
-          <MenuItem value="PostgreSQL" sx={{ fontSize: "0.700rem" }}>
-            PostgreSQL
-          </MenuItem>
-          {/* Add more database types as needed */}
+          {cellDatabaseType && databaseOptions[cellDatabaseType].map((db) => (
+            <MenuItem key={db} value={db} sx={{ fontSize: '0.800rem' }}>
+              {db}
+            </MenuItem>
+          ))}
         </Select>
-        <Box sx={{ marginLeft: "10px" }}>
-          <Select
-            value={cellDatabase}
-            onChange={handleDatabaseChange}
-            displayEmpty
-            sx={{
-              ...commonStyles,
-              ...dropDownStyles,
-              minWidth: "200px",
-            }}
-          >
-            <MenuItem value="" disabled sx={{ fontSize: "0.700rem" }}>
-              Select Database Schema
-            </MenuItem>
-            <MenuItem value="cs220p" sx={{ fontSize: "0.700rem" }}>
-              cs220p
-            </MenuItem>
-            <MenuItem value="db2" sx={{ fontSize: "0.700rem" }}>
-              Database 2
-            </MenuItem>
-            {/* Add more databases as needed */}
-          </Select>
-        </Box>
       </Box>
+    </Box>
 
       <Box
         sx={{
@@ -292,8 +295,10 @@ const QueryEngineCell = ({
             display: "flex",
             alignItems: "center",
             width: "100%",
-            backgroundColor: hovered ? "#1565C0" : "#383838",
-          }}
+            backgroundColor: hovered ? "#1565C0" : "#3E3E3E",  
+            // borderRadius: "8px",
+            // boxShadow: hovered ? "0px 4px 20px rgba(21, 101, 192, 0.3)" : "0px 2px 10px rgba(0, 0, 0, 0.3)",
+        }}
         >
           <IconButton
             sx={{
@@ -324,7 +329,7 @@ const QueryEngineCell = ({
             sx={{
               width: "100%",
               borderRadius: "4px",
-              fontSize: "0.700rem",
+              fontSize: "0.800rem",
               color: "#fff",
               "& .MuiSelect-select, & .MuiInputBase-input": {
                 padding: "8px 14px",
@@ -341,21 +346,26 @@ const QueryEngineCell = ({
               },
             }}
           />
+
         </Paper>
       </Box>
       {showQuery && !loading && (
         <>
           <AceEditor
-            height="100px"
+            height="4rem"
             width="100%"
             value={query}
-            mode="sql"
+            mode='sql'
             theme="gob"
-            fontSize="16px"
+            fontSize="0.800rem"
             highlightActiveLine={true}
             onChange={(code) => setQuery(code)}
             name="UNIQUE_ID_OF_DIV"
             placeholder="Loading query..."
+            setOptions={{
+                enableBasicAutocompletion: true,  
+                enableLiveAutocompletion: true,
+              }}
           />
           <Button
             variant="contained"
@@ -367,7 +377,10 @@ const QueryEngineCell = ({
               padding: "4px 8px", // Adjust the padding to make the button smaller
               width: "fit-content",
               margin: "10px",
-              fontSize: "0.700rem",
+              fontSize: "0.800rem",
+              "&:hover": {
+                backgroundColor: "#45A049"
+              },
             }}
           >
             Run
@@ -379,10 +392,23 @@ const QueryEngineCell = ({
           <Tabs
             value={tab}
             onChange={handleTabChange}
-            sx={{ marginTop: "16px", color: "#fff", marginLeft: "16px" }}
+            sx={{
+                // marginTop: "10px",
+                color: "#fff",
+                marginLeft: "16px",
+                "& .MuiTab-root": {
+                  fontSize: "0.800rem",
+                  "&.Mui-selected": {
+                    color: "#4CAF50",  
+                  },
+                },
+                "& .MuiTabs-indicator": {
+                  backgroundColor: "#4CAF50",  
+                },
+              }}
           >
-            <Tab sx={{ color: '#fff' }} label="Table" value="table" />
-            <Tab sx={{ color: '#fff' }} label="Charts" value="charts" />
+            <Tab sx={{ color: '#fff', fontSize: '0.800rem' }} label="Table" value="table" />
+            <Tab sx={{ color: '#fff', fontSize: '0.800rem' }} label="Charts" value="charts" />
           </Tabs>
           {tab === "table" && (
             <Box
@@ -404,7 +430,7 @@ const QueryEngineCell = ({
           {tab === "charts" && (
             <Box
               sx={{
-                width: "100%",
+                width: "98%",
                 backgroundColor: "#333",
                 borderRadius: "4px",
                 marginTop: "10px",
@@ -427,13 +453,13 @@ const QueryEngineCell = ({
           position: "absolute",
           top: "10px",
           right: "10px",
-          fontSize: "0.700rem",
+          fontSize: "0.800rem",
           ...commonStyles,
           opacity: 0,
           transition: "opacity 0.3s",
         }}
       >
-        <DeleteIcon />
+        <DeleteIcon sx={{ fontSize: "1rem" }} />
       </IconButton>
     </Box>
   );

@@ -11,11 +11,15 @@ const BarChart = ({ data, xCoord, yCoord }) => {
     plugins: {
       title: {
         display: true,
-        text: 'Bar Chart'
+        text: 'Bar Chart',
+        color: '#fff'
       },
       legend: {
         display: true,
         position: 'top',
+        labels: {
+          color: '#fff'
+        }
       },
       tooltip: {
         enabled: true,
@@ -24,6 +28,20 @@ const BarChart = ({ data, xCoord, yCoord }) => {
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          color: '#fff'
+        },
+        grid: {
+          color: '#444'
+        }
+      },
+      x: {
+        ticks: {
+          color: '#fff'
+        },
+        grid: {
+          color: '#444'
+        }
       }
     }
   };
@@ -40,25 +58,36 @@ const BarChart = ({ data, xCoord, yCoord }) => {
       {
         label: yCoord,
         data: dataValues,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Adjusted background color
+        borderColor: 'rgba(75, 192, 192, 1)', // Adjusted border color
         borderWidth: 1,
       }
     ]
   };
 
   return (
-    <>
-    <div className='chartContainer'>
-      <div className='chartCss'>
+    <div style={styles.chartContainer}>
+      <div style={styles.chartCss}>
         <Bar
           data={barChartData}
           options={barChartOptions}
         />
       </div>
     </div>
-    </>
-  )
+  );
 }
+
+const styles = {
+  chartContainer: {
+    padding: '20px',
+    borderRadius: '8px',
+    backgroundColor: '#1e1e1e',
+    maxWidth: '100%',
+    margin: '0 auto',
+  },
+  chartCss: {
+    maxWidth: '100%',
+  }
+};
 
 export default BarChart;
