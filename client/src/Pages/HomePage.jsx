@@ -20,6 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
 import ConnectionComponent from './ConnectionComponent';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,6 +59,8 @@ const HomePage = ({ user }) => {
   const [notebooks, setNotebooks] = useState([]);
   const [notebookName, setNotebookName] = useState('');
   const [open, setOpen] = React.useState(false);
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -125,7 +128,20 @@ const HomePage = ({ user }) => {
         console.error('Failed to fetch notebooks:', error);
       }
     };
+
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/allUsers');
+        
+        setUsers(response.data);
+        console.log("USERSSSSSSSSSSSSSSSS:", response.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
     fetchNotebooks();
+    fetchUsers();
   }, [user.email]);
 
   const [value, setValue] = React.useState(0);
@@ -147,7 +163,10 @@ const HomePage = ({ user }) => {
           marginLeft: 10,
           marginRight: 10,
           boxShadow: 3,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          border: '10px solid #4e6676',
+          borderRadius: '30px',
+          bgcolor: '#d1d1d1'
         }}
       >
         <Tabs
@@ -160,7 +179,6 @@ const HomePage = ({ user }) => {
         >
           <Tab label="Add Connection" {...a11yProps(0)} />
           <Tab label="Create Notebook" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <ConnectionComponent />
@@ -208,6 +226,28 @@ const HomePage = ({ user }) => {
                   value={notebookName}
                   onChange={(e) => setNotebookName(e.target.value)}
                 />
+                <div>
+                  {JSON.stringify(users)}
+                </div>
+
+              <FormControl fullWidth variant="standard" margin="dense">
+                <InputLabel id="user-select-label">Select User</InputLabel>
+                
+                <Select
+                  labelId="user-select-label"
+                  id="user-select"
+                  value={selectedUser}
+                  onChange={(e) => setSelectedUser(e.target.value)}
+                  label="Select User"
+                >
+                  {users.map((user) => (
+                    <MenuItem key={user.id} value={user.id}>
+                      {user.username}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
@@ -216,14 +256,11 @@ const HomePage = ({ user }) => {
             </Dialog>
           </div>
         </TabPanel>
-        <TabPanel value={value} index={2}>
-          Item Three
-        </TabPanel>
       </Box>
 
       <Grid container spacing={2} sx={{ mt: 2, px: 10 }}>
         <Grid item xs={12} md={6}>
-          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
             <CardContent>
               <video width="100%" controls>
                 <source src="path/to/your/video.mp4" type="video/mp4" />
@@ -233,7 +270,7 @@ const HomePage = ({ user }) => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#ded7d7' }}>
+          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
             <CardContent>
             <Typography variant='h5'>Notebooks</Typography>
               <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>

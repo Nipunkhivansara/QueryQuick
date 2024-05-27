@@ -31,6 +31,7 @@ import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/theme-ambiance";
 import "ace-builds/src-noconflict/theme-gruvbox";
 import "ace-builds/src-noconflict/theme-gob";
+import "ace-builds/src-noconflict/theme-dracula"
 
 import {
     Add as AddIcon,
@@ -356,7 +357,7 @@ const QueryEngineCell = ({
             width="100%"
             value={query}
             mode='sql'
-            theme="gob"
+            theme="dracula"
             fontSize="0.800rem"
             highlightActiveLine={true}
             onChange={(code) => setQuery(code)}
