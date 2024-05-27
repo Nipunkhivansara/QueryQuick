@@ -10,6 +10,9 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import { Snackbar } from '@mui/material';
+import MuiAlert from '@mui/material/Alert';
+import Slide from '@mui/material/Slide';
 import { Add as AddIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import Sidebar from "../Sidebar/Sidebar";
 import Appbar from "../Appbar/Appbar";
@@ -24,7 +27,8 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [title, setTitle] = useState(notebook_name);
   const [nextCellID, setNextCellID] = useState(1);
-
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openError, setOpenError] = useState(false);
   const [cellDatabaseType, setCellDatabaseType] = useState("");
   const [celldatabase, setCellDatabase] = useState("");
   const [prompt, setPrompt] = useState("");
@@ -116,12 +120,12 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
     setCells(newCells);
 
     try {
-        await axios.post(`http://localhost:5000/deleteCell`, {
-            id: cellToDelete.id, notebook_id: cellToDelete.notebook_id, user_id: cellToDelete.user_id, email: user.email
-        });
-      } catch (error) {
-        console.error("Error deleting cell:", error);
-      }
+      await axios.post(`http://localhost:5000/deleteCell`, {
+        id: cellToDelete.id, notebook_id: cellToDelete.notebook_id, user_id: cellToDelete.user_id, email: user.email
+      });
+    } catch (error) {
+      console.error("Error deleting cell:", error);
+    }
   };
 
   const handleTitleChange = (event) => {
@@ -140,11 +144,20 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
 
     try {
       await axios.post("http://localhost:5000/saveNotebook", notebookData);
-      alert("Notebook saved successfully!");
+      setOpenSuccess(true);
     } catch (error) {
       console.error("Error saving notebook:", error);
-      alert("Failed to save notebook.");
+      setOpenError(true);
     }
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSuccess(false);
+    setOpenError(false);
   };
 
   return (
@@ -175,7 +188,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             marginRight: "75px",
             marginBottom: "100px",
             width: "99%",
-            minHeight: "81.9vh",
+            minHeight: "83.7vh",
           }}
         >
           <Box
@@ -273,20 +286,31 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
           >
-            <MenuItem onClick={() => addCell("textBlock")} sx={{ fontSize: '0.800rem'}}>Text Block</MenuItem>
-            <MenuItem onClick={() => addCell("queryEngine")} sx={{ fontSize: '0.800rem'}}>
+            <MenuItem onClick={() => addCell("textBlock")} sx={{ fontSize: '0.800rem' }}>Text Block</MenuItem>
+            <MenuItem onClick={() => addCell("queryEngine")} sx={{ fontSize: '0.800rem' }}>
               Query Engine
             </MenuItem>
-            <MenuItem onClick={() => addCell("heading1")} sx={{ fontSize: '0.800rem'}}>Heading 1</MenuItem>
-            <MenuItem onClick={() => addCell("heading2")} sx={{ fontSize: '0.800rem'}}>Heading 2</MenuItem>
-            <MenuItem onClick={() => addCell("heading3")} sx={{ fontSize: '0.800rem'}}>Heading 3</MenuItem>
-            <MenuItem onClick={() => addCell("info")} sx={{ fontSize: '0.800rem'}}>Info</MenuItem>
-            <MenuItem onClick={() => addCell("horizontalDivider")} sx={{ fontSize: '0.800rem'}}>
+            <MenuItem onClick={() => addCell("heading1")} sx={{ fontSize: '0.800rem' }}>Heading 1</MenuItem>
+            <MenuItem onClick={() => addCell("heading2")} sx={{ fontSize: '0.800rem' }}>Heading 2</MenuItem>
+            <MenuItem onClick={() => addCell("heading3")} sx={{ fontSize: '0.800rem' }}>Heading 3</MenuItem>
+            <MenuItem onClick={() => addCell("info")} sx={{ fontSize: '0.800rem' }}>Info</MenuItem>
+            <MenuItem onClick={() => addCell("horizontalDivider")} sx={{ fontSize: '0.800rem' }}>
               Horizontal Divider
             </MenuItem>
           </Menu>
         </Box>
       </Box>
+      <Snackbar open={openSuccess} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} TransitionComponent={(props) => <Slide {...props} direction="left" />}>
+        <MuiAlert onClose={handleClose} severity="success" variant="filled">
+          Notebook saved successfully!
+        </MuiAlert>
+      </Snackbar>
+
+      <Snackbar open={openError} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} TransitionComponent={(props) => <Slide {...props} direction="left" />}>
+        <MuiAlert onClose={handleClose} severity="error" variant="filled">
+          Failed to save notebook.
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };
