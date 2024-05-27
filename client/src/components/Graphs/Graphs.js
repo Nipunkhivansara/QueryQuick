@@ -188,26 +188,26 @@ const Graphs = ({ graphData }) => {
                         <MenuItem value={'Doughnut'} style={{ fontSize: '0.800rem' }}>Doughnut</MenuItem>
                     </Select>
                 </FormControl>
+                {x && y && chartType ? <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2, flexGrow: 1, alignItems: 'center' }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleDownload}
+                        startIcon={<DownloadIcon />}
+                        sx={{ mr: 2 }}
+                    >
+                        Download
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={handleCopy}
+                        startIcon={isCopied ? <CheckIcon /> : <ContentCopyIcon />}
+                    >
+                        {isCopied ? 'Copied' : 'Copy'}
+                    </Button>
+                </Box> : null}
             </div>
-            {x && y && chartType ? <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleDownload}
-                    startIcon={<DownloadIcon />}
-                    sx={{ mr: 2 }}
-                >
-                    Download
-                </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleCopy}
-                    startIcon={isCopied ? <CheckIcon /> : <ContentCopyIcon />}
-                >
-                    {isCopied ? 'Copied' : 'Copy'}
-                </Button>
-            </Box> : null}
             <div id='chart-rendered' style={{ flex: 1, width: '96%', overflow: 'hidden', backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '20px' }}>
                 <ChartComponent chartType={chartType} xCoord={x} yCoord={y} data={graphData} />
             </div>
