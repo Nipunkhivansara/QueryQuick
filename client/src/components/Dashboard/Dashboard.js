@@ -15,7 +15,6 @@ const Dashboard = ({
   handleDrawerToggle,
   menuBarWidth,
 }) => {
-
   const [Home, setHome] = useState(true);
   const [connections, setConnections] = useState(false);
   const [profile, setProfile] = useState(false);
