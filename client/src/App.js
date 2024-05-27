@@ -7,6 +7,7 @@ import Help from "./components/Help/Help";
 import Notebook from "./components/Notebook/Notebook";
 import "./App.css";
 import Home from "./components/Home/Home";
+import Loading from "./components/Loading/Loading";
 
 const miniDrawerWidth = 60;
 const maxDrawerWidth = 240;
@@ -21,8 +22,9 @@ const App = () => {
     setMenuBarWidth(open ? miniDrawerWidth : maxDrawerWidth);
   };
 
+
   return isLoading ? (
-    <h1>Loading....</h1>
+    <Loading />
   ) : (
     <Router>
       <div>

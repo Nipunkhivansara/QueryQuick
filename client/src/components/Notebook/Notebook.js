@@ -175,7 +175,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
             marginRight: "75px",
             marginBottom: "100px",
             width: "99%",
-            minHeight: "81.9vh",
+            minHeight: "83.7vh",
           }}
         >
           <Box
