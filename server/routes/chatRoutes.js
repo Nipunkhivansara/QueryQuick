@@ -22,6 +22,7 @@ router.post("/chat", async (req, res) => {
   try {
     console.log("Post request received");
     const { prompt } = req.body;
+    // res.status(200).json({ msg: "select * from events;" });
     const result = await processQuery(prompt, "sql");
     const x =
       "..." +

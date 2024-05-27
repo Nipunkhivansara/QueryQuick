@@ -19,6 +19,7 @@
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.2",
     "dotenv": "^16.4.5",
+    "html2canvas": "^1.4.1",
     "prism-react-renderer": "^2.3.1",
     "prismjs": "^1.29.0",
     "react": "^18.2.0",
@@ -31,7 +32,8 @@
     "react-simple-code-editor": "^0.13.1",
     "react-tabs": "^6.0.2",
     "recharts": "^2.12.7",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "dev": "FAST_REFRESH=false react-scripts start",

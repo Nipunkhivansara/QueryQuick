@@ -29,8 +29,8 @@
 }
 
 .chartContainer {
-  width: 50%;
-  height: 60vh;
+  width: 60%;
+  height: 50vh;
   display: flex;
   justify-content: center; /* Horizontally center the chart */
   align-items: center; /* Vertically center the chart */
@@ -39,6 +39,10 @@
 .chartCss {
   width: 80%; /* Adjust the width as needed */
   height: 100%; /* Height same as parent */
+}
+
+.pieChart {
+  height: 100%;
 }
 
 .noGraph{
