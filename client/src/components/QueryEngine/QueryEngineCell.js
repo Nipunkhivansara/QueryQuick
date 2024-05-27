@@ -24,8 +24,8 @@ import "prismjs/themes/prism.css"; */
 
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-sql";
-import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/ext-language_tools";
 import "ace-builds/src-noconflict/theme-ambiance";
@@ -54,17 +54,20 @@ const QueryEngineCell = ({
   handleMenuOpen
 }) => {
 
+  
+
   const [cellDatabaseType, setCellDatabaseType] = useState(dType);
   const [cellDatabase, setCellDatabase] = useState(db);
   const [prompt, setPrompt] = useState(userInput);
   const [error, setError] = useState(null);
-
   const [query, setQuery] = useState(userQuery);
   const [tab, setTab] = useState("table");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [showQuery, setShowQuery] = useState(true); // State to manage showing query after lightning icon click
   const [isOpen, setIsOpen] = useState(false);
+
+  let mode = dType === "MySQL" ? "sql" : "javascript";
 
   const databaseOptions = {
     MySQL: ["car", "cs220p"],
@@ -356,8 +359,8 @@ const QueryEngineCell = ({
             height="4rem"
             width="100%"
             value={query}
-            mode='sql'
-            theme="dracula"
+            mode={mode}
+            theme="gob"
             fontSize="0.800rem"
             highlightActiveLine={true}
             onChange={(code) => setQuery(code)}
@@ -366,6 +369,7 @@ const QueryEngineCell = ({
             setOptions={{
                 enableBasicAutocompletion: true,  
                 enableLiveAutocompletion: true,
+                useWorker: false,
               }}
           />
           <Button
