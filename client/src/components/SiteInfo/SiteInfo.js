@@ -7,8 +7,6 @@ import CrownIcon from '@mui/icons-material/EmojiEvents';
 import EditIcon from '@mui/icons-material/Edit';
 import PenIcon from '@mui/icons-material/Create';
 import BuildIcon from '@mui/icons-material/Build';
-import { X } from '@mui/icons-material';
-
 
 const data = [
   { name: 'Jan', SQL: 2000, MongoDB: 2400, AWS: 5000, FireStore: 4100 },
@@ -25,15 +23,27 @@ const data = [
   { name: 'Dec', SQL: 1890, MongoDB: 2500, AWS: 4900, FireStore: 4150 }
 ];
 
-
 const rows = [
-  { name: 'Jordan Stevenson', username: '@jsteve', email: 'Jacinthe_Blick@hotmail.com', role: 'Admin', status: 'Moderate', Icon: CrownIcon },
-  { name: 'Richard Payne', username: '@rpayne', email: 'Jaylon_Bartell3@gmail.com', role: 'Editor', status: 'Active', Icon: EditIcon },
-  { name: 'Jennifer Summers', username: '@jsummers', email: 'Tristin_Johnson@gmail.com', role: 'Author', status: 'Active', Icon: PenIcon },
-  { name: 'Mr. Justin Richardson', username: '@jrichardson', email: 'Toney21@yahoo.com', role: 'Editor', status: 'Moderate', Icon: EditIcon },
-  { name: 'Nicholas Tanner', username: '@ntanner', email: 'Hunter_Kuhic68@hotmail.com', role: 'Editor', status: 'Moderate', Icon: EditIcon },
-  { name: 'Crystal Mays', username: '@cmays', email: 'Norene_Bins@yahoo.com', role: 'Maintainer', status: 'Active', Icon: BuildIcon },
-  { name: 'Mary Garcia', username: '@mgarcia', email: 'Emmitt.Walker14@hotmail.com', role: 'Maintainer', status: 'Inactive', Icon: BuildIcon },
+  {
+    name: 'Aswin Sampath',
+    picture: "https://lh3.googleusercontent.com/a/ACg8ocKp_IT_SjWYLrY5Dch6EwvGH_tB-i3TSN71sTrmckGv83SMF-Id=s96-c",
+    username: '@saswin', email: 'saswin@queryquick.com', role: 'Admin', status: 'Moderate', Icon: CrownIcon
+  },
+  {
+    name: 'Nipun Khivansara',
+    picture: "https://lh3.googleusercontent.com/a/ACg8ocI4apol6AnBzG-BFcE0nXgXl9mOb3gwj-kwHfIh5Z1YpZZvJ5g=s96-c",
+    username: '@knipun', email: 'knipun@queryquick.com', role: 'Editor', status: 'Active', Icon: EditIcon
+  },
+  {
+    name: 'Meet Merchant',
+    picture: "",
+    username: '@mmeet', email: 'mmeet@queryquick.com', role: 'Author', status: 'Active', Icon: PenIcon
+  },
+  {
+    name: 'Krishiv Dakwala',
+    picture: "https://lh3.googleusercontent.com/a/ACg8ocJdubWKrEsv45NoLETDIGa2XC7857WqGMEd5GOkl3E22R7RUQ=s96-c",
+    username: '@dkrish', email: 'dkrish@queryquick.com', role: 'Maintainer', status: 'Inactive', Icon: BuildIcon
+  },
 ];
 
 const statusColors = {
@@ -42,7 +52,7 @@ const statusColors = {
   Inactive: '#9E9E9E'
 };
 
-const SiteInfo = ({open}) => {
+const SiteInfo = ({ open }) => {
   return (
     <Box sx={{ background: '#1F1E1F', color: '#95A2B3', padding: '20px', margin: '30px', width: '95%', display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', height: 520 }}>
       <Box width="40%" height={450} textAlign={'center'}>
@@ -61,43 +71,46 @@ const SiteInfo = ({open}) => {
           </AreaChart>
         </ResponsiveContainer>
       </Box>
-      <Box width="50%" height={400} textAlign={'center'}>
+      <Box width="50%" maxHeight={400} textAlign={'center'}>
         <h2>Active Users</h2>
-        <TableContainer component={Paper} sx={{ width: open ? '800px' : '900px' , height: 450, overflow: 'auto' }} >
-          <Table sx={{overflow: 'auto'}} >
-            <TableHead sx={{ backgroundColor: '#565656'}}>
+        <TableContainer component={Paper} sx={{ width: open ? '800px' : '900px', maxHeight: 450, overflow: 'auto' }} >
+          <Table sx={{ overflow: 'auto' }} >
+            <TableHead sx={{ backgroundColor: '#565656' }}>
               <TableRow>
-                <TableCell sx={{ width: '200px' , color: '#e3e8e8' }}>User</TableCell>
-                <TableCell sx={{ width: '300px' , color: '#e3e8e8' }}>Email</TableCell>
-                <TableCell sx={{ width: '100px' , color: '#e3e8e8' }}>Role</TableCell>
-                <TableCell sx={{ width: '100px' , color: '#e3e8e8' }}>Status</TableCell>
+                <TableCell sx={{ width: '200px', color: '#e3e8e8' }}>User</TableCell>
+                <TableCell sx={{ width: '300px', color: '#e3e8e8' }}>Email</TableCell>
+                <TableCell sx={{ width: '100px', color: '#e3e8e8' }}>Role</TableCell>
+                <TableCell sx={{ width: '100px', color: '#e3e8e8' }}>Status</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody sx={{ backgroundColor: '#383838', color:'#fff' }}>
+            <TableBody sx={{ backgroundColor: '#383838', color: '#fff' }}>
               {rows.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell sx={{color: '#e3e8e8'}}>
-                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                      <AccountCircleIcon color="action" sx={{fill: '#fff'}} />
+                  <TableCell sx={{ color: '#e3e8e8' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                      {row.picture ? (
+                        <img src={row.picture} alt={row.name} style={{ width: 40, height: 40, borderRadius: '50%' }} />
+                      ) : (
+                        <AccountCircleIcon color="action" sx={{ fill: '#fff', width: 40, height: 40 }} />
+                      )}
                       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', ml: '5px' }}>
                         <Typography variant="subtitle1">{row.name}</Typography>
                         <Typography variant="caption">{row.username}</Typography>
                       </Box>
                     </Box>
                   </TableCell>
-                  <TableCell sx={{color: '#e3e8e8'}}>{row.email}</TableCell>
-                  <TableCell sx={{color: '#e3e8e8'}}>
+                  <TableCell sx={{ color: '#e3e8e8' }}>{row.email}</TableCell>
+                  <TableCell sx={{ color: '#e3e8e8' }}>
                     <row.Icon color="primary" />
                     {row.role}
                   </TableCell>
-                  <TableCell sx={{color: '#e3e8e8'}}>
+                  <TableCell sx={{ color: '#e3e8e8' }}>
                     <Chip label={row.status} style={{ backgroundColor: statusColors[row.status], color: 'white' }} />
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-
         </TableContainer>
       </Box>
     </Box>

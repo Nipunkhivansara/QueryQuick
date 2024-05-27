@@ -90,7 +90,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234
+              307
               <TrendingUpIcon
                 style={{
                   color: "#00E499",
@@ -134,7 +134,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234 {/* Replace this with your number */}
+              9485 {/* Replace this with your number */}
               <TrendingDownIcon
                 style={{
                   color: "#FF4D4D",
@@ -184,7 +184,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234 {/* Replace this with your number */}
+              218 {/* Replace this with your number */}
               <TrendingUpIcon
                 style={{
                   color: "#00E499",
@@ -228,7 +228,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234 {/* Replace this with your number */}
+              869 {/* Replace this with your number */}
               <TrendingDownIcon
                 style={{
                   color: "#FF4D4D",
