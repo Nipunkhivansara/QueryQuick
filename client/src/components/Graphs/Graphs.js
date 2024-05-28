@@ -195,7 +195,7 @@ const Graphs = ({ graphData }) => {
                     color="primary"
                     onClick={handleDownload}
                     startIcon={<DownloadIcon />}
-                    sx={{ mr: 2 }}
+                    sx={{ mr: 2, fontSize: '0.800rem' }}
                 >
                     Download
                 </Button>
@@ -204,6 +204,7 @@ const Graphs = ({ graphData }) => {
                     color="secondary"
                     onClick={handleCopy}
                     startIcon={isCopied ? <CheckIcon /> : <ContentCopyIcon />}
+                    sx={{fontSize: '0.800rem'}}
                 >
                     {isCopied ? 'Copied' : 'Copy'}
                 </Button>

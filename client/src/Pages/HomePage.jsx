@@ -226,9 +226,6 @@ const HomePage = ({ user }) => {
                   value={notebookName}
                   onChange={(e) => setNotebookName(e.target.value)}
                 />
-                <div>
-                  {JSON.stringify(users)}
-                </div>
 
               <FormControl fullWidth variant="standard" margin="dense">
                 <InputLabel id="user-select-label">Select User</InputLabel>
@@ -277,7 +274,7 @@ const HomePage = ({ user }) => {
                 <Table stickyHeader aria-label="notebook table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>NotebookId</TableCell>
+                      {/* <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>NotebookId</TableCell> */}
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Users</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
@@ -286,12 +283,12 @@ const HomePage = ({ user }) => {
                   <TableBody>
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
-                        <TableCell
+                        {/* <TableCell
                           sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
                           onClick={() => gotoNotebook(row.notebook_name, row.notebook_id)}
                         >
                           {row.notebook_id}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell
                           sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
                           onClick={() => gotoNotebook(row.noteook_name,row.notebook_id)}
