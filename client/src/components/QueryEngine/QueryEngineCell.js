@@ -67,8 +67,16 @@ const QueryEngineCell = ({
   let mode = dType === "MySQL" ? "sql" : "javascript";
 
   const databaseOptions = {
-    MySQL: ["car", "cs220p"],
-    MongoDB: ["SampleUCI"],
+    MySQL: ["UCI Arc", "UCI Langson Library"],
+    MongoDB: ["UCI MCS 2023"],
+    PostgreSQL: [],
+    Microsoft_SQL_Server: [],
+    Oracle: [],
+    SQLite: [],
+    Redis: [],
+    MariaDB: [],
+    Elasticsearch: [],
+    Firebase: [],
   };
 
   const handleOpen = () => {
@@ -149,9 +157,9 @@ const QueryEngineCell = ({
       setLoading(true);
       let data;
       if (cellDatabaseType === "MySQL") {
-        data = await getDataFromSql({ query, cellDatabase });
+        data = await getDataFromSql({ query, cellDatabase: "cs220P" });
       } else if (cellDatabaseType === "MongoDB") {
-        data = await getDataFromMongoDB({ query, cellDatabase });
+        data = await getDataFromMongoDB({ query, cellDatabase: "SampleUCI" });
       }
       console.log(data);
       setData(data);
@@ -353,29 +361,29 @@ const QueryEngineCell = ({
       </Box>
       {showQuery && !loading && (
         <>
-        <div
+          <div
           // style={{
           //   zIndex: 1
           // }}
-        >
-          <AceEditor
-            height="7rem"
-            width="100%"
-            value={query}
-            mode={mode}
-            theme="gob"
-            fontSize="0.800rem"
-            highlightActiveLine={true}
-            onChange={(code) => setQuery(code)}
-            name="UNIQUE_ID_OF_DIV"
-            placeholder="Loading query..."
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              useWorker: false,
-            }}
-          />
-        </div>
+          >
+            <AceEditor
+              height="7rem"
+              width="100%"
+              value={query}
+              mode={mode}
+              theme="gob"
+              fontSize="0.800rem"
+              highlightActiveLine={true}
+              onChange={(code) => setQuery(code)}
+              name="UNIQUE_ID_OF_DIV"
+              placeholder="Loading query..."
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                useWorker: false,
+              }}
+            />
+          </div>
           <Button
             variant="contained"
             onClick={handleRunQuery}
