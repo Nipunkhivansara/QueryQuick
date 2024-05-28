@@ -20,7 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
 import ConnectionComponent from './ConnectionComponent';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, ListItemText, Checkbox, OutlinedInput } from '@mui/material';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,7 +60,7 @@ const HomePage = ({ user }) => {
   const [notebookName, setNotebookName] = useState('');
   const [open, setOpen] = React.useState(false);
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -134,7 +134,6 @@ const HomePage = ({ user }) => {
         const response = await axios.get('http://localhost:5000/allUsers');
         
         setUsers(response.data);
-        console.log("USERSSSSSSSSSSSSSSSS:", response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -152,6 +151,16 @@ const HomePage = ({ user }) => {
   const gotoNotebook = (notebookName, notebookId) => {
     navigate(`/notebook/${notebookName}/${notebookId}`);
   }
+
+  const handleCheckboxChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedUsers(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
+  };
 
   return (
     <>
@@ -228,20 +237,21 @@ const HomePage = ({ user }) => {
                 />
 
 
-              <FormControl fullWidth variant="standard" margin="dense">
-                <InputLabel id="user-select-label">Select User</InputLabel>
-                
+            <FormControl fullWidth margin="dense">
+                <InputLabel id="user-select-label">Select Users</InputLabel>
                 <Select
-                  labelId="user-select-label"
+                  labelId="user-last-name-label"
                   id="user-select"
-                  value={selectedUser}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  label="Select User"
+                  multiple
+                  value={selectedUsers}
+                  onChange={handleCheckboxChange}
+                  input={<OutlinedInput label="Select Users" />}
+                  renderValue={(selected) => selected.join(', ')}
                 >
                   {users.map((user) => (
-                    <MenuItem key={user.id} value={user.id}>
-                      {user.profile}
-                      {user.username}
+                    <MenuItem key={user.id} value={user.username}>
+                      <Checkbox checked={selectedUsers.indexOf(user.id) > -1} />
+                      <ListItemText primary={`${user.profile} ${user.username}`} />
                     </MenuItem>
                   ))}
                 </Select>
