@@ -50,7 +50,7 @@ const Sidebar = ({
           transition: "width 0.3s ease",
           display: "flex",
           flexDirection: "column",
-          zIndex: 1,
+          zIndex: 101,
         },
         "& .MuiListItem-root:hover": {
           color: "#1976DB",

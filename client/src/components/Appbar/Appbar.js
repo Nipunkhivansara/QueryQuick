@@ -26,7 +26,7 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
         sx={{
           width: `100%`,
           bgcolor: "#1F1E1F",
-          zIndex: 1,
+          zIndex: 100,
         }}
       >
         <Toolbar>

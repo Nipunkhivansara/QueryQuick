@@ -4,14 +4,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
+import { Grid, capitalize } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 import { grey } from '@mui/material/colors';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
-import { Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, ListItemAvatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -162,13 +162,23 @@ const HomePage = ({ user }) => {
     );
   };
 
+  function capitalizeFirstLetter(string) {
+    if (typeof string !== 'string' || string.length === 0) {
+      return '';
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   return (
     <>
+      <Typography variant="h4" sx={{ m: 2, color:"white", marginLeft: 11, marginTop:5}}>
+        Welcome, {capitalizeFirstLetter(user.name.split(" ")[0])}!
+      </Typography>
       <Box
         sx={{
           flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 350,
           alignItems: 'center',
-          marginTop: 10,
+          marginTop: 5,
           marginLeft: 10,
           marginRight: 10,
           boxShadow: 3,
@@ -251,7 +261,10 @@ const HomePage = ({ user }) => {
                   {users.map((user) => (
                     <MenuItem key={user.id} value={user.username}>
                       <Checkbox checked={selectedUsers.indexOf(user.id) > -1} />
-                      <ListItemText primary={`${user.profile} ${user.username}`} />
+                      <ListItemAvatar>
+                        <Avatar alt={user.username} src={user.profile} />
+                      </ListItemAvatar>
+                      <ListItemText primary={`${user.username}`} />
                     </MenuItem>
                   ))}
                 </Select>

@@ -353,8 +353,13 @@ const QueryEngineCell = ({
       </Box>
       {showQuery && !loading && (
         <>
+        <div
+          // style={{
+          //   zIndex: 1
+          // }}
+        >
           <AceEditor
-            height="4rem"
+            height="7rem"
             width="100%"
             value={query}
             mode={mode}
@@ -370,6 +375,7 @@ const QueryEngineCell = ({
               useWorker: false,
             }}
           />
+        </div>
           <Button
             variant="contained"
             onClick={handleRunQuery}
