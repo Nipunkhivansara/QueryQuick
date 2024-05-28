@@ -101,10 +101,10 @@ const SiteInfo = ({ open }) => {
         display: "flex",
         justifyContent: "space-around",
         flexWrap: "wrap",
-        height: 390,
+        height: "60vh",
       }}
     >
-      <Box width="40%" height={300} textAlign={"center"}>
+      <Box width="40%" height={"80%"} textAlign={"center"}>
         <h2>Database Connections</h2>
         <ResponsiveContainer>
           <CartesianGrid strokeDasharray="3 3" />
@@ -148,13 +148,13 @@ const SiteInfo = ({ open }) => {
           </AreaChart>
         </ResponsiveContainer>
       </Box>
-      <Box width="50%" maxHeight={400} textAlign={"center"}>
+      <Box width="50%" height={"85%"} textAlign={"center"}>
         <h2>Active Users</h2>
         <TableContainer
           component={Paper}
           sx={{
-            width: open ? "600px" : "700px",
-            maxHeight: 300,
+            width: "100%",
+            maxHeight: "100%",
             overflow: "auto",
           }}
         >

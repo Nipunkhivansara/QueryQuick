@@ -83,7 +83,11 @@ const Dashboard = ({
             // minWidth: `${1930 - menuBarWidth}px`,
             // minHeight: "94.4vh",
             width: `calc(100vw - ${menuBarWidth}px)`,
-            height: "calc(100vh - 60px)",
+            height: {
+              xs: '80vh', // Small screens
+              sm: '85vh', // Medium screens
+              md: '92.8vh', // Large screens
+            },
             bgcolor: "#383838",
             overflow: "auto",
           }}
