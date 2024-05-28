@@ -62,15 +62,14 @@ const Performance = () => {
           display: "flex",
           justifyContent: "space-around",
           flexWrap: "wrap",
-          marginLeft: "30px",
-          marginRight: "30px",
+          marginLeft: "10px",
+          marginRight: "10px",
           marginTop: "30px",
-          gap: "40px",
         }}
       >
         <Card
           style={{
-            width: 375,
+            width: '20%',
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
@@ -90,7 +89,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234
+              307
               <TrendingUpIcon
                 style={{
                   color: "#00E499",
@@ -114,7 +113,7 @@ const Performance = () => {
 
         <Card
           style={{
-            width: 375,
+            width: '20%',
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
@@ -134,7 +133,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234 {/* Replace this with your number */}
+              9485 {/* Replace this with your number */}
               <TrendingDownIcon
                 style={{
                   color: "#FF4D4D",
@@ -164,7 +163,7 @@ const Performance = () => {
 
         <Card
           style={{
-            width: 375,
+            width: '20%',
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
@@ -184,7 +183,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234 {/* Replace this with your number */}
+              218 {/* Replace this with your number */}
               <TrendingUpIcon
                 style={{
                   color: "#00E499",
@@ -208,7 +207,7 @@ const Performance = () => {
 
         <Card
           style={{
-            width: 375,
+            width: '20%',
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
@@ -228,7 +227,7 @@ const Performance = () => {
                 marginTop: "20px",
               }}
             >
-              1234 {/* Replace this with your number */}
+              869 {/* Replace this with your number */}
               <TrendingDownIcon
                 style={{
                   color: "#FF4D4D",
