@@ -208,29 +208,6 @@ const Graphs = ({ graphData }) => {
                     </Button>
                 </Box> : null}
             </div>
-<<<<<<< HEAD
-            {x && y && chartType ? <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleDownload}
-                    startIcon={<DownloadIcon />}
-                    sx={{ mr: 2, fontSize: '0.800rem' }}
-                >
-                    Download
-                </Button>
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleCopy}
-                    startIcon={isCopied ? <CheckIcon /> : <ContentCopyIcon />}
-                    sx={{fontSize: '0.800rem'}}
-                >
-                    {isCopied ? 'Copied' : 'Copy'}
-                </Button>
-            </Box> : null}
-=======
->>>>>>> e990ac99bef6595d5721b773d613fc4c9fc517d3
             <div id='chart-rendered' style={{ flex: 1, width: '96%', overflow: 'hidden', backgroundColor: '#1e1e1e', borderRadius: '8px', padding: '20px' }}>
                 <ChartComponent chartType={chartType} xCoord={x} yCoord={y} data={graphData} />
             </div>

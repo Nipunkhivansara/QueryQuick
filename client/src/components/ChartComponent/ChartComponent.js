@@ -10,11 +10,7 @@ const ChartComponent = React.forwardRef(({ chartType, xCoord, yCoord, data }, re
   if (!data || !xCoord || !yCoord || !chartType) {
     return (
       <div className='noGraph'>
-<<<<<<< HEAD
-        <Typography variant='h5' sx={{ color: '#fff', fontSize: '0.800rem' }}>Select X, Y and Chart Type</Typography>
-=======
         <Typography variant='h5' sx={{ color: '#fff', fontSize: '1rem' }}>Select X, Y and Graph</Typography>
->>>>>>> e990ac99bef6595d5721b773d613fc4c9fc517d3
       </div>
     );
   }

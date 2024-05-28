@@ -299,10 +299,6 @@ const HomePage = ({ user }) => {
                 <Table stickyHeader aria-label="notebook table">
                   <TableHead>
                     <TableRow>
-<<<<<<< HEAD
-                      {/* <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>NotebookId</TableCell> */}
-=======
->>>>>>> e990ac99bef6595d5721b773d613fc4c9fc517d3
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Users</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
@@ -311,17 +307,8 @@ const HomePage = ({ user }) => {
                   <TableBody>
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
-                        {/* <TableCell
-                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
-<<<<<<< HEAD
-                          onClick={() => gotoNotebook(row.notebook_name, row.notebook_id)}
-                        >
-                          {row.notebook_id}
-                        </TableCell> */}
                         <TableCell
                           sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
-=======
->>>>>>> e990ac99bef6595d5721b773d613fc4c9fc517d3
                           onClick={() => gotoNotebook(row.noteook_name,row.notebook_id)}
                         >
                           {row.notebook_name}
