@@ -177,8 +177,8 @@ const HomePage = ({ user }) => {
           aria-label="Vertical tabs example"
           sx={{ borderRight: 1, borderColor: 'divider' }}
         >
-          <Tab label="Add Connection" {...a11yProps(0)} />
-          <Tab label="Create Notebook" {...a11yProps(1)} />
+          <Tab label="Add Connection" style={{ fontWeight: 'bold', fontSize: '16px' }} {...a11yProps(0)} />
+          <Tab label="Create Notebook" style={{ fontWeight: 'bold', fontSize: '16px' }} {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <ConnectionComponent />
@@ -226,9 +226,7 @@ const HomePage = ({ user }) => {
                   value={notebookName}
                   onChange={(e) => setNotebookName(e.target.value)}
                 />
-                <div>
-                  {JSON.stringify(users)}
-                </div>
+
 
               <FormControl fullWidth variant="standard" margin="dense">
                 <InputLabel id="user-select-label">Select User</InputLabel>
@@ -242,6 +240,7 @@ const HomePage = ({ user }) => {
                 >
                   {users.map((user) => (
                     <MenuItem key={user.id} value={user.id}>
+                      {user.profile}
                       {user.username}
                     </MenuItem>
                   ))}
@@ -258,7 +257,7 @@ const HomePage = ({ user }) => {
         </TabPanel>
       </Box>
 
-      <Grid container spacing={2} sx={{ mt: 2, px: 10 }}>
+      <Grid container spacing={2} sx={{ mt: 2, px: 10, marginBottom: 10 }}>
         <Grid item xs={12} md={6}>
           <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
             <CardContent>
@@ -277,7 +276,6 @@ const HomePage = ({ user }) => {
                 <Table stickyHeader aria-label="notebook table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>NotebookId</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Users</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
@@ -286,12 +284,6 @@ const HomePage = ({ user }) => {
                   <TableBody>
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
-                        <TableCell
-                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
-                          onClick={() => gotoNotebook(row.notebook_name, row.notebook_id)}
-                        >
-                          {row.notebook_id}
-                        </TableCell>
                         <TableCell
                           sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
                           onClick={() => gotoNotebook(row.noteook_name,row.notebook_id)}

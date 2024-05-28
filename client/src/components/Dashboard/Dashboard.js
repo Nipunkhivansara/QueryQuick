@@ -67,6 +67,7 @@ const Dashboard = ({
           user={user}
         />
         <Sidebar
+          handleDrawerToggle={handleDrawerToggle}
           open={open}
           menuBarWidth={menuBarWidth}
           logout={logout}
