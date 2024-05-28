@@ -7,7 +7,6 @@ import { useState } from "react";
 import HomePage from "../../Pages/HomePage";
 import Profile from "../Profile/Profile";
 
-
 const Dashboard = ({
   open,
   user,
@@ -29,13 +28,13 @@ const Dashboard = ({
     setHome(true);
     setConnections(false);
     setProfile(false);
-  }
+  };
 
   const toggleProfile = () => {
     setProfile(true);
     setHome(false);
     setConnections(false);
-  }
+  };
 
   const renderComponent = () => {
     switch (true) {
@@ -48,7 +47,7 @@ const Dashboard = ({
       default:
         return (
           <>
-           {/*  <Performance />
+            {/*  <Performance />
             { <NewNotebook /> }
             <SiteInfo open={open} /> */}
             <div>Nothing</div>
@@ -85,7 +84,7 @@ const Dashboard = ({
             width: `calc(100vw - ${menuBarWidth}px)`,
             height: "calc(100vh - 60px)",
             bgcolor: "#383838",
-            overflow: 'auto'
+            overflow: "auto",
           }}
         >
           {renderComponent()}
