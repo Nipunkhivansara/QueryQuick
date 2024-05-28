@@ -6,7 +6,8 @@ const pool = mysql.createPool({
   user: "root",
   // password: "Nipunsql@123",
   // password: "Meet@123",
-  password: "king2002",
+  // password: "king2002",
+  password: "aswin",
   database: "capstone", // Replace 'your_database_name' with your database name
 });
 
@@ -20,7 +21,8 @@ async function getclientConnectionpool(database) {
       user: "root",
       // password: "Meet@123",
       // password: "Nipunsql@123",
-      password: "king2002",
+      // password: "king2002",
+      password: "aswin",
       database: database,
     });
   }

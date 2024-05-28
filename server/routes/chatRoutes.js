@@ -64,7 +64,7 @@ router.post("/generateSqlEmbeddings", async (req, res) => {
   try {
     console.log("Post request received for intialization");
     const result = await createAndStoreVectorEmbeddings(
-      `../server/schema.sql`,
+      `../server/sales_schema.sql`,
       "sql"
     );
     res.sendStatus(200);

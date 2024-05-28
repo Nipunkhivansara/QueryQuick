@@ -67,7 +67,7 @@ const QueryEngineCell = ({
   let mode = dType === "MySQL" ? "sql" : "javascript";
 
   const databaseOptions = {
-    MySQL: ["car", "cs220p"],
+    MySQL: ["ecommerce","car", "cs220p"],
     MongoDB: ["SampleUCI"],
   };
 
@@ -137,9 +137,9 @@ const QueryEngineCell = ({
     }
   };
 
-  const handleQueryChange = (event) => {
-    setQuery(event.target.value);
-    onQueryEngineChange(index, "query", event.target.value);
+  const handleQueryChange = (code) => {
+    setQuery(code);
+    onQueryEngineChange(index, "query", code);
   };
 
   const handleRunQuery = async () => {
@@ -366,7 +366,7 @@ const QueryEngineCell = ({
             theme="gob"
             fontSize="0.800rem"
             highlightActiveLine={true}
-            onChange={(code) => setQuery(code)}
+            onChange={(code) => handleQueryChange(code)}
             name="UNIQUE_ID_OF_DIV"
             placeholder="Loading query..."
             setOptions={{

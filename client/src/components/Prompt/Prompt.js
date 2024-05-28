@@ -24,7 +24,7 @@ const Prompt = () => {
   const [gridApi, setGridApi] = useState(null);
 
   const databaseOptions = {
-    MySQL: ["car", "cs220p"],
+    MySQL: ["ecommerce","car", "cs220p"],
     MongoDB: ["SampleUCI"],
   };
 
