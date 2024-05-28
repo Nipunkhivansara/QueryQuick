@@ -62,15 +62,15 @@ const Performance = () => {
           display: "flex",
           justifyContent: "space-around",
           flexWrap: "wrap",
-          marginLeft: "30px",
-          marginRight: "30px",
+          marginLeft: "10px",
+          marginRight: "10px",
           marginTop: "30px",
           gap: "40px",
         }}
       >
         <Card
           style={{
-            width: 375,
+            width: 275,
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
@@ -114,7 +114,7 @@ const Performance = () => {
 
         <Card
           style={{
-            width: 375,
+            width: 275,
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
@@ -164,7 +164,7 @@ const Performance = () => {
 
         <Card
           style={{
-            width: 375,
+            width: 275,
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
@@ -208,7 +208,7 @@ const Performance = () => {
 
         <Card
           style={{
-            width: 375,
+            width: 275,
             margin: 0,
             height: 180,
             backgroundColor: "#1F1E1F",
