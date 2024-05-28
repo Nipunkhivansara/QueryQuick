@@ -3,6 +3,7 @@ import {
   Drawer,
   List,
   ListItem,
+  Box,
   ListItemIcon,
   ListItemText,
   IconButton,
@@ -14,8 +15,12 @@ import LinkIcon from "@mui/icons-material/Link";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import {Menu as MenuIcon} from "@mui/icons-material";
+import './NavIcon.css';
+import { useState } from "react";
 
 const Sidebar = ({
+  handleDrawerToggle,
   open,
   menuBarWidth,
   toggleConnections,
@@ -23,6 +28,12 @@ const Sidebar = ({
   toggleProfile,
 }) => {
   const { logout } = useAuth0();
+  const [isOpen, setIsOpen] = useState('open');
+
+  const hamburgerOnclick = () =>{
+    handleDrawerToggle();
+    setIsOpen(!isOpen);
+  }
 
   return (
     <Drawer
@@ -39,7 +50,7 @@ const Sidebar = ({
           transition: "width 0.3s ease",
           display: "flex",
           flexDirection: "column",
-          zIndex: 1,
+          zIndex: 101,
         },
         "& .MuiListItem-root:hover": {
           color: "#1976DB",
@@ -58,14 +69,26 @@ const Sidebar = ({
     >
       <List>
         <ListItem>
-          <ListItemIcon sx={{ color: "#ffffff" }}>
+          {/* <ListItemIcon sx={{ color: "#ffffff" }}>
             <IconButton edge="end" color="inherit" component={Link} to="/">
               <BoltSharpIcon />
             </IconButton>
           </ListItemIcon>
           {open && (
             <ListItemText primary="QueryQuick" sx={{ color: "#ffffff" }} />
-          )}
+          )} */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <ListItemIcon sx={{ color: "#ffffff" }} onClick={hamburgerOnclick}>
+          
+
+              <div id="nav-icon1" className={isOpen ? 'open' : ''}>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+          </ListItemIcon>
+
+          </Box>
         </ListItem>
         <ListItem button onClick={toggleHome}>
           <ListItemIcon sx={{ color: "#ffffff" }}>

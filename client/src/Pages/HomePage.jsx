@@ -4,14 +4,14 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
+import { Grid, capitalize } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 import { grey } from '@mui/material/colors';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
-import { Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, ListItemAvatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -20,7 +20,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
 import ConnectionComponent from './ConnectionComponent';
-import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem, ListItemText, Checkbox, OutlinedInput } from '@mui/material';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -60,7 +60,7 @@ const HomePage = ({ user }) => {
   const [notebookName, setNotebookName] = useState('');
   const [open, setOpen] = React.useState(false);
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -134,7 +134,6 @@ const HomePage = ({ user }) => {
         const response = await axios.get('http://localhost:5000/allUsers');
         
         setUsers(response.data);
-        console.log("USERSSSSSSSSSSSSSSSS:", response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -153,13 +152,33 @@ const HomePage = ({ user }) => {
     navigate(`/notebook/${notebookName}/${notebookId}`);
   }
 
+  const handleCheckboxChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedUsers(
+      // On autofill we get a stringified value.
+      typeof value === 'string' ? value.split(',') : value
+    );
+  };
+
+  function capitalizeFirstLetter(string) {
+    if (typeof string !== 'string' || string.length === 0) {
+      return '';
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   return (
     <>
+      <Typography variant="h4" sx={{ m: 2, color:"white", marginLeft: 11, marginTop:5}}>
+        Welcome, {capitalizeFirstLetter(user.name.split(" ")[0])}!
+      </Typography>
       <Box
         sx={{
           flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 350,
           alignItems: 'center',
-          marginTop: 10,
+          marginTop: 5,
           marginLeft: 10,
           marginRight: 10,
           boxShadow: 3,
@@ -177,8 +196,8 @@ const HomePage = ({ user }) => {
           aria-label="Vertical tabs example"
           sx={{ borderRight: 1, borderColor: 'divider' }}
         >
-          <Tab label="Add Connection" {...a11yProps(0)} />
-          <Tab label="Create Notebook" {...a11yProps(1)} />
+          <Tab label="Add Connection" style={{ fontWeight: 'bold', fontSize: '16px' }} {...a11yProps(0)} />
+          <Tab label="Create Notebook" style={{ fontWeight: 'bold', fontSize: '16px' }} {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <ConnectionComponent />
@@ -226,23 +245,26 @@ const HomePage = ({ user }) => {
                   value={notebookName}
                   onChange={(e) => setNotebookName(e.target.value)}
                 />
-                <div>
-                  {JSON.stringify(users)}
-                </div>
 
-              <FormControl fullWidth variant="standard" margin="dense">
-                <InputLabel id="user-select-label">Select User</InputLabel>
-                
+
+            <FormControl fullWidth margin="dense">
+                <InputLabel id="user-select-label">Select Users</InputLabel>
                 <Select
-                  labelId="user-select-label"
+                  labelId="user-last-name-label"
                   id="user-select"
-                  value={selectedUser}
-                  onChange={(e) => setSelectedUser(e.target.value)}
-                  label="Select User"
+                  multiple
+                  value={selectedUsers}
+                  onChange={handleCheckboxChange}
+                  input={<OutlinedInput label="Select Users" />}
+                  renderValue={(selected) => selected.join(', ')}
                 >
                   {users.map((user) => (
-                    <MenuItem key={user.id} value={user.id}>
-                      {user.username}
+                    <MenuItem key={user.id} value={user.username}>
+                      <Checkbox checked={selectedUsers.indexOf(user.id) > -1} />
+                      <ListItemAvatar>
+                        <Avatar alt={user.username} src={user.profile} />
+                      </ListItemAvatar>
+                      <ListItemText primary={`${user.username}`} />
                     </MenuItem>
                   ))}
                 </Select>
@@ -258,7 +280,7 @@ const HomePage = ({ user }) => {
         </TabPanel>
       </Box>
 
-      <Grid container spacing={2} sx={{ mt: 2, px: 10 }}>
+      <Grid container spacing={2} sx={{ mt: 2, px: 10, marginBottom: 10 }}>
         <Grid item xs={12} md={6}>
           <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
             <CardContent>
@@ -277,7 +299,6 @@ const HomePage = ({ user }) => {
                 <Table stickyHeader aria-label="notebook table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>NotebookId</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Users</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
@@ -286,12 +307,6 @@ const HomePage = ({ user }) => {
                   <TableBody>
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
-                        <TableCell
-                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
-                          onClick={() => gotoNotebook(row.notebook_name, row.notebook_id)}
-                        >
-                          {row.notebook_id}
-                        </TableCell>
                         <TableCell
                           sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
                           onClick={() => gotoNotebook(row.noteook_name,row.notebook_id)}
