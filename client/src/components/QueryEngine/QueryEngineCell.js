@@ -67,8 +67,16 @@ const QueryEngineCell = ({
   let mode = dType === "MySQL" ? "sql" : "javascript";
 
   const databaseOptions = {
-    MySQL: ["ecommerce","car", "cs220p"],
-    MongoDB: ["SampleUCI"],
+    MySQL: ["UCI Arc", "UCI Langson Library", "ecommerce"],
+    MongoDB: ["UCI MCS 2023"],
+    PostgreSQL: [],
+    Microsoft_SQL_Server: [],
+    Oracle: [],
+    SQLite: [],
+    Redis: [],
+    MariaDB: [],
+    Elasticsearch: [],
+    Firebase: [],
   };
 
   const handleOpen = () => {
@@ -149,9 +157,9 @@ const QueryEngineCell = ({
       setLoading(true);
       let data;
       if (cellDatabaseType === "MySQL") {
-        data = await getDataFromSql({ query, cellDatabase });
+        data = await getDataFromSql({ query, cellDatabase: "ecommerce" });
       } else if (cellDatabaseType === "MongoDB") {
-        data = await getDataFromMongoDB({ query, cellDatabase });
+        data = await getDataFromMongoDB({ query, cellDatabase: "SampleUCI" });
       }
       console.log(data);
       setData(data);
@@ -353,7 +361,7 @@ const QueryEngineCell = ({
       </Box>
       {showQuery && !loading && (
         <>
-        <div
+          <div
           // style={{
           //   zIndex: 1
           // }}

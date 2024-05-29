@@ -9,10 +9,14 @@ import Profile from "../Profile/Profile";
 
 const Dashboard = ({
   open,
+  setOpen,
   user,
   logout,
   handleDrawerToggle,
   menuBarWidth,
+  miniDrawerWidth,
+  maxDrawerWidth,
+  setMenuBarWidth,
 }) => {
   const [Home, setHome] = useState(true);
   const [connections, setConnections] = useState(false);
@@ -69,12 +73,16 @@ const Dashboard = ({
         <Sidebar
           handleDrawerToggle={handleDrawerToggle}
           open={open}
+          setOpen={setOpen}
           menuBarWidth={menuBarWidth}
           logout={logout}
           user={user}
           toggleHome={toggleHome}
           toggleConnections={toggleConnections}
           toggleProfile={toggleProfile}
+          miniDrawerWidth={miniDrawerWidth}
+          maxDrawerWidth={maxDrawerWidth}
+          setMenuBarWidth={setMenuBarWidth}
         />
         <Box
           sx={{

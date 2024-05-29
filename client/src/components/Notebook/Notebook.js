@@ -21,7 +21,9 @@ import Cell from "../Cell/Cell";
 
 
 
-const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
+const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle,
+  miniDrawerWidth, maxDrawerWidth, setMenuBarWidth, setOpen
+ }) => {
   const { notebook_name, notebook_id } = useParams();
   const [cells, setCells] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -176,7 +178,11 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle }) => {
         />
         <Sidebar
           open={open}
+          setOpen={setOpen}
           menuBarWidth={menuBarWidth}
+          miniDrawerWidth={miniDrawerWidth}
+          maxDrawerWidth={maxDrawerWidth}
+          setMenuBarWidth={setMenuBarWidth}
           logout={logout}
           user={user}
         />
