@@ -284,23 +284,24 @@ const HomePage = ({ user }) => {
 
       <Grid container spacing={2} sx={{ mt: 2, px: 10, marginBottom: 10 }}>
         <Grid item xs={12} md={6}>
-          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
+          <Card sx={{ display: 'flex', flexDirection: 'column', height: '350px', bgcolor: '#d1d1d1' }}>
             <CardContent>
-              <video width="100%" controls>
-                <source src="path/to/your/video.mp4" type="video/mp4" />
+            <Typography variant='h5'>Guide To Get Started</Typography>
+              <video width="100%" height="100%" controls display="flex" alignItems="center">
+                <source src="/QueryQuick_guide.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
-            <CardContent>
+          <Card sx={{ display: 'flex', flexDirection: 'column', height: '340px', bgcolor: '#d1d1d1', paddingBottom:'10px' }}>
+            <CardContent >
             <Typography variant='h5'>Notebooks</Typography>
-              <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
+              <TableContainer component={Paper} sx={{ maxHeight: 285, overflow: 'auto', marginBottom: 10}}>
                 <Table stickyHeader aria-label="notebook table">
                   <TableHead>
-                    <TableRow>
+                    <TableRow >
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Users</TableCell>
                       <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
@@ -310,7 +311,7 @@ const HomePage = ({ user }) => {
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
                         <TableCell
-                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
+                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer', maxWidth: 2 }}
                           onClick={() => gotoNotebook(row.noteook_name,row.notebook_id)}
                         >
                           {row.notebook_name}
