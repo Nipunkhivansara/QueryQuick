@@ -157,7 +157,7 @@ const QueryEngineCell = ({
       setLoading(true);
       let data;
       if (cellDatabaseType === "MySQL") {
-        data = await getDataFromSql({ query, cellDatabase: "ecommerce" });
+        data = await getDataFromSql({ query, cellDatabase: "cs220p" });
       } else if (cellDatabaseType === "MongoDB") {
         data = await getDataFromMongoDB({ query, cellDatabase: "SampleUCI" });
       }
