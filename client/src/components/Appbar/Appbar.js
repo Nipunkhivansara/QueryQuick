@@ -51,7 +51,7 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
                 edge="end"
                 color="inherit"
                 component={Link}
-                to="/example-url"
+                to="/"
               >
                 <BoltSharp style={{ fontSize: 40 }} />{" "}
                 {/* Custom size in pixels */}

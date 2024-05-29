@@ -37,10 +37,14 @@ const App = () => {
                 <Home />
                 <Dashboard
                   open={open}
+                  setOpen={setOpen}
                   user={user}
                   logout={logout}
                   handleDrawerToggle={handleDrawerToggle}
                   menuBarWidth={menuBarWidth}
+                  setMenuBarWidth={setMenuBarWidth}
+                  miniDrawerWidth={miniDrawerWidth}
+                  maxDrawerWidth={maxDrawerWidth}
                   />
                 </>
               ) : (
@@ -64,9 +68,13 @@ const App = () => {
             element={
               <Notebook
                 open={open}
+                setOpen={setOpen}
                 handleDrawerToggle={handleDrawerToggle}
                 user={user}
                 menuBarWidth={menuBarWidth}
+                miniDrawerWidth={miniDrawerWidth}
+                maxDrawerWidth={maxDrawerWidth}
+                setMenuBarWidth={setMenuBarWidth}
                 logout={logout}
               />
             } // Render Notebook component

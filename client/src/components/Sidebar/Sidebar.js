@@ -25,17 +25,20 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
 const Sidebar = ({
   handleDrawerToggle,
   open,
+  setOpen,
   menuBarWidth,
   toggleConnections,
   toggleHome,
   toggleProfile,
+  miniDrawerWidth,
+  maxDrawerWidth,
+  setMenuBarWidth,
 }) => {
   const { logout } = useAuth0();
-  const [isOpen, setIsOpen] = useState("open");
 
   const hamburgerOnclick = () => {
-    handleDrawerToggle();
-    setIsOpen(!isOpen);
+    setOpen(!open);
+    setMenuBarWidth(open ? miniDrawerWidth : maxDrawerWidth);
   };
 
   return (
@@ -82,7 +85,7 @@ const Sidebar = ({
           )} */}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <ListItemIcon sx={{ color: "#ffffff" }} onClick={hamburgerOnclick}>
-              <div id="nav-icon1" className={isOpen ? "open" : ""}>
+              <div id="nav-icon1" className={open ? "open" : ""}>
                 <span></span>
                 <span></span>
                 <span></span>
