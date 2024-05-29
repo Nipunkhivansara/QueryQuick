@@ -8,7 +8,7 @@ const fs = require("fs");
 
 async function getSchemaInfo() {
   // Get a connection from the pool
-  const connection = await getclientConnectionpool("ecommerce");
+  const connection = await getclientConnectionpool("cs220p");
 
   connection.query("SHOW TABLES", (err, tables) => {
     if (err) {
