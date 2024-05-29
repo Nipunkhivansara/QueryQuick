@@ -63,22 +63,7 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
               </Box>{" "}
             </Typography>
           </Box>
-          <IconButton
-            sx={{ ml: "10px" }}
-            color="inherit"
-            component={Link}
-            to="/help"
-          >
-            <HelpOutline />
-          </IconButton>
-          <IconButton
-            sx={{ ml: "10px" }}
-            color="inherit"
-            component={Link}
-            to="/messages"
-          >
-            <Message />
-          </IconButton>
+
           <IconButton
             sx={{ ml: "10px" }}
             color="inherit"
@@ -87,9 +72,7 @@ const Appbar = ({ handleDrawerToggle, menuBarWidth, user }) => {
           >
             <Explore />
           </IconButton>
-          <IconButton sx={{ ml: "10px" }} color="inherit">
-            <FlagIcon />
-          </IconButton>
+
           <IconButton sx={{ ml: "10px" }} color="inherit">
             <NotificationsIcon />
           </IconButton>

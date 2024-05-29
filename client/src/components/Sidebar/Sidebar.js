@@ -15,9 +15,12 @@ import LinkIcon from "@mui/icons-material/Link";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import {Menu as MenuIcon} from "@mui/icons-material";
-import './NavIcon.css';
+import { Menu as MenuIcon } from "@mui/icons-material";
+import "./NavIcon.css";
 import { useState } from "react";
+import SettingsIcon from "@mui/icons-material/Settings";
+import PaidIcon from "@mui/icons-material/Paid";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 
 const Sidebar = ({
   handleDrawerToggle,
@@ -28,12 +31,12 @@ const Sidebar = ({
   toggleProfile,
 }) => {
   const { logout } = useAuth0();
-  const [isOpen, setIsOpen] = useState('open');
+  const [isOpen, setIsOpen] = useState("open");
 
-  const hamburgerOnclick = () =>{
+  const hamburgerOnclick = () => {
     handleDrawerToggle();
     setIsOpen(!isOpen);
-  }
+  };
 
   return (
     <Drawer
@@ -77,17 +80,14 @@ const Sidebar = ({
           {open && (
             <ListItemText primary="QueryQuick" sx={{ color: "#ffffff" }} />
           )} */}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <ListItemIcon sx={{ color: "#ffffff" }} onClick={hamburgerOnclick}>
-          
-
-              <div id="nav-icon1" className={isOpen ? 'open' : ''}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+            <ListItemIcon sx={{ color: "#ffffff" }} onClick={hamburgerOnclick}>
+              <div id="nav-icon1" className={isOpen ? "open" : ""}>
                 <span></span>
                 <span></span>
                 <span></span>
               </div>
-          </ListItemIcon>
-
+            </ListItemIcon>
           </Box>
         </ListItem>
         <ListItem button onClick={toggleHome}>
@@ -98,9 +98,11 @@ const Sidebar = ({
         </ListItem>
         <ListItem button onClick={toggleProfile}>
           <ListItemIcon sx={{ color: "#ffffff" }}>
-            <AccountCircleIcon />
+            <AnalyticsIcon />
           </ListItemIcon>
-          {open && <ListItemText primary="Profile" sx={{ color: "#ffffff" }} />}
+          {open && (
+            <ListItemText primary="Analytics" sx={{ color: "#ffffff" }} />
+          )}
         </ListItem>
         <ListItem button onClick={toggleConnections}>
           <ListItemIcon sx={{ color: "#ffffff" }}>
@@ -108,6 +110,20 @@ const Sidebar = ({
           </ListItemIcon>
           {open && (
             <ListItemText primary="Connections" sx={{ color: "#ffffff" }} />
+          )}
+        </ListItem>
+        <ListItem button onClick={toggleConnections}>
+          <ListItemIcon sx={{ color: "#ffffff" }}>
+            <PaidIcon />
+          </ListItemIcon>
+          {open && <ListItemText primary="Billing" sx={{ color: "#ffffff" }} />}
+        </ListItem>
+        <ListItem button onClick={toggleConnections}>
+          <ListItemIcon sx={{ color: "#ffffff" }}>
+            <SettingsIcon />
+          </ListItemIcon>
+          {open && (
+            <ListItemText primary="Settings" sx={{ color: "#ffffff" }} />
           )}
         </ListItem>
       </List>
