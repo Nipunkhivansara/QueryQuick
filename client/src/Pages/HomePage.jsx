@@ -1,26 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import { Grid, capitalize } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActionArea from '@mui/material/CardActionArea';
-import { grey } from '@mui/material/colors';
-import AddIcon from '@mui/icons-material/Add';
-import axios from 'axios';
-import { Avatar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, ListItemAvatar } from '@mui/material';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { useNavigate } from 'react-router-dom';
-import ConnectionComponent from './ConnectionComponent';
-import { FormControl, InputLabel, Select, MenuItem, ListItemText, Checkbox, OutlinedInput } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { Grid, capitalize } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardActionArea from "@mui/material/CardActionArea";
+import { grey } from "@mui/material/colors";
+import AddIcon from "@mui/icons-material/Add";
+import axios from "axios";
+import {
+  Avatar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  ListItemAvatar,
+} from "@mui/material";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { useNavigate } from "react-router-dom";
+import ConnectionComponent from "./ConnectionComponent";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  ListItemText,
+  Checkbox,
+  OutlinedInput,
+} from "@mui/material";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -51,13 +69,13 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `vertical-tab-${index}`,
-    'aria-controls': `vertical-tabpanel-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`,
   };
 }
 
 const HomePage = ({ user }) => {
   const [notebooks, setNotebooks] = useState([]);
-  const [notebookName, setNotebookName] = useState('');
+  const [notebookName, setNotebookName] = useState("");
   const [open, setOpen] = React.useState(false);
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -82,8 +100,8 @@ const HomePage = ({ user }) => {
     const notebookData = {
       notebook_id: uniqueId,
       user_id: user.email,
-      notebook_name: notebookName,
-      cells: []
+      name: notebookName,
+      cells: [],
     };
 
     console.log(notebookData);
@@ -105,11 +123,14 @@ const HomePage = ({ user }) => {
   const generateUniqueId = () => {
     // Function to generate a unique ID (you can use any method you prefer)
     const uuid = () => {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = (Math.random() * 16) | 0,
-          v = c === 'x' ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      });
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+        /[xy]/g,
+        function (c) {
+          const r = (Math.random() * 16) | 0,
+            v = c === "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        }
+      );
     };
 
     return uuid();
@@ -118,24 +139,27 @@ const HomePage = ({ user }) => {
   useEffect(() => {
     const fetchNotebooks = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/notebooks/ids', {
-          params: {
-            email: user.email
+        const response = await axios.get(
+          "http://localhost:5000/notebooks/ids",
+          {
+            params: {
+              email: user.email,
+            },
           }
-        });
+        );
         setNotebooks(response.data);
       } catch (error) {
-        console.error('Failed to fetch notebooks:', error);
+        console.error("Failed to fetch notebooks:", error);
       }
     };
 
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/allUsers');
-        
+        const response = await axios.get("http://localhost:5000/allUsers");
+
         setUsers(response.data);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error("Error fetching users:", error);
       }
     };
 
@@ -150,7 +174,7 @@ const HomePage = ({ user }) => {
 
   const gotoNotebook = (notebookName, notebookId) => {
     navigate(`/notebook/${notebookId}`);
-  }
+  };
 
   const handleCheckboxChange = (event) => {
     const {
@@ -158,34 +182,40 @@ const HomePage = ({ user }) => {
     } = event;
     setSelectedUsers(
       // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
+      typeof value === "string" ? value.split(",") : value
     );
   };
 
   function capitalizeFirstLetter(string) {
-    if (typeof string !== 'string' || string.length === 0) {
-      return '';
+    if (typeof string !== "string" || string.length === 0) {
+      return "";
     }
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   return (
     <>
-      <Typography variant="h4" sx={{ m: 2, color:"white", marginLeft: 11, marginTop:5}}>
+      <Typography
+        variant="h4"
+        sx={{ m: 2, color: "white", marginLeft: 11, marginTop: 5 }}
+      >
         Welcome, {capitalizeFirstLetter(user.name.split(" ")[0])}!
       </Typography>
       <Box
         sx={{
-          flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 350,
-          alignItems: 'center',
+          flexGrow: 1,
+          bgcolor: "background.paper",
+          display: "flex",
+          height: 350,
+          alignItems: "center",
           marginTop: 5,
           marginLeft: 10,
           marginRight: 10,
           boxShadow: 3,
-          overflow: 'hidden',
-          border: '10px solid #4e6676',
-          borderRadius: '30px',
-          bgcolor: '#d1d1d1'
+          overflow: "hidden",
+          border: "10px solid #4e6676",
+          borderRadius: "30px",
+          bgcolor: "#d1d1d1",
         }}
       >
         <Tabs
@@ -194,28 +224,50 @@ const HomePage = ({ user }) => {
           value={value}
           onChange={handleChange}
           aria-label="Vertical tabs example"
-          sx={{ borderRight: 1, borderColor: 'divider' }}
+          sx={{ borderRight: 1, borderColor: "divider" }}
         >
-          <Tab label="Add Connection" style={{ fontWeight: 'bold', fontSize: '16px' }} {...a11yProps(0)} />
-          <Tab label="Create Notebook" style={{ fontWeight: 'bold', fontSize: '16px' }} {...a11yProps(1)} />
+          <Tab
+            label="Add Connection"
+            style={{ fontWeight: "bold", fontSize: "16px" }}
+            {...a11yProps(0)}
+          />
+          <Tab
+            label="Create Notebook"
+            style={{ fontWeight: "bold", fontSize: "16px" }}
+            {...a11yProps(1)}
+          />
         </Tabs>
         <TabPanel value={value} index={0}>
           <ConnectionComponent />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontWeight: 500, fontSize: 25 }}>Create Notebook</span>
-            <span style={{ color: grey }}>Start fresh with a new notebook.</span>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span style={{ fontWeight: 500, fontSize: 25 }}>
+              Create Notebook
+            </span>
+            <span style={{ color: grey }}>
+              Start fresh with a new notebook.
+            </span>
 
-            <Card sx={{
-              width: '100%',
-              marginTop: 2,
-              '&:hover': {
-                boxShadow: '0 0 11px rgba(33,33,33,.2)',
-                border: '1px solid black',
-              }
-            }}>
-              <CardActionArea sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }} onClick={handleClickOpen}>
+            <Card
+              sx={{
+                width: "100%",
+                marginTop: 2,
+                "&:hover": {
+                  boxShadow: "0 0 11px rgba(33,33,33,.2)",
+                  border: "1px solid black",
+                },
+              }}
+            >
+              <CardActionArea
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: 2,
+                }}
+                onClick={handleClickOpen}
+              >
                 <AddIcon fontSize="large" />
                 <Typography component="div" variant="h6">
                   Create Notebook
@@ -226,9 +278,9 @@ const HomePage = ({ user }) => {
               open={open}
               onClose={handleClose}
               PaperProps={{
-                component: 'form',
+                component: "form",
                 onSubmit: handleSubmit,
-                style: { minWidth: 500, minHeight: 200 }
+                style: { minWidth: 500, minHeight: 200 },
               }}
             >
               <DialogTitle>Enter Notebook Name</DialogTitle>
@@ -246,32 +298,34 @@ const HomePage = ({ user }) => {
                   onChange={(e) => setNotebookName(e.target.value)}
                 />
 
-
-    <FormControl fullWidth margin="dense">
-          <InputLabel id="user-select-label">Select Users</InputLabel>
-          <Select
-            labelId="user-select-label"
-            id="user-select"
-            multiple
-            value={selectedUsers}
-            onChange={handleCheckboxChange}
-            input={<OutlinedInput label="Select Users" />}
-            renderValue={(selected) =>
-              selected.map((id) => users.find((user) => user.id === id).username).join(', ')
-            }
-          >
-            {users.map((user) => (
-              <MenuItem key={user.id} value={user.id}>
-                <Checkbox checked={selectedUsers.includes(user.id)} />
-                <ListItemAvatar>
-                  <Avatar alt={user.username} src={user.profile} />
-                </ListItemAvatar>
-                <ListItemText primary={user.username} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
+                <FormControl fullWidth margin="dense">
+                  <InputLabel id="user-select-label">Select Users</InputLabel>
+                  <Select
+                    labelId="user-select-label"
+                    id="user-select"
+                    multiple
+                    value={selectedUsers}
+                    onChange={handleCheckboxChange}
+                    input={<OutlinedInput label="Select Users" />}
+                    renderValue={(selected) =>
+                      selected
+                        .map(
+                          (id) => users.find((user) => user.id === id).username
+                        )
+                        .join(", ")
+                    }
+                  >
+                    {users.map((user) => (
+                      <MenuItem key={user.id} value={user.id}>
+                        <Checkbox checked={selectedUsers.includes(user.id)} />
+                        <ListItemAvatar>
+                          <Avatar alt={user.username} src={user.profile} />
+                        </ListItemAvatar>
+                        <ListItemText primary={user.username} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
@@ -284,7 +338,14 @@ const HomePage = ({ user }) => {
 
       <Grid container spacing={2} sx={{ mt: 2, px: 10, marginBottom: 10 }}>
         <Grid item xs={12} md={6}>
-          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+              bgcolor: "#d1d1d1",
+            }}
+          >
             <CardContent>
               <video width="100%" controls>
                 <source src="path/to/your/video.mp4" type="video/mp4" />
@@ -294,36 +355,93 @@ const HomePage = ({ user }) => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#d1d1d1' }}>
+          <Card
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              height: "100%",
+              bgcolor: "#d1d1d1",
+            }}
+          >
             <CardContent>
-            <Typography variant='h5'>Notebooks</Typography>
-              <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
+              <Typography variant="h5">Notebooks</Typography>
+              <TableContainer
+                component={Paper}
+                sx={{ maxHeight: 400, overflow: "auto" }}
+              >
                 <Table stickyHeader aria-label="notebook table">
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Notebook Name</TableCell>
-                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Users</TableCell>
-                      <TableCell sx={{ backgroundColor: '#565656', color: '#fff', textAlign: 'center' }}>Last Modified</TableCell>
+                      <TableCell
+                        sx={{
+                          backgroundColor: "#565656",
+                          color: "#fff",
+                          textAlign: "center",
+                        }}
+                      >
+                        Notebook Name
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          backgroundColor: "#565656",
+                          color: "#fff",
+                          textAlign: "center",
+                        }}
+                      >
+                        Users
+                      </TableCell>
+                      <TableCell
+                        sx={{
+                          backgroundColor: "#565656",
+                          color: "#fff",
+                          textAlign: "center",
+                        }}
+                      >
+                        Last Modified
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {notebooks?.map((row) => (
                       <TableRow key={row.notebookId}>
                         <TableCell
-                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
-                          onClick={() => gotoNotebook(row.noteook_name,row.notebook_id)}
+                          sx={{
+                            backgroundColor: "#383838",
+                            color: "#fff",
+                            textAlign: "center",
+                            cursor: "pointer",
+                          }}
+                          onClick={() =>
+                            gotoNotebook(row.noteook_name, row.notebook_id)
+                          }
                         >
                           {row.notebook_name}
                         </TableCell>
                         <TableCell
-                          sx={{ backgroundColor: '#383838', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}
+                          sx={{
+                            backgroundColor: "#383838",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "100%",
+                          }}
                         >
                           {row.associated_users.map((user) => (
-                            <Avatar key={user.username} alt={user.username} src={user.profile} sx={{ margin: '5px' }} />
+                            <Avatar
+                              key={user.username}
+                              alt={user.username}
+                              src={user.profile}
+                              sx={{ margin: "5px" }}
+                            />
                           ))}
                         </TableCell>
                         <TableCell
-                          sx={{ backgroundColor: '#383838', color: '#fff', textAlign: 'center', cursor: 'pointer' }}
+                          sx={{
+                            backgroundColor: "#383838",
+                            color: "#fff",
+                            textAlign: "center",
+                            cursor: "pointer",
+                          }}
                         >
                           12/12/2021
                         </TableCell>
