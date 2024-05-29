@@ -86,7 +86,7 @@ export default function RowAndColumnSpacing() {
         <h2 style={{ color: "#FFFFFF" }}>Active Connections</h2>
         <Grid
           container
-          spacing={{ xs: 2, md: 4 }}
+          spacing={{ xs: 0, md: 1 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           {activeDatabases.map((database, index) => (
@@ -96,7 +96,7 @@ export default function RowAndColumnSpacing() {
                 <Typography
                   variant="h7"
                   component="div"
-                  sx={{ fontWeight: "bold" }}
+                  sx={{ fontSize: '0.800rem' }}
                 >
                   {database.name}
                 </Typography>
@@ -109,7 +109,7 @@ export default function RowAndColumnSpacing() {
         <h2 style={{ color: "#FFFFFF" }}>Database Connections</h2>
         <Grid
           container
-          spacing={{ xs: 2, md: 4 }}
+          spacing={{ xs: 0, md: 1 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
           {databases.map((database, index) => (
@@ -119,7 +119,7 @@ export default function RowAndColumnSpacing() {
                 <Typography
                   variant="h7"
                   component="div"
-                  sx={{ fontWeight: "bold" }}
+                  sx={{ fontSize: '0.800rem' }}
                 >
                   {database.name}
                 </Typography>

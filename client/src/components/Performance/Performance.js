@@ -77,7 +77,7 @@ const Performance = () => {
           }}
         >
           <CardContent>
-            <CardHeader style={{ color: "#95A2B3", textAlign: "center" }}>
+            <CardHeader style={{ color: "#95A2B3", textAlign: "center"}}>
               Total Notebooks
             </CardHeader>
             <Typography

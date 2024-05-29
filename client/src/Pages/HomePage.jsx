@@ -82,7 +82,7 @@ const HomePage = ({ user }) => {
     const notebookData = {
       notebook_id: uniqueId,
       user_id: user.email,
-      name: notebookName,
+      notebook_name: notebookName,
       cells: []
     };
 
@@ -97,7 +97,7 @@ const HomePage = ({ user }) => {
     }
 
     // Navigate to the notebook page
-    navigate(`/notebook/${notebookName}/${uniqueId}`);
+    navigate(`/notebook/${uniqueId}`);
 
     handleClose();
   };
@@ -149,7 +149,7 @@ const HomePage = ({ user }) => {
   };
 
   const gotoNotebook = (notebookName, notebookId) => {
-    navigate(`/notebook/${notebookName}/${notebookId}`);
+    navigate(`/notebook/${notebookId}`);
   }
 
   const handleCheckboxChange = (event) => {
@@ -247,28 +247,30 @@ const HomePage = ({ user }) => {
                 />
 
 
-            <FormControl fullWidth margin="dense">
-                <InputLabel id="user-select-label">Select Users</InputLabel>
-                <Select
-                  labelId="user-last-name-label"
-                  id="user-select"
-                  multiple
-                  value={selectedUsers}
-                  onChange={handleCheckboxChange}
-                  input={<OutlinedInput label="Select Users" />}
-                  renderValue={(selected) => selected.join(', ')}
-                >
-                  {users.map((user) => (
-                    <MenuItem key={user.id} value={user.username}>
-                      <Checkbox checked={selectedUsers.indexOf(user.id) > -1} />
-                      <ListItemAvatar>
-                        <Avatar alt={user.username} src={user.profile} />
-                      </ListItemAvatar>
-                      <ListItemText primary={`${user.username}`} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+    <FormControl fullWidth margin="dense">
+          <InputLabel id="user-select-label">Select Users</InputLabel>
+          <Select
+            labelId="user-select-label"
+            id="user-select"
+            multiple
+            value={selectedUsers}
+            onChange={handleCheckboxChange}
+            input={<OutlinedInput label="Select Users" />}
+            renderValue={(selected) =>
+              selected.map((id) => users.find((user) => user.id === id).username).join(', ')
+            }
+          >
+            {users.map((user) => (
+              <MenuItem key={user.id} value={user.id}>
+                <Checkbox checked={selectedUsers.includes(user.id)} />
+                <ListItemAvatar>
+                  <Avatar alt={user.username} src={user.profile} />
+                </ListItemAvatar>
+                <ListItemText primary={user.username} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
               </DialogContent>
               <DialogActions>

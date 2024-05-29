@@ -43,7 +43,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle,
           params: { notebook_id: notebook_id, email: user.email },
         });
         const { notebook, cells } = response.data;
-        setTitle(notebook.name || "Default Title");
+        setTitle(notebook.name || "Untitled Notebook");
         setCells(cells);
 
         // Determine the next cell ID
