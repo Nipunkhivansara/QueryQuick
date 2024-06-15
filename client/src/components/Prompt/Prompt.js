@@ -43,9 +43,9 @@ const Prompt = () => {
     setError(null);
     try {
       if (databaseType === "MySQL") {
-        api = "http://localhost:5000/chat";
+        api = "http://localhost:5001/chat";
       } else if (databaseType === "MongoDB") {
-        api = "http://localhost:5000/mongo/chat";
+        api = "http://localhost:5001/mongo/chat";
       }
       const response = await fetch(api, {
         method: "POST",

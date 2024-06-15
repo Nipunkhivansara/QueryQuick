@@ -23,7 +23,7 @@ const data1 = [
 const data2 = [
   { name: "Jan", uv: 4000 },
   { name: "Feb", uv: 3000 },
-  { name: "Mar", uv: 5000 },
+  { name: "Mar", uv: 5001 },
   { name: "Apr", uv: 4000 },
   { name: "May", uv: 2000 },
   { name: "Jun", uv: 2780 },

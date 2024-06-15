@@ -27,7 +27,7 @@ import PenIcon from "@mui/icons-material/Create";
 import BuildIcon from "@mui/icons-material/Build";
 
 const data = [
-  { name: "Jan", SQL: 2000, MongoDB: 2400, AWS: 5000, FireStore: 4100 },
+  { name: "Jan", SQL: 2000, MongoDB: 2400, AWS: 5001, FireStore: 4100 },
   { name: "Feb", SQL: 3000, MongoDB: 2500, AWS: 4900, FireStore: 4150 },
   { name: "Mar", SQL: 2000, MongoDB: 2600, AWS: 4800, FireStore: 4200 },
   { name: "Apr", SQL: 2780, MongoDB: 2700, AWS: 4700, FireStore: 4250 },

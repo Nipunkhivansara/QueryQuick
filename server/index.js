@@ -20,7 +20,7 @@ app.use("/mongo", mongoRoutes);
 app.use("/", userroutes);
 app.use("/", saveUserRoutes);
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 app.listen(port, () => {
   console.log(`Server is running on port changing ${port}`);

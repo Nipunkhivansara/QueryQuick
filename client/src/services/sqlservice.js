@@ -4,7 +4,7 @@ async function getDataFromSql({ query, cellDatabase }) {
   try {
     console.log(`Querying database: ${cellDatabase} with query: ${query}`);
     const response = await fetch(
-      `http://localhost:5000/sql?query=${query}&database=${cellDatabase}`
+      `http://localhost:5001/sql?query=${query}&database=${cellDatabase}`
     );
     const data = await response.json();
     return data;

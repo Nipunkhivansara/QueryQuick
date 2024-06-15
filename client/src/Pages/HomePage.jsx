@@ -107,7 +107,7 @@ const HomePage = ({ user }) => {
     console.log(notebookData);
 
     try {
-      await axios.post("http://localhost:5000/saveNotebook", notebookData);
+      await axios.post("http://localhost:5001/saveNotebook", notebookData);
       alert("Notebook saved successfully!");
     } catch (error) {
       console.error("Error saving notebook:", error);
@@ -140,7 +140,7 @@ const HomePage = ({ user }) => {
     const fetchNotebooks = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/notebooks/ids",
+          "http://localhost:5001/notebooks/ids",
           {
             params: {
               email: user.email,
@@ -155,7 +155,7 @@ const HomePage = ({ user }) => {
 
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/allUsers");
+        const response = await axios.get("http://localhost:5001/allUsers");
 
         setUsers(response.data);
       } catch (error) {
@@ -348,7 +348,7 @@ const HomePage = ({ user }) => {
           >
             <CardContent>
               <video width="100%" controls>
-                <source src="path/to/your/video.mp4" type="video/mp4" />
+                <source src="https://www.youtube.com/watch?v=cjF734_cIEY" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </CardContent>

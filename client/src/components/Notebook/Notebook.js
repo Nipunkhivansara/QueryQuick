@@ -39,7 +39,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle,
   useEffect(() => {
     const fetchNotebook = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/getNotebook`, {
+        const response = await axios.get(`http://localhost:5001/getNotebook`, {
           params: { notebook_id: notebook_id, email: user.email },
         });
         const { notebook, cells } = response.data;
@@ -122,7 +122,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle,
     setCells(newCells);
 
     try {
-      await axios.post(`http://localhost:5000/deleteCell`, {
+      await axios.post(`http://localhost:5001/deleteCell`, {
         id: cellToDelete.id, notebook_id: cellToDelete.notebook_id, user_id: cellToDelete.user_id, email: user.email
       });
     } catch (error) {
@@ -145,7 +145,7 @@ const Notebook = ({ menuBarWidth, open, logout, user, handleDrawerToggle,
     console.log(notebookData);
 
     try {
-      await axios.post("http://localhost:5000/saveNotebook", notebookData);
+      await axios.post("http://localhost:5001/saveNotebook", notebookData);
       setOpenSuccess(true);
     } catch (error) {
       console.error("Error saving notebook:", error);

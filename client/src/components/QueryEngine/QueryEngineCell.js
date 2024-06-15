@@ -123,9 +123,9 @@ const QueryEngineCell = ({
     setError(null);
     try {
       if (cellDatabaseType === "MySQL") {
-        api = "http://localhost:5000/chat";
+        api = "http://localhost:5001/chat";
       } else if (cellDatabaseType === "MongoDB") {
-        api = "http://localhost:5000/mongo/chat";
+        api = "http://localhost:5001/mongo/chat";
       }
       const response = await fetch(api, {
         method: "POST",
